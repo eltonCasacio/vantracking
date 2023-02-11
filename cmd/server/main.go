@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/eltoncasacio/vanmonit/configs"
-	repo "github.com/eltoncasacio/vanmonit/internal/infrastructure/repository/mysql"
-	handlers "github.com/eltoncasacio/vanmonit/internal/infrastructure/web/handlers"
+	"github.com/eltoncasacio/vantracking/configs"
+	repo "github.com/eltoncasacio/vantracking/internal/infrastructure/repository/mysql"
+	handlers "github.com/eltoncasacio/vantracking/internal/infrastructure/web/handlers"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	_ "github.com/go-sql-driver/mysql"

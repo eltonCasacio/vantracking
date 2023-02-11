@@ -1,6 +1,8 @@
 package entity
 
-import "github.com/eltoncasacio/vanmonit/pkg/entity"
+import (
+	"github.com/eltoncasacio/vantracking/pkg/entity"
+)
 
 type Monitor struct {
 	id                entity.ID

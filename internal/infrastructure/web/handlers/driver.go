@@ -3,7 +3,7 @@ package handlers
 import (
 	"net/http"
 
-	entity "github.com/eltoncasacio/vanmonit/internal/domain/entities/driver"
+	entity "github.com/eltoncasacio/vantracking/internal/domain/entities/driver"
 )
 
 type DriverHandler struct {

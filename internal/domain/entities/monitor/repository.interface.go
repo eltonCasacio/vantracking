@@ -1,6 +1,6 @@
 package entity
 
-import "github.com/eltoncasacio/vanmonit/internal/domain/shared"
+import "github.com/eltoncasacio/vantracking/internal/domain/shared"
 
 type MonitorRepositoryInterface interface {
 	shared.RepositoryInterface[Monitor]

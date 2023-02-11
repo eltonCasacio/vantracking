@@ -1,8 +1,8 @@
 package entity
 
 import (
-	a "github.com/eltoncasacio/vanmonit/internal/domain/value_objects"
-	"github.com/eltoncasacio/vanmonit/pkg/entity"
+	vo "github.com/eltoncasacio/vantracking/internal/domain/value_objects"
+	"github.com/eltoncasacio/vantracking/pkg/entity"
 )
 
 type Driver struct {
@@ -12,12 +12,12 @@ type Driver struct {
 	nickname     string
 	phoneNumber  string
 	plate_number string
-	schoolCode   []string
-	address      a.Address
+	schoolCode   []vo.School
+	address      vo.Address
 	code         string
 }
 
-func NewDriver(cpf, name, nickname, phone, plateNumber string, schoolCode []string, address *a.Address) (*Driver, error) {
+func NewDriver(cpf, name, nickname, phone, plateNumber string, schoolCode []vo.School, address vo.Address) (*Driver, error) {
 	d := &Driver{
 		id:           entity.NewID(),
 		cpf:          cpf,
@@ -26,7 +26,7 @@ func NewDriver(cpf, name, nickname, phone, plateNumber string, schoolCode []stri
 		phoneNumber:  phone,
 		plate_number: plateNumber,
 		schoolCode:   schoolCode,
-		address:      *address,
+		address:      address,
 	}
 
 	err := d.IsValid()
@@ -65,6 +65,6 @@ func (d *Driver) GetPlateNumber() string {
 	return d.plate_number
 }
 
-func (d *Driver) GetAddress() a.Address {
+func (d *Driver) GetAddress() vo.Address {
 	return d.address
 }
