@@ -1,46 +1,28 @@
 package usecase
 
 import (
-	entity "github.com/eltoncasacio/vantracking/internal/domain/entities/driver"
-	vo "github.com/eltoncasacio/vantracking/internal/domain/value_objects"
+	d "github.com/eltoncasacio/vantracking/internal/domain/driver"
 )
 
-type CreateDriverUseCase struct {
-	DriverRepository entity.DriverRepositoryInterface
+type createDriverUseCase struct {
+	criverRepository d.DriverRepositoryInterface
 }
 
-func NewCreateDriverUseCase(driverRepository entity.DriverRepositoryInterface) *CreateDriverUseCase {
-	return &CreateDriverUseCase{
-		DriverRepository: driverRepository,
+func CreateDriverUseCase(driverRepository d.DriverRepositoryInterface) *createDriverUseCase {
+	return &createDriverUseCase{
+		criverRepository: driverRepository,
 	}
 }
 
-func (cd *CreateDriverUseCase) Execute(input DriverInputDTO) error {
-	addrSchool, err := vo.NewAddresses(input.UFSchool, input.CitySchool, input.StreetSchool, input.NumberSchool, input.CEPSchool)
-	if err != nil {
-		return err
-	}
-	addrDriver, err := vo.NewAddresses(input.UFAddress, input.CityAddress, input.StreetAddress, input.NumberAddress, input.CEPAddress)
+func (cd *createDriverUseCase) Execute(input d.DriverInputDTO) error {
+	driver, err := d.DriverFactory().Create(input)
 	if err != nil {
 		return err
 	}
 
-	school, err := vo.NewSchool(input.SchoolName, addrSchool)
+	err = cd.criverRepository.Create(driver)
 	if err != nil {
 		return err
 	}
-
-	schools := []vo.School{*school}
-
-	driver, err := entity.NewDriver(input.CPF, input.Name, input.Nickname, input.Phone, input.PlateNumber, schools, *addrDriver)
-	if err != nil {
-		return err
-	}
-
-	err = cd.DriverRepository.Create(driver)
-	if err != nil {
-		return err
-	}
-
 	return nil
 }

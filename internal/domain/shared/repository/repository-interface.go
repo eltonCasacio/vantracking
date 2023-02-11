@@ -1,4 +1,4 @@
-package shared
+package repository
 
 type RepositoryInterface[T interface{}] interface {
 	Create(aggragate *T) error

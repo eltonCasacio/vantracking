@@ -1,4 +1,4 @@
-package entity
+package monitor
 
 import (
 	"github.com/eltoncasacio/vantracking/pkg/entity"

@@ -1,7 +1,7 @@
-package entity
+package driver
 
 import (
-	vo "github.com/eltoncasacio/vantracking/internal/domain/value_objects"
+	vo "github.com/eltoncasacio/vantracking/internal/domain/shared/value_objects"
 	"github.com/eltoncasacio/vantracking/pkg/entity"
 )
 
@@ -17,7 +17,7 @@ type Driver struct {
 	code         string
 }
 
-func NewDriver(cpf, name, nickname, phone, plateNumber string, schoolCode []vo.School, address vo.Address) (*Driver, error) {
+func newDriver(cpf, name, nickname, phone, plateNumber string, schoolCode []vo.School, address vo.Address) (*Driver, error) {
 	d := &Driver{
 		id:           entity.NewID(),
 		cpf:          cpf,

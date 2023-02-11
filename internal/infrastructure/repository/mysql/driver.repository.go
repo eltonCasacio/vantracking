@@ -3,7 +3,7 @@ package repository
 import (
 	"database/sql"
 
-	entity "github.com/eltoncasacio/vantracking/internal/domain/entities/driver"
+	entity "github.com/eltoncasacio/vantracking/internal/domain/driver"
 )
 
 type driverRepository struct {

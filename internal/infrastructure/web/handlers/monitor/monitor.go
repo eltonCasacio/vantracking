@@ -3,7 +3,7 @@ package handlers
 import (
 	"net/http"
 
-	entity "github.com/eltoncasacio/vantracking/internal/domain/entities/monitor"
+	entity "github.com/eltoncasacio/vantracking/internal/domain/monitor"
 )
 
 type MonitorHandler struct {
