@@ -1,8 +1,9 @@
-package monitor
+package factory
 
 import (
 	"sync"
 
+	"github.com/eltoncasacio/vantracking/internal/domain/monitor/entity"
 	vo "github.com/eltoncasacio/vantracking/internal/domain/shared/valueobjects"
 )
 
@@ -33,13 +34,13 @@ func MonitorFactory() *monitorFactory {
 	return instance
 }
 
-func (df *monitorFactory) Create(input MonitorInputDTO) (*Monitor, error) {
+func (df *monitorFactory) Create(input MonitorInputDTO) (*entity.Monitor, error) {
 	addrDriver, err := vo.NewAddresses(input.UF, input.City, input.Street, input.Number, input.CEP)
 	if err != nil {
 		return nil, err
 	}
 
-	driver, err := newMonitor(input.name, input.cpf, input.phoneNumber, *addrDriver)
+	driver, err := entity.NewMonitor(input.name, input.cpf, input.phoneNumber, *addrDriver)
 	if err != nil {
 		return nil, err
 	}

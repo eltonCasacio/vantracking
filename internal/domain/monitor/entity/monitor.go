@@ -1,24 +1,25 @@
-package monitor
+package entity
 
 import (
 	"errors"
 
+	pEntity "github.com/eltoncasacio/vantracking/internal/domain/passenger/entity"
 	vo "github.com/eltoncasacio/vantracking/internal/domain/shared/valueobjects"
-	"github.com/eltoncasacio/vantracking/pkg/entity"
+	"github.com/eltoncasacio/vantracking/pkg/identity"
 )
 
 type Monitor struct {
-	id          entity.ID
+	id          identity.ID
 	name        string
 	cpf         string
 	phoneNumber string
 	address     vo.Address
-	passengers  []Passenger
+	passengers  []pEntity.Passenger
 }
 
-func newMonitor(name, cpf, phoneNumber string, address vo.Address) (*Monitor, error) {
+func NewMonitor(name, cpf, phoneNumber string, address vo.Address) (*Monitor, error) {
 	m := &Monitor{
-		id:          entity.NewID(),
+		id:          identity.NewID(),
 		name:        name,
 		cpf:         cpf,
 		phoneNumber: phoneNumber,
@@ -47,7 +48,7 @@ func (m *Monitor) IsValid() error {
 	return errs
 }
 
-func (m *Monitor) GetID() entity.ID {
+func (m *Monitor) GetID() identity.ID {
 	return m.id
 }
 
@@ -63,7 +64,7 @@ func (m *Monitor) GetPhoneNumber() string {
 	return m.phoneNumber
 }
 
-func (m *Monitor) AddPassenger(passenger Passenger) error {
+func (m *Monitor) AddPassenger(passenger pEntity.Passenger) error {
 	if err := passenger.IsValid(); err != nil {
 		return err
 	}

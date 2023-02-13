@@ -1,26 +1,27 @@
 package usecase
 
 import (
-	d "github.com/eltoncasacio/vantracking/internal/domain/driver"
+	f "github.com/eltoncasacio/vantracking/internal/domain/driver/factory"
+	repo "github.com/eltoncasacio/vantracking/internal/domain/driver/repository"
 )
 
 type createDriverUseCase struct {
-	criverRepository d.DriverRepositoryInterface
+	driverRepository repo.DriverRepositoryInterface
 }
 
-func CreateDriverUseCase(driverRepository d.DriverRepositoryInterface) *createDriverUseCase {
+func CreateDriverUseCase(driverRepository repo.DriverRepositoryInterface) *createDriverUseCase {
 	return &createDriverUseCase{
-		criverRepository: driverRepository,
+		driverRepository: driverRepository,
 	}
 }
 
-func (cd *createDriverUseCase) Execute(input d.DriverInputDTO) error {
-	driver, err := d.DriverFactory().Create(input)
+func (cd *createDriverUseCase) Execute(input f.DriverInputDTO) error {
+	driver, err := f.DriverFactory().Create(input)
 	if err != nil {
 		return err
 	}
 
-	err = cd.criverRepository.Create(driver)
+	err = cd.driverRepository.Create(driver)
 	if err != nil {
 		return err
 	}

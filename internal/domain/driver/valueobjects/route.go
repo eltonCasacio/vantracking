@@ -1,10 +1,10 @@
-package driver
+package valueobjects
 
 import (
 	"errors"
 
 	vo "github.com/eltoncasacio/vantracking/internal/domain/shared/valueobjects"
-	"github.com/eltoncasacio/vantracking/pkg/entity"
+	"github.com/eltoncasacio/vantracking/pkg/identity"
 )
 
 type Route struct {
@@ -12,7 +12,7 @@ type Route struct {
 	name     string
 	origin   vo.Address
 	destiny  vo.Address
-	driverID entity.ID
+	driverID identity.ID
 }
 
 func NewRoute(code, name string, origin vo.Address, destiny vo.Address) (*Route, error) {
@@ -61,6 +61,6 @@ func (r *Route) GetDestiny() vo.Address {
 	return r.destiny
 }
 
-func (r *Route) GetDriverID() entity.ID {
+func (r *Route) GetDriverID() identity.ID {
 	return r.driverID
 }

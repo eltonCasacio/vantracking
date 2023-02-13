@@ -4,15 +4,16 @@ import (
 	"encoding/json"
 	"net/http"
 
-	entity "github.com/eltoncasacio/vantracking/internal/domain/driver"
+	f "github.com/eltoncasacio/vantracking/internal/domain/driver/factory"
+	repo "github.com/eltoncasacio/vantracking/internal/domain/driver/repository"
 	driverUsecase "github.com/eltoncasacio/vantracking/internal/usecase/driver"
 )
 
 type DriverHandler struct {
-	repository entity.DriverRepositoryInterface
+	repository repo.DriverRepositoryInterface
 }
 
-func NewDriverHandler(repo entity.DriverRepositoryInterface) *DriverHandler {
+func NewDriverHandler(repo repo.DriverRepositoryInterface) *DriverHandler {
 	return &DriverHandler{repository: repo}
 }
 
@@ -20,7 +21,7 @@ func (dh *DriverHandler) Register(w http.ResponseWriter, r *http.Request) {
 	input := DriverInputDTO{}
 	json.NewDecoder(r.Body).Decode(&input)
 
-	driver := entity.DriverInputDTO{
+	driver := f.DriverInputDTO{
 		CPF:      input.CPF,
 		Name:     input.Name,
 		Nickname: input.Nickname,

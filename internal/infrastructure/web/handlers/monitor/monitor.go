@@ -3,14 +3,14 @@ package handlers
 import (
 	"net/http"
 
-	entity "github.com/eltoncasacio/vantracking/internal/domain/monitor"
+	repo "github.com/eltoncasacio/vantracking/internal/domain/monitor/repository"
 )
 
 type MonitorHandler struct {
-	repository entity.MonitorRepositoryInterface
+	repository repo.MonitorRepositoryInterface
 }
 
-func NewMonitorHandler(repo entity.MonitorRepositoryInterface) *MonitorHandler {
+func NewMonitorHandler(repo repo.MonitorRepositoryInterface) *MonitorHandler {
 	return &MonitorHandler{repository: repo}
 }
 

@@ -1,24 +1,24 @@
-package monitor
+package entity
 
 import (
 	"errors"
 
-	"github.com/eltoncasacio/vantracking/pkg/entity"
+	"github.com/eltoncasacio/vantracking/pkg/identity"
 )
 
 var erros []error
 
 type Passenger struct {
-	id        entity.ID
+	id        identity.ID
 	name      string
 	nickname  string
 	routeCode string
-	monitorID entity.ID
+	monitorID identity.ID
 }
 
-func NewPassenger(name, nickname, routeCode string, monitorID entity.ID) (*Passenger, error) {
+func NewPassenger(name, nickname, routeCode string, monitorID identity.ID) (*Passenger, error) {
 	p := &Passenger{
-		id:        entity.NewID(),
+		id:        identity.NewID(),
 		name:      name,
 		nickname:  nickname,
 		routeCode: routeCode,
@@ -54,7 +54,7 @@ func (p *Passenger) GetRouteCode() string {
 	return p.routeCode
 }
 
-func (p *Passenger) GetMonitorID() entity.ID {
+func (p *Passenger) GetMonitorID() identity.ID {
 	return p.monitorID
 }
 

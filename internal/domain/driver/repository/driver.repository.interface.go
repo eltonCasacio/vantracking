@@ -1,9 +1,10 @@
-package driver
+package repository
 
 import (
+	e "github.com/eltoncasacio/vantracking/internal/domain/driver/entity"
 	repo "github.com/eltoncasacio/vantracking/internal/domain/shared/repository"
 )
 
 type DriverRepositoryInterface interface {
-	repo.RepositoryInterface[Driver]
+	repo.RepositoryInterface[e.Driver]
 }
