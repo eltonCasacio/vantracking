@@ -1,0 +1,18 @@
+mode: set
+github.com/eltoncasacio/vantracking/internal/domain/driver/valueobjects/route.go:18.111,27.16 3 1
+github.com/eltoncasacio/vantracking/internal/domain/driver/valueobjects/route.go:27.16,29.3 1 1
+github.com/eltoncasacio/vantracking/internal/domain/driver/valueobjects/route.go:30.2,30.15 1 1
+github.com/eltoncasacio/vantracking/internal/domain/driver/valueobjects/route.go:33.33,34.35 1 1
+github.com/eltoncasacio/vantracking/internal/domain/driver/valueobjects/route.go:34.35,36.3 1 1
+github.com/eltoncasacio/vantracking/internal/domain/driver/valueobjects/route.go:37.2,37.35 1 1
+github.com/eltoncasacio/vantracking/internal/domain/driver/valueobjects/route.go:37.35,39.3 1 1
+github.com/eltoncasacio/vantracking/internal/domain/driver/valueobjects/route.go:40.2,40.43 1 1
+github.com/eltoncasacio/vantracking/internal/domain/driver/valueobjects/route.go:40.43,42.3 1 1
+github.com/eltoncasacio/vantracking/internal/domain/driver/valueobjects/route.go:43.2,43.44 1 1
+github.com/eltoncasacio/vantracking/internal/domain/driver/valueobjects/route.go:43.44,45.3 1 1
+github.com/eltoncasacio/vantracking/internal/domain/driver/valueobjects/route.go:46.2,46.12 1 1
+github.com/eltoncasacio/vantracking/internal/domain/driver/valueobjects/route.go:49.34,51.2 1 1
+github.com/eltoncasacio/vantracking/internal/domain/driver/valueobjects/route.go:53.34,55.2 1 1
+github.com/eltoncasacio/vantracking/internal/domain/driver/valueobjects/route.go:57.40,59.2 1 1
+github.com/eltoncasacio/vantracking/internal/domain/driver/valueobjects/route.go:61.41,63.2 1 1
+github.com/eltoncasacio/vantracking/internal/domain/driver/valueobjects/route.go:65.43,67.2 1 1

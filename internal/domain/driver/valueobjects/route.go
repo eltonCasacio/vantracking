@@ -15,12 +15,13 @@ type Route struct {
 	driverID identity.ID
 }
 
-func NewRoute(code, name string, origin vo.Address, destiny vo.Address) (*Route, error) {
+func NewRoute(driverID identity.ID, code, name string, origin vo.Address, destiny vo.Address) (*Route, error) {
 	r := &Route{
-		code:    code,
-		name:    name,
-		origin:  origin,
-		destiny: destiny,
+		driverID: driverID,
+		code:     code,
+		name:     name,
+		origin:   origin,
+		destiny:  destiny,
 	}
 	err := r.IsValid()
 	if err != nil {
@@ -30,11 +31,11 @@ func NewRoute(code, name string, origin vo.Address, destiny vo.Address) (*Route,
 }
 
 func (r *Route) IsValid() error {
-	if err := r.driverID.String() == ""; err {
-		return errors.New("driver id is required")
+	if err := r.GetCode() == ""; err {
+		return errors.New("invalid code")
 	}
-	if err := r.name == ""; err {
-		return errors.New("name id is required")
+	if err := r.GetName() == ""; err {
+		return errors.New("invalid name")
 	}
 	if err := r.origin.IsValid(); err != nil {
 		return errors.New("origin is required")
