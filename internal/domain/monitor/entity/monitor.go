@@ -17,13 +17,14 @@ type Monitor struct {
 	passengers  []pEntity.Passenger
 }
 
-func NewMonitor(name, cpf, phoneNumber string, address vo.Address) (*Monitor, error) {
+func NewMonitor(name, cpf, phoneNumber string, address vo.Address, passengers []pEntity.Passenger) (*Monitor, error) {
 	m := &Monitor{
 		id:          identity.NewID(),
 		name:        name,
 		cpf:         cpf,
 		phoneNumber: phoneNumber,
 		address:     address,
+		passengers:  []pEntity.Passenger{},
 	}
 
 	err := m.IsValid()
@@ -36,11 +37,14 @@ func NewMonitor(name, cpf, phoneNumber string, address vo.Address) (*Monitor, er
 
 func (m *Monitor) IsValid() error {
 	var errs error
-	if err := m.name == ""; err {
-		return errors.New("name is required")
+	if err := m.GetName() == ""; err {
+		return errors.New("invalid name")
 	}
-	if err := m.cpf == ""; err {
-		return errors.New("cpf is required")
+	if err := m.GetCPF() == ""; err {
+		return errors.New("invalid cpf")
+	}
+	if err := m.GetPhoneNumber() == ""; err {
+		return errors.New("invalid phonenumber")
 	}
 	if err := m.address.IsValid() != nil; err {
 		return errors.New("address must be a valid address")
@@ -62,6 +66,14 @@ func (m *Monitor) GetCPF() string {
 
 func (m *Monitor) GetPhoneNumber() string {
 	return m.phoneNumber
+}
+
+func (m *Monitor) GetAddress() vo.Address {
+	return m.address
+}
+
+func (m *Monitor) GetPassengers() []pEntity.Passenger {
+	return m.passengers
 }
 
 func (m *Monitor) AddPassenger(passenger pEntity.Passenger) error {
