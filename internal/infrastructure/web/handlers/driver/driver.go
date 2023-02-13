@@ -21,22 +21,15 @@ func (dh *DriverHandler) Register(w http.ResponseWriter, r *http.Request) {
 	json.NewDecoder(r.Body).Decode(&input)
 
 	driver := entity.DriverInputDTO{
-		CPF:           input.CPF,
-		Name:          input.Name,
-		Nickname:      input.Nickname,
-		Phone:         input.Phone,
-		PlateNumber:   input.PlateNumber,
-		SchoolName:    input.SchoolName,
-		UFAddress:     input.UFAddress,
-		CityAddress:   input.CityAddress,
-		StreetAddress: input.StreetAddress,
-		NumberAddress: input.NumberAddress,
-		CEPAddress:    input.CEPAddress,
-		UFSchool:      input.UFSchool,
-		CitySchool:    input.CitySchool,
-		StreetSchool:  input.StreetSchool,
-		NumberSchool:  input.NumberSchool,
-		CEPSchool:     input.CEPSchool,
+		CPF:      input.CPF,
+		Name:     input.Name,
+		Nickname: input.Nickname,
+		Phone:    input.Phone,
+		UF:       input.UF,
+		City:     input.City,
+		Street:   input.Street,
+		Number:   input.Number,
+		CEP:      input.CEP,
 	}
 
 	err := driverUsecase.CreateDriverUseCase(dh.repository).Execute(driver)

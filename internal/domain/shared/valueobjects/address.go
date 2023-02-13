@@ -1,4 +1,4 @@
-package value_objects
+package valueobjects
 
 type Address struct {
 	uf     string

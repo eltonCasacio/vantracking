@@ -3,11 +3,22 @@ package driver
 import (
 	"sync"
 
-	vo "github.com/eltoncasacio/vantracking/internal/domain/shared/value_objects"
+	vo "github.com/eltoncasacio/vantracking/internal/domain/shared/valueobjects"
 )
 
-type driverFactory struct {
+type DriverInputDTO struct {
+	CPF      string
+	Name     string
+	Nickname string
+	Phone    string
+	UF       string
+	City     string
+	Street   string
+	Number   string
+	CEP      int
 }
+
+type driverFactory struct{}
 
 var instance *driverFactory
 var lock = &sync.Mutex{}
@@ -24,23 +35,12 @@ func DriverFactory() *driverFactory {
 }
 
 func (df *driverFactory) Create(input DriverInputDTO) (*Driver, error) {
-	addrSchool, err := vo.NewAddresses(input.UFSchool, input.CitySchool, input.StreetSchool, input.NumberSchool, input.CEPSchool)
-	if err != nil {
-		return nil, err
-	}
-	addrDriver, err := vo.NewAddresses(input.UFAddress, input.CityAddress, input.StreetAddress, input.NumberAddress, input.CEPAddress)
+	addrDriver, err := vo.NewAddresses(input.UF, input.City, input.Street, input.Number, input.CEP)
 	if err != nil {
 		return nil, err
 	}
 
-	school, err := vo.NewSchool(input.SchoolName, addrSchool)
-	if err != nil {
-		return nil, err
-	}
-
-	schools := []vo.School{*school}
-
-	driver, err := newDriver(input.CPF, input.Name, input.Nickname, input.Phone, input.PlateNumber, schools, *addrDriver)
+	driver, err := newDriver(input.CPF, input.Name, input.Nickname, input.Phone, *addrDriver)
 	if err != nil {
 		return nil, err
 	}

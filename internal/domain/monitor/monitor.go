@@ -1,30 +1,28 @@
 package monitor
 
 import (
+	"errors"
+
+	vo "github.com/eltoncasacio/vantracking/internal/domain/shared/valueobjects"
 	"github.com/eltoncasacio/vantracking/pkg/entity"
 )
 
 type Monitor struct {
-	id                entity.ID
-	name              string
-	cpf               string
-	phoneNumber       string
-	passengerName     string
-	passengerNickname string
-	schoolCode        string
-	driverCPF         string
+	id          entity.ID
+	name        string
+	cpf         string
+	phoneNumber string
+	address     vo.Address
+	passengers  []Passenger
 }
 
-func NewMonitor(name, cpf, phoneNumber, passengerName, passengerNickname, schoolCode, driverCPF string) (*Monitor, error) {
+func newMonitor(name, cpf, phoneNumber string, address vo.Address) (*Monitor, error) {
 	m := &Monitor{
-		id:                entity.NewID(),
-		name:              name,
-		cpf:               cpf,
-		phoneNumber:       phoneNumber,
-		passengerName:     passengerName,
-		passengerNickname: passengerNickname,
-		schoolCode:        schoolCode,
-		driverCPF:         driverCPF,
+		id:          entity.NewID(),
+		name:        name,
+		cpf:         cpf,
+		phoneNumber: phoneNumber,
+		address:     address,
 	}
 
 	err := m.IsValid()
@@ -36,7 +34,17 @@ func NewMonitor(name, cpf, phoneNumber, passengerName, passengerNickname, school
 }
 
 func (m *Monitor) IsValid() error {
-	return nil
+	var errs error
+	if err := m.name == ""; err {
+		return errors.New("name is required")
+	}
+	if err := m.cpf == ""; err {
+		return errors.New("cpf is required")
+	}
+	if err := m.address.IsValid() != nil; err {
+		return errors.New("address must be a valid address")
+	}
+	return errs
 }
 
 func (m *Monitor) GetID() entity.ID {
@@ -55,18 +63,10 @@ func (m *Monitor) GetPhoneNumber() string {
 	return m.phoneNumber
 }
 
-func (m *Monitor) GetPassengerName() string {
-	return m.passengerName
-}
-
-func (m *Monitor) GetPassengerNickname() string {
-	return m.passengerNickname
-}
-
-func (m *Monitor) GetSchoolCode() string {
-	return m.schoolCode
-}
-
-func (m *Monitor) GetDriverCPF() string {
-	return m.driverCPF
+func (m *Monitor) AddPassenger(passenger Passenger) error {
+	if err := passenger.IsValid(); err != nil {
+		return err
+	}
+	m.passengers = append(m.passengers, passenger)
+	return nil
 }

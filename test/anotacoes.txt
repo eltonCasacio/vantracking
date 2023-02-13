@@ -1,1 +1,14 @@
- 
+Motorista é obrigado a informar pelo menos 1 rota ao se cadastrar? 
+    não, mas sem rota nao tem como ter monitor.
+
+Monitor precisa do codigo da rota para se cadastrar no app? 
+    Não, mas sem codigo nao tem como monitorar a rota e,
+    alem do codigo, o motorista precisa confirmar acesso do monitor a rota.
+
+O monitor conseguira pegar a localizacao do motorista atraves do codigo da rota.
+
+
+
+O monitor pode se cadastrar sem passageiro e codigo da rota, mas precisara cadastrar passageiro depois
+se quiser monitorar a rota.
+Para cadastrar um passageiro é preciso informar o codigo da rota que o motorista passou.
