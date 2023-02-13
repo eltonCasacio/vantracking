@@ -43,5 +43,24 @@ func TestDriverFactoryCreate(t *testing.T) {
 	assert.Equal(t, addr.GetCEP(), 123)
 	assert.Equal(t, addr.GetCity(), "any_city")
 	assert.Equal(t, addr.GetNumber(), "any_number")
+}
+
+func TestDriverFactoryCreate_Error(t *testing.T) {
+	input := DriverInputDTO{
+		CPF:    "",
+		Name:   "any_name",
+		Phone:  "any_phone",
+		UF:     "any_uf",
+		City:   "any_city",
+		Street: "any_street",
+		Number: "any_number",
+		CEP:    123,
+	}
+	factory := DriverFactory()
+	assert.NotNil(t, factory)
+
+	d, err := factory.Create(input)
+	assert.Nil(t, d)
+	assert.NotNil(t, err)
 
 }
