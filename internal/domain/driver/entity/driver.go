@@ -13,6 +13,7 @@ type Driver struct {
 	cpf      string
 	name     string
 	nickname string
+	phone    string
 	address  vo.Address
 	routes   []valueobjects.Route
 }
@@ -23,6 +24,7 @@ func NewDriver(cpf, name, nickname, phone string, address vo.Address) (*Driver, 
 		cpf:      cpf,
 		name:     name,
 		nickname: nickname,
+		phone:    phone,
 		address:  address,
 	}
 
@@ -36,13 +38,16 @@ func NewDriver(cpf, name, nickname, phone string, address vo.Address) (*Driver, 
 
 func (d *Driver) IsValid() error {
 	if err := d.cpf == ""; err {
-		return errors.New("cpf is required")
+		return errors.New("cpf invalid")
 	}
 	if err := d.name == ""; err {
-		return errors.New("name is required")
+		return errors.New("name invalid")
 	}
 	if err := d.address.IsValid(); err != nil {
-		return errors.New("address is invalid")
+		return err
+	}
+	if err := d.GetPhone() == ""; err {
+		return errors.New("phone invalid")
 	}
 	return nil
 }
@@ -61,6 +66,10 @@ func (d *Driver) GetName() string {
 
 func (d *Driver) GetNickName() string {
 	return d.nickname
+}
+
+func (d *Driver) GetPhone() string {
+	return d.phone
 }
 
 func (d *Driver) GetAddress() vo.Address {

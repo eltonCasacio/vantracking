@@ -1,5 +1,7 @@
 package valueobjects
 
+import "errors"
+
 type Address struct {
 	uf     string
 	city   string
@@ -8,7 +10,7 @@ type Address struct {
 	cep    int
 }
 
-func NewAddresses(uf string, city string, street string, number string, cep int) (*Address, error) {
+func NewAddress(uf string, city string, street string, number string, cep int) (*Address, error) {
 	addr := &Address{
 		uf:     uf,
 		city:   city,
@@ -24,6 +26,19 @@ func NewAddresses(uf string, city string, street string, number string, cep int)
 }
 
 func (a *Address) IsValid() error {
+	if a.GetUF() == "" {
+		return errors.New("uf invalid")
+	}
+	if a.GetCity() == "" {
+		return errors.New("city invalid")
+	}
+	if a.GetStreet() == "" {
+		return errors.New("street invalid")
+	}
+	if a.GetCEP() < 0 {
+		return errors.New("cep cant be negative number")
+	}
+
 	return nil
 }
 
