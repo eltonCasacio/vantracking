@@ -1,4 +1,4 @@
-package usecase
+package driver
 
 import (
 	f "github.com/eltoncasacio/vantracking/internal/domain/driver/factory"
@@ -15,8 +15,19 @@ func CreateDriverUseCase(driverRepository repo.DriverRepositoryInterface) *creat
 	}
 }
 
-func (cd *createDriverUseCase) Execute(input f.DriverInputDTO) error {
-	driver, err := f.DriverFactory().Create(input)
+func (cd *createDriverUseCase) Execute(input DriverInputDTO) error {
+	data := f.DriverInputDTO{
+		CPF:      input.CPF,
+		Name:     input.Name,
+		Nickname: input.Nickname,
+		Phone:    input.Phone,
+		UF:       input.UF,
+		City:     input.City,
+		Street:   input.Street,
+		Number:   input.Number,
+		CEP:      input.CEP,
+	}
+	driver, err := f.DriverFactory().Create(data)
 	if err != nil {
 		return err
 	}

@@ -4,9 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 
-	f "github.com/eltoncasacio/vantracking/internal/domain/driver/factory"
 	repo "github.com/eltoncasacio/vantracking/internal/domain/driver/repository"
-	driverUsecase "github.com/eltoncasacio/vantracking/internal/usecase/driver"
+	du "github.com/eltoncasacio/vantracking/internal/usecase/driver/create"
 )
 
 type DriverHandler struct {
@@ -18,22 +17,23 @@ func NewDriverHandler(repo repo.DriverRepositoryInterface) *DriverHandler {
 }
 
 func (dh *DriverHandler) Register(w http.ResponseWriter, r *http.Request) {
-	input := DriverInputDTO{}
-	json.NewDecoder(r.Body).Decode(&input)
+	data := DriverInputDTO{}
+	json.NewDecoder(r.Body).Decode(&data)
 
-	driver := f.DriverInputDTO{
-		CPF:      input.CPF,
-		Name:     input.Name,
-		Nickname: input.Nickname,
-		Phone:    input.Phone,
-		UF:       input.UF,
-		City:     input.City,
-		Street:   input.Street,
-		Number:   input.Number,
-		CEP:      input.CEP,
+	inputDriver := du.DriverInputDTO{
+		CPF:      data.CPF,
+		Name:     data.Name,
+		Nickname: data.Nickname,
+		Phone:    data.Phone,
+		UF:       data.UF,
+		City:     data.City,
+		Street:   data.Street,
+		Number:   data.Number,
+		CEP:      data.CEP,
 	}
 
-	err := driverUsecase.CreateDriverUseCase(dh.repository).Execute(driver)
+	driverUsecase := du.CreateDriverUseCase(dh.repository)
+	err := driverUsecase.Execute(inputDriver)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 	}

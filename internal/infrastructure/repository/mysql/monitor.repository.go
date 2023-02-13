@@ -3,7 +3,7 @@ package repository
 import (
 	"database/sql"
 
-	entity "github.com/eltoncasacio/vantracking/internal/domain/monitor"
+	entity "github.com/eltoncasacio/vantracking/internal/domain/monitor/entity"
 )
 
 type MonitorRepository struct {
