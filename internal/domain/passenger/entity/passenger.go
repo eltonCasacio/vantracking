@@ -22,6 +22,7 @@ func NewPassenger(name, nickname, routeCode string, monitorID identity.ID) (*Pas
 		name:      name,
 		nickname:  nickname,
 		routeCode: routeCode,
+		monitorID: monitorID,
 	}
 
 	err := p.IsValid()
@@ -33,11 +34,11 @@ func NewPassenger(name, nickname, routeCode string, monitorID identity.ID) (*Pas
 }
 
 func (p *Passenger) IsValid() error {
-	if err := p.name == ""; err {
-		return errors.New("name is required")
+	if err := p.GetName() == ""; err {
+		return errors.New("invalid name")
 	}
-	if err := p.routeCode == ""; err {
-		return errors.New("route code is required")
+	if err := p.GetRouteCode() == ""; err {
+		return errors.New("invalid route code")
 	}
 	return nil
 }
@@ -64,7 +65,7 @@ func (p *Passenger) SetNickname(nickname string) {
 
 func (p *Passenger) SetRouteCode(routeCode string) error {
 	if err := routeCode == ""; err {
-		return errors.New("route code must be a valid route code")
+		return errors.New("invalid route code")
 	}
 	p.routeCode = routeCode
 	return nil
