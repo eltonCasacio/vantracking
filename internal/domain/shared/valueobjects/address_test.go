@@ -7,10 +7,10 @@ import (
 )
 
 func TestNewAddress(t *testing.T) {
-	addr, err := NewAddress("uf", "any_city", "any_street", "any_number", 123123)
+	addr, err := NewAddress("uf", "any_city", "any_street", "any_number", "123123")
 	assert.Nil(t, err)
 	assert.NotEmpty(t, addr)
-	assert.Equal(t, addr.cep, 123123)
+	assert.Equal(t, addr.cep, "123123")
 	assert.Equal(t, addr.uf, "uf")
 	assert.Equal(t, addr.city, "any_city")
 	assert.Equal(t, addr.street, "any_street")
@@ -18,29 +18,29 @@ func TestNewAddress(t *testing.T) {
 }
 
 func TestNewAddresses_ErrorUFInvalid(t *testing.T) {
-	addr, err := NewAddress("", "any_city", "any_street", "any_number", 123123)
+	addr, err := NewAddress("", "any_city", "any_street", "any_number", "123123")
 	assert.NotNil(t, err)
 	assert.Empty(t, addr)
 	assert.EqualError(t, err, "uf invalid")
 }
 
 func TestNewAddresses_ErrorCityInvalid(t *testing.T) {
-	addr, err := NewAddress("any_uf", "", "any_street", "any_number", 123123)
+	addr, err := NewAddress("any_uf", "", "any_street", "any_number", "123123")
 	assert.NotNil(t, err)
 	assert.Empty(t, addr)
 	assert.EqualError(t, err, "city invalid")
 }
 
 func TestNewAddresses_ErrorStreetInvalid(t *testing.T) {
-	addr, err := NewAddress("any_uf", "any_city", "", "any_number", 123123)
+	addr, err := NewAddress("any_uf", "any_city", "", "any_number", "123123")
 	assert.NotNil(t, err)
 	assert.Empty(t, addr)
 	assert.EqualError(t, err, "street invalid")
 }
 
 func TestNewAddresses_ErrorCEPInvalid_NegativeNumber(t *testing.T) {
-	addr, err := NewAddress("any_uf", "any_city", "any_street", "any_number", -1)
+	addr, err := NewAddress("any_uf", "any_city", "any_street", "any_number", "")
 	assert.NotNil(t, err)
 	assert.Empty(t, addr)
-	assert.EqualError(t, err, "cep cant be negative number")
+	assert.EqualError(t, err, "invalid cep")
 }

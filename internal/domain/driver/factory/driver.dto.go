@@ -1,6 +1,7 @@
-package driver
+package factory
 
-type DriverInputDTO struct {
+type CreateDriverInputDTO struct {
+	ID       string
 	CPF      string
 	Name     string
 	Nickname string
@@ -10,8 +11,4 @@ type DriverInputDTO struct {
 	Street   string
 	Number   string
 	CEP      string
-}
-
-type DriverOutputDTO struct {
-	ID string
 }

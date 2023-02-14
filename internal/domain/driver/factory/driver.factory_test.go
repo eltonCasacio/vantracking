@@ -24,7 +24,7 @@ func TestDriverFactoryCreate(t *testing.T) {
 		City:   "any_city",
 		Street: "any_street",
 		Number: "any_number",
-		CEP:    123,
+		CEP:    "123",
 	}
 	factory := DriverFactory()
 	assert.NotNil(t, factory)
@@ -40,7 +40,7 @@ func TestDriverFactoryCreate(t *testing.T) {
 	assert.NotEmpty(t, d.GetAddress())
 
 	addr := d.GetAddress()
-	assert.Equal(t, addr.GetCEP(), 123)
+	assert.Equal(t, addr.GetCEP(), "123")
 	assert.Equal(t, addr.GetCity(), "any_city")
 	assert.Equal(t, addr.GetNumber(), "any_number")
 }
@@ -54,7 +54,7 @@ func TestDriverFactoryCreate_Error(t *testing.T) {
 		City:   "any_city",
 		Street: "any_street",
 		Number: "any_number",
-		CEP:    123,
+		CEP:    "123",
 	}
 	factory := DriverFactory()
 	assert.NotNil(t, factory)
@@ -62,5 +62,4 @@ func TestDriverFactoryCreate_Error(t *testing.T) {
 	d, err := factory.Create(input)
 	assert.Nil(t, d)
 	assert.NotNil(t, err)
-
 }

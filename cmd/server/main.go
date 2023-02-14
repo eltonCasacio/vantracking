@@ -6,9 +6,10 @@ import (
 	"net/http"
 
 	"github.com/eltoncasacio/vantracking/configs"
-	repo "github.com/eltoncasacio/vantracking/internal/infrastructure/repository/mysql"
-	driverHandler "github.com/eltoncasacio/vantracking/internal/infrastructure/web/handlers/driver"
-	monitorHandler "github.com/eltoncasacio/vantracking/internal/infrastructure/web/handlers/monitor"
+	driverRepo "github.com/eltoncasacio/vantracking/internal/infrastructure/driver/repository/mysql"
+	driverHandler "github.com/eltoncasacio/vantracking/internal/infrastructure/driver/web/handlers"
+	monitorRepo "github.com/eltoncasacio/vantracking/internal/infrastructure/monitor/repository/mysql"
+	monitorHandler "github.com/eltoncasacio/vantracking/internal/infrastructure/monitor/web/handlers"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	_ "github.com/go-sql-driver/mysql"
@@ -39,13 +40,13 @@ func main() {
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 
-	driverRepository := repo.NewDriverRepository(db)
+	driverRepository := driverRepo.NewDriverRepository(db)
 	driverHandler := driverHandler.NewDriverHandler(driverRepository)
 	r.Route("/driver", func(r chi.Router) {
 		r.Post("/", driverHandler.Register)
 	})
 
-	monitorRepository := repo.NewMonitorRepository(db)
+	monitorRepository := monitorRepo.NewMonitorRepository(db)
 	monitorHandler := monitorHandler.NewMonitorHandler(monitorRepository)
 	r.Route("/monitors", func(r chi.Router) {
 		r.Post("/", monitorHandler.Register)

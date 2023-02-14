@@ -23,7 +23,7 @@ func TestMonitorFactory_Create(t *testing.T) {
 		City:        "any_city",
 		Street:      "any_street",
 		Number:      "any_number",
-		CEP:         123,
+		CEP:         "123",
 	}
 
 	m, err := factory.Create(input)
@@ -42,7 +42,7 @@ func TestMonitorFactory_Create_InvalidMonitorData(t *testing.T) {
 		City:        "any_city",
 		Street:      "any_street",
 		Number:      "any_number",
-		CEP:         123,
+		CEP:         "123",
 	}
 
 	m, err := factory.Create(input)
@@ -61,7 +61,7 @@ func TestMonitorFactory_Create_InvalidAddressData(t *testing.T) {
 		City:        "any_city",
 		Street:      "any_street",
 		Number:      "",
-		CEP:         -1,
+		CEP:         "",
 	}
 
 	m, err := factory.Create(input)

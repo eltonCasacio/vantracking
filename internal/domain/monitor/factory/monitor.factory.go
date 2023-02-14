@@ -17,7 +17,7 @@ type MonitorInputDTO struct {
 	City        string
 	Street      string
 	Number      string
-	CEP         int
+	CEP         string
 }
 
 type monitorFactory struct{}

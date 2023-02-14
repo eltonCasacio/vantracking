@@ -9,7 +9,7 @@ type DriverInputDTO struct {
 	City     string `json:"city"`
 	Street   string `json:"street"`
 	Number   string `json:"number"`
-	CEP      int    `json:"cep"`
+	CEP      string `json:"cep"`
 }
 
 type DriverOutputDTO struct {
@@ -22,5 +22,5 @@ type DriverOutputDTO struct {
 	City     string `json:"city"`
 	Street   string `json:"street"`
 	Number   string `json:"number"`
-	CEP      int    `json:"cep"`
+	CEP      string `json:"cep"`
 }

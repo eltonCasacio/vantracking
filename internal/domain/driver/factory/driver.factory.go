@@ -8,6 +8,7 @@ import (
 )
 
 type DriverInputDTO struct {
+	ID       string
 	CPF      string
 	Name     string
 	Nickname string
@@ -16,7 +17,7 @@ type DriverInputDTO struct {
 	City     string
 	Street   string
 	Number   string
-	CEP      int
+	CEP      string
 }
 
 type driverFactory struct{}
@@ -41,7 +42,7 @@ func (df *driverFactory) Create(input DriverInputDTO) (*e.Driver, error) {
 		return nil, err
 	}
 
-	driver, err := e.NewDriver(input.CPF, input.Name, input.Nickname, input.Phone, *addrDriver)
+	driver, err := e.NewDriver(input.ID, input.CPF, input.Name, input.Nickname, input.Phone, *addrDriver)
 	if err != nil {
 		return nil, err
 	}

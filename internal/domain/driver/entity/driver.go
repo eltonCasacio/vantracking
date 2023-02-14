@@ -16,9 +16,14 @@ type Driver struct {
 	address  vo.Address
 }
 
-func NewDriver(cpf, name, nickname, phone string, address vo.Address) (*Driver, error) {
+func NewDriver(id, cpf, name, nickname, phone string, address vo.Address) (*Driver, error) {
+	newID, err := identity.ParseID(id)
+	if err != nil {
+		newID = identity.NewID()
+	}
+
 	d := &Driver{
-		id:       identity.NewID(),
+		id:       newID,
 		cpf:      cpf,
 		name:     name,
 		nickname: nickname,
@@ -26,7 +31,7 @@ func NewDriver(cpf, name, nickname, phone string, address vo.Address) (*Driver, 
 		address:  address,
 	}
 
-	err := d.IsValid()
+	err = d.IsValid()
 	if err != nil {
 		return nil, err
 	}
@@ -72,4 +77,40 @@ func (d *Driver) GetPhone() string {
 
 func (d *Driver) GetAddress() vo.Address {
 	return d.address
+}
+
+func (d *Driver) ChangeName(name string) error {
+	if name == "" {
+		return errors.New("invalid name")
+	}
+	d.name = name
+	return nil
+}
+
+func (d *Driver) ChangeNickname(nickname string) {
+	d.nickname = nickname
+}
+
+func (d *Driver) ChangeCPF(cpf string) error {
+	if cpf == "" {
+		return errors.New("invalid cpf")
+	}
+	d.cpf = cpf
+	return nil
+}
+
+func (d *Driver) ChangePhone(phone string) error {
+	if phone == "" {
+		return errors.New("invalid phone")
+	}
+	d.phone = phone
+	return nil
+}
+
+func (d *Driver) ChangeAddress(address vo.Address) error {
+	if err := address.IsValid(); err != nil {
+		return errors.New("invalid address")
+	}
+	d.address = address
+	return nil
 }

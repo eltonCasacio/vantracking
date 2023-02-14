@@ -7,10 +7,10 @@ type Address struct {
 	city   string
 	street string
 	number string
-	cep    int
+	cep    string
 }
 
-func NewAddress(uf string, city string, street string, number string, cep int) (*Address, error) {
+func NewAddress(uf, city, street, number, cep string) (*Address, error) {
 	addr := &Address{
 		uf:     uf,
 		city:   city,
@@ -35,8 +35,8 @@ func (a *Address) IsValid() error {
 	if a.GetStreet() == "" {
 		return errors.New("street invalid")
 	}
-	if a.GetCEP() < 0 {
-		return errors.New("cep cant be negative number")
+	if a.GetCEP() == "" {
+		return errors.New("invalid cep")
 	}
 
 	return nil
@@ -58,6 +58,6 @@ func (a *Address) GetNumber() string {
 	return a.number
 }
 
-func (a *Address) GetCEP() int {
+func (a *Address) GetCEP() string {
 	return a.cep
 }

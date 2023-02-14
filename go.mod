@@ -7,6 +7,7 @@ require (
 	github.com/go-chi/jwtauth v1.2.0
 	github.com/go-sql-driver/mysql v1.7.0
 	github.com/google/uuid v1.3.0
+	github.com/mattn/go-sqlite3 v1.14.16
 	github.com/spf13/viper v1.15.0
 )
 
