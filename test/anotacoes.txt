@@ -7,8 +7,6 @@ Monitor precisa do codigo da rota para se cadastrar no app?
 
 O monitor conseguira pegar a localizacao do motorista atraves do codigo da rota.
 
-
-
 O monitor pode se cadastrar sem passageiro e codigo da rota, mas precisara cadastrar passageiro depois
 se quiser monitorar a rota.
 Para cadastrar um passageiro é preciso informar o codigo da rota que o motorista passou.
