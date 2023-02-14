@@ -6,57 +6,61 @@ import (
 	"github.com/eltoncasacio/vantracking/internal/domain/driver/entity"
 	"github.com/eltoncasacio/vantracking/internal/domain/shared/valueobjects"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 )
 
-func TestNewRoute(t *testing.T) {
-	driverAddr, _ := valueobjects.NewAddress("any_uf", "any_city", "any_street", "123", 123)
-	destinuAddr, _ := valueobjects.NewAddress("any_uf", "any_city", "any_street", "777", 8)
-	driver, _ := entity.NewDriver("any_cpf", "any_name", "any_nickname", "234325", *driverAddr)
-
-	route, err := NewRoute(driver.GetID(), "1", "alves aranha manha", *driverAddr, *destinuAddr)
-	assert.Nil(t, err)
-	assert.NotNil(t, route)
-	assert.Equal(t, route.GetCode(), "1")
-	assert.Equal(t, route.GetName(), "alves aranha manha")
-	assert.EqualValues(t, route.GetOrigin(), *driverAddr)
-	assert.EqualValues(t, route.GetDestiny(), *destinuAddr)
-	assert.NotEmpty(t, route.GetDriverID())
+type RouteTestSuite struct {
+	suite.Suite
+	DriverAddress  valueobjects.Address
+	DestinyAddress valueobjects.Address
+	Driver         entity.Driver
 }
 
-func TestNewRoute_InvalidCode(t *testing.T) {
-	driverAddr, _ := valueobjects.NewAddress("any_uf", "any_city", "any_street", "123", 123)
-	destinuAddr, _ := valueobjects.NewAddress("any_uf", "any_city", "any_street", "777", 8)
-	driver, _ := entity.NewDriver("any_cpf", "any_name", "any_nickname", "234325", *driverAddr)
-
-	_, err := NewRoute(driver.GetID(), "", "alves aranha manha", *driverAddr, *destinuAddr)
-	assert.NotNil(t, err)
-	assert.EqualError(t, err, "invalid code")
+func TestSuite(t *testing.T) {
+	suite.Run(t, new(RouteTestSuite))
 }
 
-func TestNewRoute_InvalidName(t *testing.T) {
-	driverAddr, _ := valueobjects.NewAddress("any_uf", "any_city", "any_street", "123", 123)
-	destinuAddr, _ := valueobjects.NewAddress("any_uf", "any_city", "any_street", "777", 8)
-	driver, _ := entity.NewDriver("any_cpf", "any_name", "any_nickname", "234325", *driverAddr)
+func (suite *RouteTestSuite) SetupTest() {
+	addr, _ := valueobjects.NewAddress("any_uf", "any_city", "any_street", "123", 123)
+	addrDestiny, _ := valueobjects.NewAddress("any_uf", "any_city", "any_street", "2", 77)
+	driver, _ := entity.NewDriver("any_cpf", "any_name", "any_nickname", "234325", *addr)
 
-	_, err := NewRoute(driver.GetID(), "1", "", *driverAddr, *destinuAddr)
-	assert.NotNil(t, err)
-	assert.EqualError(t, err, "invalid name")
+	suite.DriverAddress = *addr
+	suite.DestinyAddress = *addrDestiny
+	suite.Driver = *driver
 }
 
-func TestNewRoute_ErrorOrigin(t *testing.T) {
-	driverAddr, _ := valueobjects.NewAddress("any_uf", "any_city", "any_street", "123", 123)
-	destinuAddr, _ := valueobjects.NewAddress("any_uf", "any_city", "any_street", "777", 8)
-	driver, _ := entity.NewDriver("any_cpf", "any_name", "any_nickname", "234325", *driverAddr)
-
-	route, err := NewRoute(driver.GetID(), "1", "alves aranha manha", valueobjects.Address{}, *destinuAddr)
-	assert.Nil(t, route)
-	assert.NotNil(t, err)
+func (s *RouteTestSuite) TestNewRoute() {
+	route, err := NewRoute(s.Driver.GetID(), "1", "alves aranha manha", s.DriverAddress, s.DestinyAddress)
+	assert.Nil(s.T(), err)
+	assert.NotNil(s.T(), route)
+	assert.Equal(s.T(), route.GetCode(), "1")
+	assert.Equal(s.T(), route.GetName(), "alves aranha manha")
+	assert.EqualValues(s.T(), route.GetOrigin(), s.DriverAddress)
+	assert.EqualValues(s.T(), route.GetDestiny(), s.DestinyAddress)
+	assert.NotEmpty(s.T(), route.GetDriverID())
 }
 
-func TestNewRoute_ErrorDestiny(t *testing.T) {
-	driverAddr, _ := valueobjects.NewAddress("any_uf", "any_city", "any_street", "123", 123)
-	driver, _ := entity.NewDriver("any_cpf", "any_name", "any_nickname", "234325", *driverAddr)
-	route, err := NewRoute(driver.GetID(), "1", "alves aranha manha", *driverAddr, valueobjects.Address{})
-	assert.Nil(t, route)
-	assert.NotNil(t, err)
+func (s *RouteTestSuite) TestNewRoute_InvalidCode() {
+	_, err := NewRoute(s.Driver.GetID(), "", "alves aranha manha", s.DriverAddress, s.DestinyAddress)
+	assert.NotNil(s.T(), err)
+	assert.EqualError(s.T(), err, "invalid code")
+}
+
+func (s *RouteTestSuite) TestNewRoute_InvalidName() {
+	_, err := NewRoute(s.Driver.GetID(), "1", "", s.DriverAddress, s.DestinyAddress)
+	assert.NotNil(s.T(), err)
+	assert.EqualError(s.T(), err, "invalid name")
+}
+
+func (s *RouteTestSuite) TestNewRoute_ErrorOrigin() {
+	route, err := NewRoute(s.Driver.GetID(), "1", "alves aranha manha", valueobjects.Address{}, s.DestinyAddress)
+	assert.Nil(s.T(), route)
+	assert.NotNil(s.T(), err)
+}
+
+func (s *RouteTestSuite) TestNewRoute_ErrorDestiny() {
+	route, err := NewRoute(s.Driver.GetID(), "1", "alves aranha manha", s.DriverAddress, valueobjects.Address{})
+	assert.Nil(s.T(), route)
+	assert.NotNil(s.T(), err)
 }

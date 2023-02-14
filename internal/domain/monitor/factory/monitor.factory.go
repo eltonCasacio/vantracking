@@ -4,6 +4,8 @@ import (
 	"sync"
 
 	"github.com/eltoncasacio/vantracking/internal/domain/monitor/entity"
+	vo_Passenger "github.com/eltoncasacio/vantracking/internal/domain/passenger/entity"
+
 	vo "github.com/eltoncasacio/vantracking/internal/domain/shared/valueobjects"
 )
 
@@ -35,12 +37,12 @@ func MonitorFactory() *monitorFactory {
 }
 
 func (df *monitorFactory) Create(input MonitorInputDTO) (*entity.Monitor, error) {
-	addrDriver, err := vo.NewAddresses(input.UF, input.City, input.Street, input.Number, input.CEP)
+	addrDriver, err := vo.NewAddress(input.UF, input.City, input.Street, input.Number, input.CEP)
 	if err != nil {
 		return nil, err
 	}
 
-	driver, err := entity.NewMonitor(input.name, input.cpf, input.phoneNumber, *addrDriver)
+	driver, err := entity.NewMonitor(input.name, input.cpf, input.phoneNumber, *addrDriver, []vo_Passenger.Passenger{})
 	if err != nil {
 		return nil, err
 	}

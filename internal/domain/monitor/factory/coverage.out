@@ -1,0 +1,10 @@
+mode: set
+github.com/eltoncasacio/vantracking/internal/domain/monitor/factory/monitor.factory.go:28.39,29.21 1 1
+github.com/eltoncasacio/vantracking/internal/domain/monitor/factory/monitor.factory.go:29.21,32.22 3 1
+github.com/eltoncasacio/vantracking/internal/domain/monitor/factory/monitor.factory.go:32.22,34.4 1 1
+github.com/eltoncasacio/vantracking/internal/domain/monitor/factory/monitor.factory.go:36.2,36.17 1 1
+github.com/eltoncasacio/vantracking/internal/domain/monitor/factory/monitor.factory.go:39.82,41.16 2 1
+github.com/eltoncasacio/vantracking/internal/domain/monitor/factory/monitor.factory.go:41.16,43.3 1 1
+github.com/eltoncasacio/vantracking/internal/domain/monitor/factory/monitor.factory.go:45.2,46.16 2 1
+github.com/eltoncasacio/vantracking/internal/domain/monitor/factory/monitor.factory.go:46.16,48.3 1 1
+github.com/eltoncasacio/vantracking/internal/domain/monitor/factory/monitor.factory.go:50.2,50.20 1 1

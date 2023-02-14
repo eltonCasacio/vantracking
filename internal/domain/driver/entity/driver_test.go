@@ -5,63 +5,69 @@ import (
 
 	"github.com/eltoncasacio/vantracking/internal/domain/shared/valueobjects"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 )
 
-func TestNewDriver_ErrorAddresEmpty(t *testing.T) {
+type DriverTestSuite struct {
+	suite.Suite
+	Address valueobjects.Address
+}
+
+func TestSuite(t *testing.T) {
+	suite.Run(t, new(DriverTestSuite))
+}
+
+func (suite *DriverTestSuite) SetupTest() {
+	addr, _ := valueobjects.NewAddress("any_uf", "any_city", "any_street", "123", 123)
+	suite.Address = *addr
+}
+
+func (s *DriverTestSuite) TestNewDriver_ErrorAddresEmpty() {
 	d, err := NewDriver("234534534", "any_name", "any_nickname", "24534534", valueobjects.Address{})
-	assert.NotNil(t, err)
-	assert.Empty(t, d)
+	assert.NotNil(s.T(), err)
+	assert.Empty(s.T(), d)
 }
 
-func TestNewDriver_ErrorCPFInvalid(t *testing.T) {
-	addr, _ := valueobjects.NewAddress("any_uf", "any_city", "any_street", "123", 123)
-
-	d, err := NewDriver("", "any_name", "any_nickname", "24534534", *addr)
-	assert.NotNil(t, err)
-	assert.Empty(t, d)
-	assert.EqualError(t, err, "cpf invalid")
+func (s *DriverTestSuite) TestNewDriver_ErrorCPFInvalid() {
+	d, err := NewDriver("", "any_name", "any_nickname", "24534534", s.Address)
+	assert.NotNil(s.T(), err)
+	assert.Empty(s.T(), d)
+	assert.EqualError(s.T(), err, "cpf invalid")
 }
 
-func TestNewDriver_ErrorNameInvalid(t *testing.T) {
-	addr, _ := valueobjects.NewAddress("any_uf", "any_city", "any_street", "123", 123)
-
-	d, err := NewDriver("any_cpf", "", "any_nickname", "24534534", *addr)
-	assert.NotNil(t, err)
-	assert.Empty(t, d)
-	assert.EqualError(t, err, "name invalid")
+func (s *DriverTestSuite) TestNewDriver_ErrorNameInvalid() {
+	d, err := NewDriver("any_cpf", "", "any_nickname", "24534534", s.Address)
+	assert.NotNil(s.T(), err)
+	assert.Empty(s.T(), d)
+	assert.EqualError(s.T(), err, "name invalid")
 }
 
-func TestNewDriver_ErrorPhoneInvalid(t *testing.T) {
-	addr, _ := valueobjects.NewAddress("any_uf", "any_city", "any_street", "123", 123)
-
-	d, err := NewDriver("any_cpf", "any_name", "", "", *addr)
-	assert.NotNil(t, err)
-	assert.Empty(t, d)
-	assert.EqualError(t, err, "phone invalid")
+func (s *DriverTestSuite) TestNewDriver_ErrorPhoneInvalid() {
+	d, err := NewDriver("any_cpf", "any_name", "", "", s.Address)
+	assert.NotNil(s.T(), err)
+	assert.Empty(s.T(), d)
+	assert.EqualError(s.T(), err, "phone invalid")
 }
 
-func TestNewDriver_WithoutNickname(t *testing.T) {
-	addr, _ := valueobjects.NewAddress("any_uf", "any_city", "any_street", "123", 123)
-
-	d, err := NewDriver("any_cpf", "any_name", "", "234325", *addr)
-	assert.Nil(t, err)
-	assert.NotNil(t, d)
-	assert.NotNil(t, d.address)
-	assert.Equal(t, d.cpf, "any_cpf")
-	assert.Equal(t, d.name, "any_name")
-	assert.Equal(t, d.nickname, "")
-	assert.Equal(t, d.phone, "234325")
+func (s *DriverTestSuite) TestNewDriver_WithoutNickname() {
+	d, err := NewDriver("any_cpf", "any_name", "", "234325", s.Address)
+	assert.Nil(s.T(), err)
+	assert.NotNil(s.T(), d)
+	assert.NotNil(s.T(), d.address)
+	assert.Equal(s.T(), d.cpf, "any_cpf")
+	assert.Equal(s.T(), d.name, "any_name")
+	assert.Equal(s.T(), d.nickname, "")
+	assert.Equal(s.T(), d.phone, "234325")
 }
 
-func TestNewDriver(t *testing.T) {
-	addr, _ := valueobjects.NewAddress("any_uf", "any_city", "any_street", "123", 123)
-
-	d, err := NewDriver("any_cpf", "any_name", "any_nickname", "234325", *addr)
-	assert.Nil(t, err)
-	assert.NotNil(t, d)
-	assert.NotNil(t, d.address)
-	assert.Equal(t, d.cpf, "any_cpf")
-	assert.Equal(t, d.name, "any_name")
-	assert.Equal(t, d.nickname, "any_nickname")
-	assert.Equal(t, d.phone, "234325")
+func (s *DriverTestSuite) TestNewDriver() {
+	d, err := NewDriver("any_cpf", "any_name", "any_nickname", "234325", s.Address)
+	assert.Nil(s.T(), err)
+	assert.NotNil(s.T(), d)
+	assert.NotNil(s.T(), d.GetAddress())
+	assert.NotNil(s.T(), d.GetID())
+	assert.Equal(s.T(), d.GetCPF(), "any_cpf")
+	assert.Equal(s.T(), d.GetName(), "any_name")
+	assert.Equal(s.T(), d.GetNickName(), "any_nickname")
+	assert.Equal(s.T(), d.GetPhone(), "234325")
 }

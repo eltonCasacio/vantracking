@@ -3,7 +3,6 @@ package entity
 import (
 	"errors"
 
-	"github.com/eltoncasacio/vantracking/internal/domain/driver/valueobjects"
 	vo "github.com/eltoncasacio/vantracking/internal/domain/shared/valueobjects"
 	"github.com/eltoncasacio/vantracking/pkg/identity"
 )
@@ -15,7 +14,6 @@ type Driver struct {
 	nickname string
 	phone    string
 	address  vo.Address
-	routes   []valueobjects.Route
 }
 
 func NewDriver(cpf, name, nickname, phone string, address vo.Address) (*Driver, error) {
@@ -74,12 +72,4 @@ func (d *Driver) GetPhone() string {
 
 func (d *Driver) GetAddress() vo.Address {
 	return d.address
-}
-
-func (d *Driver) AddRoute(route valueobjects.Route) error {
-	if err := route.IsValid(); err != nil {
-		return err
-	}
-	d.routes = append(d.routes, route)
-	return nil
 }
