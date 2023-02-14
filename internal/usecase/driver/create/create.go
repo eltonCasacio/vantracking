@@ -9,7 +9,7 @@ type createDriverUseCase struct {
 	driverRepository repo.DriverRepositoryInterface
 }
 
-func CreateDriverUseCase(driverRepository repo.DriverRepositoryInterface) *createDriverUseCase {
+func NewDriverUseCase(driverRepository repo.DriverRepositoryInterface) *createDriverUseCase {
 	return &createDriverUseCase{
 		driverRepository: driverRepository,
 	}
@@ -28,6 +28,7 @@ func (cd *createDriverUseCase) Execute(input DriverInputDTO) error {
 		Number:   input.Number,
 		CEP:      input.CEP,
 	}
+
 	driver, err := f.DriverFactory().Create(data)
 	if err != nil {
 		return err

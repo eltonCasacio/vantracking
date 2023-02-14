@@ -1,3 +1,7 @@
 TESTE
 go test -coverprofile=coverage.out
 go tool cover -html=coverage.out
+
+
+**** QUERIES *****
+create table drivers (id varchar(255) NOT NULL, cpf varchar(255) NOT NULL, name varchar(255) NOT NULL, nickname varchar(255), phone varchar(255), uf varchar(5), city varchar(80), street varchar(100), number varchar(50), cep varchar(10), active BOOLEAN DEFAULT true, PRIMARY KEY (id));

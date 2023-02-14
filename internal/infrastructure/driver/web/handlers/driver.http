@@ -1,0 +1,42 @@
+POST http://localhost:8000/driver HTTP/1.1
+Content-Type:  application/json
+
+{
+    "cpf":"23453235345",
+	"name":"isabela",
+	"nickname":"belinha",
+	"phone":"11 977345433",
+    "uf":"sp",
+	"city":"sumare",
+	"street":"rua parana",
+	"number":"123",
+	"cep":"13233309"
+}
+
+###
+GET  http://localhost:8000/driver HTTP/1.1
+Content-Type:  application/json
+
+
+###
+GET  http://localhost:8000/driver/b881e965-ad16-4549-8768-65a7390f8b38 HTTP/1.1
+Content-Type:  application/json
+
+
+###
+PUT   http://localhost:8000/driver/b881e965-ad16-4549-8768-65a7390f8b38 HTTP/1.1
+Content-Type:  application/json
+
+{
+    "nome": "other_name",
+    "senha": "$2a$10$xcNwpINJBap1wlqJK0a/C.8yqZfi2WB.uTZewfWDaOcUy508.NpFW",
+    "ativo": true
+}
+
+###
+DELETE    http://localhost:8000/usuario/aa96910d-6f92-42ac-8644-90e5710ea5db HTTP/1.1
+Content-Type:  application/json
+
+###
+GET  http://localhost:8000/usuario/paginado?page=1&limit=3 HTTP/1.1
+Content-Type:  application/json
