@@ -13,13 +13,13 @@ Content-Type:  application/json
 	"cep":"13233309"
 }
 
-###
+###  BUSCAR TODOS MOTORISTAS
 GET  http://localhost:8000/driver HTTP/1.1
 Content-Type:  application/json
 
 
-###
-GET  http://localhost:8000/driver/b881e965-ad16-4549-8768-65a7390f8b38 HTTP/1.1
+### BUSCAR POR ID
+GET  http://localhost:8000/driver/8f42fa3c-e300-4bfe-8cfb-f996488eca94 HTTP/1.1
 Content-Type:  application/json
 
 

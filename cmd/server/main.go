@@ -6,10 +6,10 @@ import (
 	"net/http"
 
 	"github.com/eltoncasacio/vantracking/configs"
-	driverRepo "github.com/eltoncasacio/vantracking/internal/infrastructure/driver/repository/mysql"
-	driverHandler "github.com/eltoncasacio/vantracking/internal/infrastructure/driver/web/handlers"
-	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
+	dr "github.com/eltoncasacio/vantracking/internal/infrastructure/driver/web/routes"
+	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/middleware"
+
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -29,25 +29,13 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	defer db.Close()
-
 	// driverLocations := map[string]string{}
 
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 
-	driverRepository := driverRepo.NewDriverRepository(db)
-	driverHandler := driverHandler.NewDriverHandler(driverRepository)
-	r.Route("/driver", func(r chi.Router) {
-		r.Post("/", driverHandler.Register)
-	})
-
-	// monitorRepository := monitorRepo.NewMonitorRepository(db)
-	// monitorHandler := monitorHandler.NewMonitorHandler(monitorRepository)
-	// r.Route("/monitors", func(r chi.Router) {
-	// 	r.Post("/", monitorHandler.Register)
-	// })
+	dr.NewDriverRoutes(db, r).CreateRoutes()
 
 	http.ListenAndServe(":8000", r)
 }
