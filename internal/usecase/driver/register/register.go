@@ -5,18 +5,18 @@ import (
 	repo "github.com/eltoncasacio/vantracking/internal/domain/driver/repository"
 )
 
-type createDriverUseCase struct {
+type RegisterDriverUseCase struct {
 	driverRepository repo.DriverRepositoryInterface
 }
 
-func NewDriverUseCase(driverRepository repo.DriverRepositoryInterface) *createDriverUseCase {
-	return &createDriverUseCase{
+func NewUseCase(driverRepository repo.DriverRepositoryInterface) *RegisterDriverUseCase {
+	return &RegisterDriverUseCase{
 		driverRepository: driverRepository,
 	}
 }
 
-func (cd *createDriverUseCase) Execute(input DriverInputDTO) error {
-	data := f.DriverInputDTO{
+func (cd *RegisterDriverUseCase) RegisterDriver(input DriverInputDTO) error {
+	driverInput := f.DriverInputDTO{
 		ID:       "",
 		CPF:      input.CPF,
 		Name:     input.Name,
@@ -29,7 +29,7 @@ func (cd *createDriverUseCase) Execute(input DriverInputDTO) error {
 		CEP:      input.CEP,
 	}
 
-	driver, err := f.DriverFactory().Create(data)
+	driver, err := f.DriverFactory().Create(driverInput)
 	if err != nil {
 		return err
 	}

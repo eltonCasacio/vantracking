@@ -28,5 +28,7 @@ func (dr *DriverRoutes) CreateRoutes() {
 		r.Post("/", driverHandler.Register)
 		r.Get("/", driverHandler.ConsultAll)
 		r.Get("/{id}", driverHandler.Consult)
+		r.Put("/", driverHandler.Update)
+		r.Delete("/{id}", driverHandler.Delete)
 	})
 }

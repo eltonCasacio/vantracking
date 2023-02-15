@@ -1,3 +1,6 @@
 O Motorista devera se cadastrar no app e cadastrar pelo menos uma ROTA.
 A ROTA é necessario para gerar token de acesso que permite os MONITORES se cadastrarem no app.
 O Token é unico para cada MONITOR
+
+
+VALIDAR RESPONSE ERROR

@@ -100,7 +100,7 @@ func (d *DriverRepository) Update(driver *entity.Driver) error {
 	if err := driver.IsValid(); err != nil {
 		return errors.New("invalid driver")
 	}
-	query := "UPDATE drivers SET id = ?, cpf = ?, name = ?, nickname = ?, phone = ?, uf = ?, city = ?, street = ?, number = ?, cep = ?"
+	query := "UPDATE drivers SET cpf = ?, name = ?, nickname = ?, phone = ?, uf = ?, city = ?, street = ?, number = ?, cep = ? WHERE id = ?"
 	stmt, err := d.db.Prepare(query)
 	if err != nil {
 		return err
@@ -110,7 +110,6 @@ func (d *DriverRepository) Update(driver *entity.Driver) error {
 	addr := driver.GetAddress()
 
 	_, err = stmt.Exec(
-		driver.GetID(),
 		driver.GetCPF(),
 		driver.GetName(),
 		driver.GetNickName(),
@@ -120,6 +119,7 @@ func (d *DriverRepository) Update(driver *entity.Driver) error {
 		addr.GetStreet(),
 		addr.GetNumber(),
 		addr.GetCEP(),
+		driver.GetID(),
 	)
 	if err != nil {
 		return err

@@ -17,6 +17,7 @@ type Driver struct {
 }
 
 func NewDriver(id, cpf, name, nickname, phone string, address vo.Address) (*Driver, error) {
+
 	newID, err := identity.ParseID(id)
 	if err != nil {
 		newID = identity.NewID()
