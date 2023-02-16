@@ -6,8 +6,8 @@ import (
 
 	repo "github.com/eltoncasacio/vantracking/internal/domain/driver/repository"
 	dusecase "github.com/eltoncasacio/vantracking/internal/usecase/driver/delete"
-	fausecase "github.com/eltoncasacio/vantracking/internal/usecase/driver/findall"
 	fusecase "github.com/eltoncasacio/vantracking/internal/usecase/driver/findbyid"
+	fausecase "github.com/eltoncasacio/vantracking/internal/usecase/driver/listall"
 	rusecase "github.com/eltoncasacio/vantracking/internal/usecase/driver/register"
 	upusecase "github.com/eltoncasacio/vantracking/internal/usecase/driver/update"
 	"github.com/go-chi/chi"
@@ -49,7 +49,7 @@ func (dh *DriverHandler) Register(w http.ResponseWriter, r *http.Request) {
 }
 
 func (dh *DriverHandler) ConsultAll(w http.ResponseWriter, r *http.Request) {
-	output, err := fausecase.NewUseCase(dh.repository).FindAll()
+	output, err := fausecase.NewUseCase(dh.repository).ListAll()
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 	}

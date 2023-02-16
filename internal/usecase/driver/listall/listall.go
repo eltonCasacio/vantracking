@@ -14,7 +14,7 @@ func NewUseCase(driverRepository repo.DriverRepositoryInterface) *findAllDriverU
 	}
 }
 
-func (cd *findAllDriverUseCase) FindAll() ([]DriverOutputDTO, error) {
+func (cd *findAllDriverUseCase) ListAll() ([]DriverOutputDTO, error) {
 	driversFound, err := cd.driverRepository.FindAll()
 	if err != nil {
 		return nil, err

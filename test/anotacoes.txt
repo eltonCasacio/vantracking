@@ -10,3 +10,13 @@ O monitor conseguira pegar a localizacao do motorista atraves do codigo da rota.
 O monitor pode se cadastrar sem passageiro e codigo da rota, mas precisara cadastrar passageiro depois
 se quiser monitorar a rota.
 Para cadastrar um passageiro é preciso informar o codigo da rota que o motorista passou.
+
+TAG de rastreamento.
+
+STATUS do passageiro se vai viajar ou nao:
+1 - se ele vai de van, mas nao volta
+2 - se ele nao vai de van, mas volta
+3 - ele nao vai e nao volta de van.
+
+O MOTORISTA ira atualizar a tela de status de quem vai ou nao via na van ao checkar 
+quem entrou na van.
