@@ -22,38 +22,40 @@ func NewDriverHandler(repo repo.DriverRepositoryInterface) *DriverHandler {
 }
 
 func (dh *DriverHandler) Register(w http.ResponseWriter, r *http.Request) {
-	var dto DriverInputDTO
-	err := json.NewDecoder(r.Body).Decode(&dto)
+	var input DriverInputDTO
+	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
 	inputDriver := rusecase.DriverInputDTO{
-		CPF:      dto.CPF,
-		Name:     dto.Name,
-		Nickname: dto.Nickname,
-		Phone:    dto.Phone,
-		UF:       dto.UF,
-		City:     dto.City,
-		Street:   dto.Street,
-		Number:   dto.Number,
-		CEP:      dto.CEP,
+		CPF:      input.CPF,
+		Name:     input.Name,
+		Nickname: input.Nickname,
+		Phone:    input.Phone,
+		UF:       input.UF,
+		City:     input.City,
+		Street:   input.Street,
+		Number:   input.Number,
+		CEP:      input.CEP,
 	}
 
 	err = rusecase.NewUseCase(dh.repository).RegisterDriver(inputDriver)
 	if err != nil {
 		w.Write([]byte(err.Error()))
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 	w.WriteHeader(http.StatusOK)
 }
 
 func (dh *DriverHandler) ConsultAll(w http.ResponseWriter, r *http.Request) {
-	output, _ := fausecase.NewUseCase(dh.repository).ListAll()
+	usecaseOutput, _ := fausecase.NewUseCase(dh.repository).ListAll()
 
-	drivers := []DriverOutputDTO{}
-	for _, driver := range output {
-		output := DriverOutputDTO{
+	output := []DriverOutputDTO{}
+	for _, driver := range usecaseOutput {
+		d := DriverOutputDTO{
 			ID:       driver.ID,
 			CPF:      driver.CPF,
 			Name:     driver.Name,
@@ -65,10 +67,10 @@ func (dh *DriverHandler) ConsultAll(w http.ResponseWriter, r *http.Request) {
 			Number:   driver.Number,
 			CEP:      driver.CEP,
 		}
-		drivers = append(drivers, output)
+		output = append(output, d)
 	}
 
-	json.NewEncoder(w).Encode(drivers)
+	json.NewEncoder(w).Encode(output)
 	w.WriteHeader(http.StatusOK)
 }
 

@@ -1,8 +1,6 @@
 package driver
 
 import (
-	"fmt"
-
 	f "github.com/eltoncasacio/vantracking/internal/domain/driver/factory"
 	repo "github.com/eltoncasacio/vantracking/internal/domain/driver/repository"
 )
@@ -18,7 +16,7 @@ func NewUseCase(driverRepository repo.DriverRepositoryInterface) *updateDriverUs
 }
 
 func (u *updateDriverUseCase) Update(input DriverInputDTO) error {
-	driverInput := f.DriverInputDTO{
+	driverInput := f.CreateDriverInputDTO{
 		ID:       input.ID,
 		CPF:      input.CPF,
 		Name:     input.Name,
@@ -38,7 +36,6 @@ func (u *updateDriverUseCase) Update(input DriverInputDTO) error {
 
 	err = u.driverRepository.Update(driver)
 	if err != nil {
-		fmt.Println("aiai", err)
 		return err
 	}
 	return nil

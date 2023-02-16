@@ -3,7 +3,8 @@ package repository
 import (
 	"database/sql"
 
-	entity "github.com/eltoncasacio/vantracking/internal/domain/monitor/entity"
+	"github.com/eltoncasacio/vantracking/internal/domain/monitor/entity"
+	"github.com/eltoncasacio/vantracking/internal/domain/monitor/factory"
 )
 
 type MonitorRepository struct {
@@ -15,14 +16,37 @@ func NewMonitorRepository(db *sql.DB) *MonitorRepository {
 }
 
 func (m *MonitorRepository) Create(monitor *entity.Monitor) error {
-	stmt, err := m.db.Prepare("insert into monitors(id, nome, senha, ativo) values(?,?,?,?)")
+	stmt, err := m.db.Prepare("insert into monitors(id, cpf, name, phone_number, uf, city, street, number, cep , active) values(?,?,?,?,?,?,?,?,?,?)")
 	if err != nil {
 		return err
 	}
 	defer stmt.Close()
 
+	address := monitor.GetAddress()
+
+	model := MonitorModel{
+		id:          monitor.GetID().String(),
+		name:        monitor.GetName(),
+		cpf:         monitor.GetCPF(),
+		phoneNumber: monitor.GetPhoneNumber(),
+		uf:          address.GetUF(),
+		city:        address.GetCity(),
+		street:      address.GetStreet(),
+		number:      address.GetNumber(),
+		cep:         address.GetCEP(),
+		active:      true,
+	}
 	_, err = stmt.Exec(
-		monitor.GetID(),
+		model.id,
+		model.cpf,
+		model.name,
+		model.phoneNumber,
+		model.uf,
+		model.city,
+		model.street,
+		model.number,
+		model.cep,
+		model.active,
 	)
 	if err != nil {
 		return err
@@ -31,13 +55,36 @@ func (m *MonitorRepository) Create(monitor *entity.Monitor) error {
 }
 
 func (m *MonitorRepository) Update(monitor *entity.Monitor) error {
-	stmt, err := m.db.Prepare("update monitors set id = ?, nome = ?, senha = ?, ativo = ?")
+	stmt, err := m.db.Prepare("update monitors set cpf = ?, name = ?, phone_number = ?, uf = ?, city = ?, street = ?, number = ?, cep  = ?, active = ?")
 	if err != nil {
 		return err
 	}
 	defer stmt.Close()
 
-	_, err = stmt.Exec(monitor.GetID())
+	address := monitor.GetAddress()
+
+	model := MonitorModel{
+		name:        monitor.GetName(),
+		cpf:         monitor.GetCPF(),
+		phoneNumber: monitor.GetPhoneNumber(),
+		uf:          address.GetUF(),
+		city:        address.GetCity(),
+		street:      address.GetStreet(),
+		number:      address.GetNumber(),
+		cep:         address.GetCEP(),
+		active:      true,
+	}
+	_, err = stmt.Exec(
+		model.cpf,
+		model.name,
+		model.phoneNumber,
+		model.uf,
+		model.city,
+		model.street,
+		model.number,
+		model.cep,
+		model.active,
+	)
 	if err != nil {
 		return err
 	}
@@ -58,55 +105,91 @@ func (m *MonitorRepository) Delete(id string) error {
 }
 
 func (m *MonitorRepository) FindAll() ([]entity.Monitor, error) {
-	rows, err := m.db.Query("select * from monitors")
+	rows, err := m.db.Query("SELECT * FROM monitors WHERE active = true")
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
-	// var drivers []entity.Driver
+	var monitors []entity.Monitor
+	for rows.Next() {
+		var model MonitorModel
+		err := rows.Scan(
+			&model.id,
+			&model.cpf,
+			&model.name,
+			&model.phoneNumber,
+			&model.uf,
+			&model.city,
+			&model.street,
+			&model.number,
+			model.cep,
+			&model.active,
+		)
+		if err != nil {
+			return nil, err
+		}
 
-	// for rows.Next() {
-	// 	var usuario entity.Driver
-	// 	err := rows.Scan(&usuario.Id, &usuario.Nome, &usuario.Senha, &usuario.Ativo)
-	// 	if err != nil {
-	// 		return nil, err
-	// 	}
-	// 	var u entity.Usuario
-	// 	u.ChangeID(usuario.Id)
-	// 	u.ChangeNome(usuario.Nome)
-	// 	u.ChangeSenha(usuario.Senha)
-	// 	u.Desativar()
-	// 	if usuario.Ativo {
-	// 		u.Ativar()
-	// 	}
+		inputMonitor := factory.CreateMonitorInputDTO{
+			ID:          model.id,
+			Name:        model.name,
+			CPF:         model.cpf,
+			PhoneNumber: model.phoneNumber,
+			UF:          model.uf,
+			City:        model.city,
+			Street:      model.street,
+			Number:      model.number,
+			CEP:         model.cep,
+		}
 
-	// 	usuarios = append(usuarios, u)
-	// }
+		newMonitor, err := factory.MonitorFactory().Create(inputMonitor)
+		if err != nil {
+			return nil, err
+		}
+		monitors = append(monitors, *newMonitor)
+	}
 	return nil, nil
-
 }
 
 func (m *MonitorRepository) FindByID(id string) (*entity.Monitor, error) {
-	stmt, err := m.db.Prepare("select * from monitors where id = ?")
+	stmt, err := m.db.Prepare("select * from monitors WHERE id = ? and active = true")
 	if err != nil {
 		panic(err)
 	}
 	defer stmt.Close()
 
-	// var usuarioModel usuario.UsuarioModel
-	// err = stmt.QueryRow(id).Scan(&usuarioModel.Id, &usuarioModel.Nome, &usuarioModel.Senha, &usuarioModel.Ativo)
-	// if err != nil {
-	// 	return nil, err
-	// }
+	var model MonitorModel
+	err = stmt.QueryRow(id).Scan(
+		&model.id,
+		&model.cpf,
+		&model.name,
+		&model.phoneNumber,
+		&model.uf,
+		&model.city,
+		&model.street,
+		&model.number,
+		model.cep,
+		&model.active,
+	)
+	if err != nil {
+		return nil, err
+	}
 
-	// var usuario entity.Usuario
-	// usuario.ChangeID(usuarioModel.Id)
-	// usuario.ChangeNome(usuarioModel.Nome)
-	// usuario.ChangeSenha(usuarioModel.Senha)
-	// usuario.Desativar()
-	// if usuarioModel.Ativo {
-	// 	usuario.Ativar()
-	// }
-	return nil, nil
+	inputMonitor := factory.CreateMonitorInputDTO{
+		ID:          model.id,
+		Name:        model.name,
+		CPF:         model.cpf,
+		PhoneNumber: model.phoneNumber,
+		UF:          model.uf,
+		City:        model.city,
+		Street:      model.street,
+		Number:      model.number,
+		CEP:         model.cep,
+	}
+
+	newMonitor, err := factory.MonitorFactory().Create(inputMonitor)
+	if err != nil {
+		return nil, err
+	}
+	return newMonitor, nil
 }

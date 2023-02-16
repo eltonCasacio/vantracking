@@ -7,19 +7,6 @@ import (
 	vo "github.com/eltoncasacio/vantracking/internal/domain/shared/valueobjects"
 )
 
-type DriverInputDTO struct {
-	ID       string
-	CPF      string
-	Name     string
-	Nickname string
-	Phone    string
-	UF       string
-	City     string
-	Street   string
-	Number   string
-	CEP      string
-}
-
 type driverFactory struct{}
 
 var instance *driverFactory
@@ -36,7 +23,7 @@ func DriverFactory() *driverFactory {
 	return instance
 }
 
-func (df *driverFactory) Create(input DriverInputDTO) (*e.Driver, error) {
+func (df *driverFactory) Create(input CreateDriverInputDTO) (*e.Driver, error) {
 	addrDriver, err := vo.NewAddress(input.UF, input.City, input.Street, input.Number, input.CEP)
 	if err != nil {
 		return nil, err

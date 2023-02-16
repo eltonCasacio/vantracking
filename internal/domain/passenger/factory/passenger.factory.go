@@ -4,15 +4,7 @@ import (
 	"sync"
 
 	"github.com/eltoncasacio/vantracking/internal/domain/passenger/entity"
-	"github.com/eltoncasacio/vantracking/pkg/identity"
 )
-
-type PassengerInputDTO struct {
-	name      string
-	nickname  string
-	routeCode string
-	monitorID identity.ID
-}
 
 type passengerFactory struct{}
 
@@ -31,7 +23,12 @@ func PassengerFactory() *passengerFactory {
 }
 
 func (df *passengerFactory) Create(input PassengerInputDTO) (*entity.Passenger, error) {
-	p, err := entity.NewPassenger(input.name, input.nickname, input.routeCode, input.monitorID)
+	p, err := entity.NewPassenger(
+		input.Name,
+		input.Nickname,
+		input.RouteCode,
+		input.MonitorID,
+	)
 	if err != nil {
 		return nil, err
 	}

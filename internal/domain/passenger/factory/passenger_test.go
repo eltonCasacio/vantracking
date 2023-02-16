@@ -13,12 +13,12 @@ func TestCreate(t *testing.T) {
 	assert.Equal(t, p, psg)
 
 	input := PassengerInputDTO{
-		name:      "any_name",
-		nickname:  "any_nickname",
-		routeCode: "any_route_code",
-		monitorID: identity.NewID(),
+		Name:      "any_name",
+		Nickname:  "any_nickname",
+		RouteCode: "any_route_code",
+		MonitorID: identity.NewID(),
 	}
 	passenger, err := p.Create(input)
 	assert.Nil(t, err)
-	assert.Equal(t, passenger.GetName(), input.name)
+	assert.Equal(t, passenger.GetName(), input.Name)
 }

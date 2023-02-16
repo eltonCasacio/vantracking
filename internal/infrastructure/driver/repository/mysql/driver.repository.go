@@ -76,7 +76,7 @@ func (d *DriverRepository) FindByID(id string) (*entity.Driver, error) {
 		return nil, err
 	}
 
-	driverInput := factory.DriverInputDTO{
+	driverInput := factory.CreateDriverInputDTO{
 		ID:       model.id,
 		CPF:      model.cpf,
 		Name:     model.name,
@@ -167,7 +167,7 @@ func (d *DriverRepository) FindAll() ([]entity.Driver, error) {
 			return nil, err
 		}
 
-		driverInput := factory.DriverInputDTO{
+		driverInput := factory.CreateDriverInputDTO{
 			ID:       model.id,
 			CPF:      model.cpf,
 			Name:     model.name,

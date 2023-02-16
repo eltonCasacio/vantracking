@@ -15,10 +15,10 @@ func TestMonitorFactory_SigleInstance(t *testing.T) {
 func TestMonitorFactory_Create(t *testing.T) {
 	factory := MonitorFactory()
 
-	input := MonitorInputDTO{
-		name:        "any_name",
-		cpf:         "any_cpf",
-		phoneNumber: "any_phone",
+	input := CreateMonitorInputDTO{
+		Name:        "any_name",
+		CPF:         "any_cpf",
+		PhoneNumber: "any_phone",
 		UF:          "any_uf",
 		City:        "any_city",
 		Street:      "any_street",
@@ -34,10 +34,10 @@ func TestMonitorFactory_Create(t *testing.T) {
 func TestMonitorFactory_Create_InvalidMonitorData(t *testing.T) {
 	factory := MonitorFactory()
 
-	input := MonitorInputDTO{
-		name:        "",
-		cpf:         "any_cpf",
-		phoneNumber: "any_phone",
+	input := CreateMonitorInputDTO{
+		Name:        "",
+		CPF:         "any_cpf",
+		PhoneNumber: "any_phone",
 		UF:          "any_uf",
 		City:        "any_city",
 		Street:      "any_street",
@@ -53,10 +53,10 @@ func TestMonitorFactory_Create_InvalidMonitorData(t *testing.T) {
 func TestMonitorFactory_Create_InvalidAddressData(t *testing.T) {
 	factory := MonitorFactory()
 
-	input := MonitorInputDTO{
-		name:        "any_name",
-		cpf:         "any_cpf",
-		phoneNumber: "any_phone",
+	input := CreateMonitorInputDTO{
+		Name:        "",
+		CPF:         "any_cpf",
+		PhoneNumber: "any_phone",
 		UF:          "any_uf",
 		City:        "any_city",
 		Street:      "any_street",

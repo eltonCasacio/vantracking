@@ -16,7 +16,7 @@ func NewUseCase(driverRepository repo.DriverRepositoryInterface) *RegisterDriver
 }
 
 func (cd *RegisterDriverUseCase) RegisterDriver(input DriverInputDTO) error {
-	driverInput := f.DriverInputDTO{
+	driverInput := f.CreateDriverInputDTO{
 		ID:       "",
 		CPF:      input.CPF,
 		Name:     input.Name,

@@ -11,7 +11,3 @@ type DriverInputDTO struct {
 	Number   string
 	CEP      string
 }
-
-type DriverOutputDTO struct {
-	ID string
-}

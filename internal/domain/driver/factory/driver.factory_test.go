@@ -10,13 +10,13 @@ func TestDriverFactoryCreate_ErrorInvalidInput(t *testing.T) {
 	factory := DriverFactory()
 	assert.NotNil(t, factory)
 
-	driver, err := factory.Create(DriverInputDTO{})
+	driver, err := factory.Create(CreateDriverInputDTO{})
 	assert.Nil(t, driver)
 	assert.NotNil(t, err)
 }
 
 func TestDriverFactoryCreate(t *testing.T) {
-	input := DriverInputDTO{
+	input := CreateDriverInputDTO{
 		CPF:    "any_cpf",
 		Name:   "any_name",
 		Phone:  "any_phone",
@@ -46,7 +46,7 @@ func TestDriverFactoryCreate(t *testing.T) {
 }
 
 func TestDriverFactoryCreate_Error(t *testing.T) {
-	input := DriverInputDTO{
+	input := CreateDriverInputDTO{
 		CPF:    "",
 		Name:   "any_name",
 		Phone:  "any_phone",
