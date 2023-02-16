@@ -49,12 +49,9 @@ func (dh *DriverHandler) Register(w http.ResponseWriter, r *http.Request) {
 }
 
 func (dh *DriverHandler) ConsultAll(w http.ResponseWriter, r *http.Request) {
-	output, err := fausecase.NewUseCase(dh.repository).ListAll()
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-	}
+	output, _ := fausecase.NewUseCase(dh.repository).ListAll()
 
-	var drivers []DriverOutputDTO
+	drivers := []DriverOutputDTO{}
 	for _, driver := range output {
 		output := DriverOutputDTO{
 			ID:       driver.ID,
@@ -77,15 +74,8 @@ func (dh *DriverHandler) ConsultAll(w http.ResponseWriter, r *http.Request) {
 
 func (dh *DriverHandler) Consult(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
-	if id == "" {
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
+	output, _ := fusecase.NewUseCase(dh.repository).FindByID(id)
 
-	output, err := fusecase.NewUseCase(dh.repository).FindByID(id)
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-	}
 	driver := DriverOutputDTO{
 		ID:       output.ID,
 		CPF:      output.CPF,

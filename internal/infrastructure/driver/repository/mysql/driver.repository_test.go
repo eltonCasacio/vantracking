@@ -48,7 +48,7 @@ func (suite *DriverRepositoryTestSuite) SetupSuite() {
 }
 
 func (suite *DriverRepositoryTestSuite) TearDownTest() {
-	// suite.Db.Close()
+	suite.Db.Close()
 }
 
 func TestSuite(t *testing.T) {
@@ -63,6 +63,7 @@ func (s *DriverRepositoryTestSuite) CreateDriver() {
 	s.Nil(err)
 
 	addr := s.Driver.GetAddress()
+
 	_, err = stmt.Exec(
 		s.Driver.GetID().String(),
 		s.Driver.GetCPF(),
