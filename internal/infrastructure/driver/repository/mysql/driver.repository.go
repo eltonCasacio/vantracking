@@ -189,3 +189,48 @@ func (d *DriverRepository) FindAll() ([]entity.Driver, error) {
 	}
 	return drivers, nil
 }
+
+func (d *DriverRepository) FindByCPF(cpf string) (*entity.Driver, error) {
+	stmt, err := d.db.Prepare("SELECT * FROM drivers WHERE cpf = ? and active = true")
+	if err != nil {
+		return nil, err
+	}
+	defer stmt.Close()
+
+	var model DriverModel
+	err = stmt.QueryRow(cpf).Scan(
+		&model.id,
+		&model.cpf,
+		&model.name,
+		&model.nickname,
+		&model.phone,
+		&model.uf,
+		&model.city,
+		&model.street,
+		&model.number,
+		&model.cep,
+		&model.active,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	driverInput := factory.CreateDriverInputDTO{
+		ID:       model.id,
+		CPF:      model.cpf,
+		Name:     model.name,
+		Nickname: model.nickname,
+		Phone:    model.phone,
+		UF:       model.uf,
+		City:     model.city,
+		Street:   model.street,
+		Number:   model.number,
+		CEP:      model.cep,
+	}
+	driver, err := factory.DriverFactory().Create(driverInput)
+	if err != nil {
+		return nil, err
+	}
+
+	return driver, nil
+}

@@ -30,7 +30,7 @@ func (df *monitorFactory) Create(input CreateMonitorInputDTO) (*entity.Monitor, 
 		return nil, err
 	}
 
-	driver, err := entity.NewMonitor(input.Name, input.CPF, input.PhoneNumber, *addrDriver)
+	driver, err := entity.NewMonitor(input.ID, input.Name, input.CPF, input.PhoneNumber, *addrDriver)
 	if err != nil {
 		return nil, err
 	}

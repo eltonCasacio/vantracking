@@ -7,4 +7,5 @@ import (
 
 type DriverRepositoryInterface interface {
 	repo.RepositoryInterface[e.Driver]
+	FindByCPF(cpf string) (*e.Driver, error)
 }

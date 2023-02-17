@@ -15,16 +15,21 @@ type Monitor struct {
 	address     vo.Address
 }
 
-func NewMonitor(name, cpf, phoneNumber string, address vo.Address) (*Monitor, error) {
+func NewMonitor(id, name, cpf, phoneNumber string, address vo.Address) (*Monitor, error) {
+	newID, err := identity.ParseID(id)
+	if err != nil {
+		newID = identity.NewID()
+	}
+
 	m := &Monitor{
-		id:          identity.NewID(),
+		id:          newID,
 		name:        name,
 		cpf:         cpf,
 		phoneNumber: phoneNumber,
 		address:     address,
 	}
 
-	err := m.IsValid()
+	err = m.IsValid()
 	if err != nil {
 		return nil, err
 	}

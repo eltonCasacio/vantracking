@@ -1,0 +1,43 @@
+POST http://localhost:8000/monitor HTTP/1.1
+Content-Type:  application/json
+
+{
+    "name":        	"monitor",
+	"cpf":         	"11111111111",
+	"phone_number": "21212121121",
+    "uf":			"MG",
+	"city":			"BH",
+	"street":		"rua lagoinha",
+	"number":		"6565",
+	"cep":			"13233309"
+}
+
+###  BUSCAR TODOS MONITORES
+GET  http://localhost:8000/monitor HTTP/1.1
+Content-Type:  application/json
+
+
+### BUSCAR POR ID
+GET  http://localhost:8000/monitor/d8df1b61-956d-43d4-b576-66dc46718328 HTTP/1.1
+Content-Type:  application/json
+
+
+### ATUALIZAR DADOS DO MONITORES
+PUT   http://localhost:8000/monitor HTTP/1.1
+Content-Type:  application/json
+
+{
+	"id": 			"d8df1b61-956d-43d4-b576-66dc46718328",
+    "name":        	"O cara que vai ficar vendo as rotas",
+	"cpf":         	"22222222222",
+	"phone_number": "76767676767",
+    "uf":			"MG",
+	"city":			"Belo Horizonte",
+	"street":		"Rua lagoinha",
+	"number":		"6565",
+	"cep":			"13233309"
+}
+
+###
+DELETE    http://localhost:8000/monitor/d8df1b61-956d-43d4-b576-66dc46718328 HTTP/1.1
+Content-Type:  application/json

@@ -55,7 +55,7 @@ func (m *MonitorRepository) Create(monitor *entity.Monitor) error {
 }
 
 func (m *MonitorRepository) Update(monitor *entity.Monitor) error {
-	stmt, err := m.db.Prepare("update monitors set cpf = ?, name = ?, phone_number = ?, uf = ?, city = ?, street = ?, number = ?, cep  = ?, active = ?")
+	stmt, err := m.db.Prepare("update monitors set cpf = ?, name = ?, phone_number = ?, uf = ?, city = ?, street = ?, number = ?, cep  = ? WHERE id = ?")
 	if err != nil {
 		return err
 	}
@@ -63,27 +63,16 @@ func (m *MonitorRepository) Update(monitor *entity.Monitor) error {
 
 	address := monitor.GetAddress()
 
-	model := MonitorModel{
-		name:        monitor.GetName(),
-		cpf:         monitor.GetCPF(),
-		phoneNumber: monitor.GetPhoneNumber(),
-		uf:          address.GetUF(),
-		city:        address.GetCity(),
-		street:      address.GetStreet(),
-		number:      address.GetNumber(),
-		cep:         address.GetCEP(),
-		active:      true,
-	}
 	_, err = stmt.Exec(
-		model.cpf,
-		model.name,
-		model.phoneNumber,
-		model.uf,
-		model.city,
-		model.street,
-		model.number,
-		model.cep,
-		model.active,
+		monitor.GetCPF(),
+		monitor.GetName(),
+		monitor.GetPhoneNumber(),
+		address.GetUF(),
+		address.GetCity(),
+		address.GetStreet(),
+		address.GetNumber(),
+		address.GetCEP(),
+		monitor.GetID().String(),
 	)
 	if err != nil {
 		return err
@@ -123,7 +112,7 @@ func (m *MonitorRepository) FindAll() ([]entity.Monitor, error) {
 			&model.city,
 			&model.street,
 			&model.number,
-			model.cep,
+			&model.cep,
 			&model.active,
 		)
 		if err != nil {
@@ -148,18 +137,19 @@ func (m *MonitorRepository) FindAll() ([]entity.Monitor, error) {
 		}
 		monitors = append(monitors, *newMonitor)
 	}
-	return nil, nil
+	return monitors, nil
 }
 
 func (m *MonitorRepository) FindByID(id string) (*entity.Monitor, error) {
-	stmt, err := m.db.Prepare("select * from monitors WHERE id = ? and active = true")
+	stmt, err := m.db.Prepare("SELECT * FROM monitors WHERE id = ? and active = true")
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 	defer stmt.Close()
 
 	var model MonitorModel
-	err = stmt.QueryRow(id).Scan(
+	rows := stmt.QueryRow(id)
+	rows.Scan(
 		&model.id,
 		&model.cpf,
 		&model.name,
@@ -168,7 +158,7 @@ func (m *MonitorRepository) FindByID(id string) (*entity.Monitor, error) {
 		&model.city,
 		&model.street,
 		&model.number,
-		model.cep,
+		&model.cep,
 		&model.active,
 	)
 	if err != nil {

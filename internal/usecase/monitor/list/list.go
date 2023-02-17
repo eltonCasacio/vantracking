@@ -24,14 +24,14 @@ func (cd *listUseCase) List() ([]OutputDTO, error) {
 
 	monitorsOutput := []OutputDTO{}
 
-	for _, driver := range found {
-		addr := driver.GetAddress()
+	for _, monitor := range found {
+		addr := monitor.GetAddress()
 
 		output := OutputDTO{
-			ID:          driver.GetID().String(),
-			Name:        driver.GetName(),
-			CPF:         driver.GetCPF(),
-			PhoneNumber: driver.GetPhoneNumber(),
+			ID:          monitor.GetID().String(),
+			Name:        monitor.GetName(),
+			CPF:         monitor.GetCPF(),
+			PhoneNumber: monitor.GetPhoneNumber(),
 			UF:          addr.GetUF(),
 			City:        addr.GetCity(),
 			Street:      addr.GetCity(),

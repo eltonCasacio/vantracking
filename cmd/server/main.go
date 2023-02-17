@@ -6,7 +6,8 @@ import (
 	"net/http"
 
 	"github.com/eltoncasacio/vantracking/configs"
-	dr "github.com/eltoncasacio/vantracking/internal/infrastructure/driver/web/routes"
+	driverRoutes "github.com/eltoncasacio/vantracking/internal/infrastructure/driver/web/routes"
+	monitorRoutes "github.com/eltoncasacio/vantracking/internal/infrastructure/monitor/web/routes"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 
@@ -31,11 +32,12 @@ func main() {
 	}
 	// driverLocations := map[string]string{}
 
-	r := chi.NewRouter()
-	r.Use(middleware.Logger)
-	r.Use(middleware.Recoverer)
+	chi := chi.NewRouter()
+	chi.Use(middleware.Logger)
+	chi.Use(middleware.Recoverer)
 
-	dr.NewDriverRoutes(db, r).CreateRoutes()
+	driverRoutes.NewDriverRoutes(db, chi).CreateRoutes()
+	monitorRoutes.NewMonitorRoutes(db, chi).CreateRoutes()
 
-	http.ListenAndServe(":8000", r)
+	http.ListenAndServe(":8000", chi)
 }

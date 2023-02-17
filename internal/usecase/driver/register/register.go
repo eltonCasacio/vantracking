@@ -1,6 +1,8 @@
 package driver
 
 import (
+	"errors"
+
 	f "github.com/eltoncasacio/vantracking/internal/domain/driver/factory"
 	repo "github.com/eltoncasacio/vantracking/internal/domain/driver/repository"
 )
@@ -32,6 +34,11 @@ func (cd *RegisterDriverUseCase) RegisterDriver(input DriverInputDTO) error {
 	driver, err := f.DriverFactory().Create(driverInput)
 	if err != nil {
 		return err
+	}
+
+	_, err = cd.driverRepository.FindByCPF(input.CPF)
+	if err != nil {
+		return errors.New("driver already exists")
 	}
 
 	err = cd.driverRepository.Create(driver)
