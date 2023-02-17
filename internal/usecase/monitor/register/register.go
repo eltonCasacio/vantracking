@@ -1,6 +1,8 @@
 package monitor
 
 import (
+	"errors"
+
 	f "github.com/eltoncasacio/vantracking/internal/domain/monitor/factory"
 	repo "github.com/eltoncasacio/vantracking/internal/domain/monitor/repository"
 )
@@ -32,9 +34,15 @@ func (cd *RegisterUseCase) Register(input InputDTO) error {
 		return err
 	}
 
+	found, _ := cd.repository.FindByCPF(monitorInstance.GetCPF())
+	if found != nil {
+		return errors.New("monitor already exists")
+	}
+
 	err = cd.repository.Create(monitorInstance)
 	if err != nil {
 		return err
 	}
+
 	return nil
 }

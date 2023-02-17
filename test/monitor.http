@@ -18,7 +18,7 @@ Content-Type:  application/json
 
 
 ### BUSCAR POR ID
-GET  http://localhost:8000/monitor/d8df1b61-956d-43d4-b576-66dc46718328 HTTP/1.1
+GET  http://localhost:8000/monitor/eea70d27-c9e8-43e8-8830-dab5b3b75654 HTTP/1.1
 Content-Type:  application/json
 
 
@@ -27,7 +27,7 @@ PUT   http://localhost:8000/monitor HTTP/1.1
 Content-Type:  application/json
 
 {
-	"id": 			"d8df1b61-956d-43d4-b576-66dc46718328",
+	"id": 			"eea70d27-c9e8-43e8-8830-dab5b3b75654",
     "name":        	"O cara que vai ficar vendo as rotas",
 	"cpf":         	"22222222222",
 	"phone_number": "76767676767",
@@ -39,5 +39,5 @@ Content-Type:  application/json
 }
 
 ###
-DELETE    http://localhost:8000/monitor/d8df1b61-956d-43d4-b576-66dc46718328 HTTP/1.1
+DELETE    http://localhost:8000/monitor/eea70d27-c9e8-43e8-8830-dab5b3b75654 HTTP/1.1
 Content-Type:  application/json

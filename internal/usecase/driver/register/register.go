@@ -36,8 +36,8 @@ func (cd *RegisterDriverUseCase) RegisterDriver(input DriverInputDTO) error {
 		return err
 	}
 
-	_, err = cd.driverRepository.FindByCPF(input.CPF)
-	if err != nil {
+	found, _ := cd.driverRepository.FindByCPF(input.CPF)
+	if found != nil {
 		return errors.New("driver already exists")
 	}
 

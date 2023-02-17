@@ -7,4 +7,5 @@ import (
 
 type MonitorRepositoryInterface interface {
 	repo.RepositoryInterface[entity.Monitor]
+	FindByCPF(cpf string) (*entity.Monitor, error)
 }

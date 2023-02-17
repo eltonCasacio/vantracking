@@ -183,3 +183,46 @@ func (m *MonitorRepository) FindByID(id string) (*entity.Monitor, error) {
 	}
 	return newMonitor, nil
 }
+
+func (d *MonitorRepository) FindByCPF(cpf string) (*entity.Monitor, error) {
+	stmt, err := d.db.Prepare("SELECT * FROM monitors WHERE cpf = ? and active = true")
+	if err != nil {
+		return nil, err
+	}
+	defer stmt.Close()
+
+	var model MonitorModel
+	err = stmt.QueryRow(cpf).Scan(
+		&model.id,
+		&model.cpf,
+		&model.name,
+		&model.phoneNumber,
+		&model.uf,
+		&model.city,
+		&model.street,
+		&model.number,
+		&model.cep,
+		&model.active,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	inputMonitor := factory.CreateMonitorInputDTO{
+		ID:          model.id,
+		Name:        model.name,
+		CPF:         model.cpf,
+		PhoneNumber: model.phoneNumber,
+		UF:          model.uf,
+		City:        model.city,
+		Street:      model.street,
+		Number:      model.number,
+		CEP:         model.cep,
+	}
+	driver, err := factory.MonitorFactory().Create(inputMonitor)
+	if err != nil {
+		return nil, err
+	}
+
+	return driver, nil
+}
