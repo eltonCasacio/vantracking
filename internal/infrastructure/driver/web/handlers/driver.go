@@ -22,26 +22,14 @@ func NewDriverHandler(repo repo.DriverRepositoryInterface) *DriverHandler {
 }
 
 func (dh *DriverHandler) Register(w http.ResponseWriter, r *http.Request) {
-	var input DriverInputDTO
+	var input rusecase.DriverInputDTO
 	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
-	inputDriver := rusecase.DriverInputDTO{
-		CPF:      input.CPF,
-		Name:     input.Name,
-		Nickname: input.Nickname,
-		Phone:    input.Phone,
-		UF:       input.UF,
-		City:     input.City,
-		Street:   input.Street,
-		Number:   input.Number,
-		CEP:      input.CEP,
-	}
-
-	err = rusecase.NewUseCase(dh.repository).RegisterDriver(inputDriver)
+	err = rusecase.NewUseCase(dh.repository).RegisterDriver(input)
 	if err != nil {
 		w.Write([]byte(err.Error()))
 		w.WriteHeader(http.StatusInternalServerError)
@@ -53,9 +41,9 @@ func (dh *DriverHandler) Register(w http.ResponseWriter, r *http.Request) {
 func (dh *DriverHandler) ConsultAll(w http.ResponseWriter, r *http.Request) {
 	usecaseOutput, _ := fausecase.NewUseCase(dh.repository).ListAll()
 
-	output := []DriverOutputDTO{}
+	output := []fausecase.DriverOutputDTO{}
 	for _, driver := range usecaseOutput {
-		d := DriverOutputDTO{
+		d := fausecase.DriverOutputDTO{
 			ID:       driver.ID,
 			CPF:      driver.CPF,
 			Name:     driver.Name,
@@ -78,7 +66,7 @@ func (dh *DriverHandler) Consult(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
 	output, _ := fusecase.NewUseCase(dh.repository).FindByID(id)
 
-	driver := DriverOutputDTO{
+	driver := fusecase.DriverOutputDTO{
 		ID:       output.ID,
 		CPF:      output.CPF,
 		Name:     output.Name,
@@ -96,27 +84,14 @@ func (dh *DriverHandler) Consult(w http.ResponseWriter, r *http.Request) {
 }
 
 func (dh *DriverHandler) Update(w http.ResponseWriter, r *http.Request) {
-	var input UpdateDriverInputDTO
+	var input upusecase.DriverInputDTO
 	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil || input.ID == "" {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
-	inputDriver := upusecase.DriverInputDTO{
-		ID:       input.ID,
-		CPF:      input.CPF,
-		Name:     input.Name,
-		Nickname: input.Nickname,
-		Phone:    input.Phone,
-		UF:       input.UF,
-		City:     input.City,
-		Street:   input.Street,
-		Number:   input.Number,
-		CEP:      input.CEP,
-	}
-
-	err = upusecase.NewUseCase(dh.repository).Update(inputDriver)
+	err = upusecase.NewUseCase(dh.repository).Update(input)
 	if err != nil {
 		w.Write([]byte(err.Error()))
 		return

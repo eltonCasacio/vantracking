@@ -1,18 +1,14 @@
 package driver
 
-type DriverInputDTO struct {
-	ID string
-}
-
 type DriverOutputDTO struct {
-	ID       string
-	CPF      string
-	Name     string
-	Nickname string
-	Phone    string
-	UF       string
-	City     string
-	Street   string
-	Number   string
-	CEP      string
+	ID       string `json:"id"`
+	CPF      string `json:"cpf"`
+	Name     string `json:"name"`
+	Nickname string `json:"nickname"`
+	Phone    string `json:"phone"`
+	UF       string `json:"uf"`
+	City     string `json:"city"`
+	Street   string `json:"street"`
+	Number   string `json:"number"`
+	CEP      string `json:"cep"`
 }

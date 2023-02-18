@@ -5,19 +5,22 @@ vao poder visualizar o mapa e receber as notificacoes.
 Cada PASSAGEIRO está ligado a uma ROTA. Essa ligacao se da pelo codigo da ROTA.
 
 
-****************************************************************
+*********************** BACKEND ***********************
 
 CASO DE USO MOTORISTA:
+    LOGIN???
 OK  se cadastrar.
 OK  alterar informacoes "pessoais".
 OK  excluir conta.
 OK  visualizar suas proprias informacoes "pessoais".
-    confirmar cadastro de passageiro na rota.
+OK  confirmar cadastro de passageiro na rota.
     enviar mensagens aos MONITORES, enviar para todos de uma vez.
 OK  visualizar qual passageiro vai ou nao vai na viajem. (lista de passageiros com status)
+    API para receber a localizacao
 
 
 CASO DE USO MONITORES:
+    LOGIN???
 OK  se cadastrar.
 OK  alterar informacoes "pessoais".
 OK  excluir conta.
@@ -29,4 +32,28 @@ OK  cadastrar passageiro "na ROTA"
     receber notificacoes se o motorista ja iniciou viagem, se está chegando e chegada no destino.
 
 
+*********************** FRONTEND ***********************
 
+CASO DE USO MOTORISTA:
+    LOGIN???
+    se cadastrar.
+    alterar informacoes "pessoais".
+    excluir conta.
+    visualizar suas proprias informacoes "pessoais".
+    confirmar cadastro de passageiro na rota.
+    enviar mensagens aos MONITORES, enviar para todos de uma vez.
+    visualizar qual passageiro vai ou nao vai na viajem. (lista de passageiros com status)
+    Enviar localizacao em tempo real.
+
+
+CASO DE USO MONITORES:
+    LOGIN???
+    se cadastrar.
+    alterar informacoes "pessoais".
+    excluir conta.
+    visualizar suas proprias informacoes "pessoais".
+    cadastrar passageiro "na ROTA"
+    visualizar onde o motorista está no mapa em tempo real.
+    informar se o passageiro vai ou nao vai.
+    receber mensagem do motorista.
+    receber notificacoes se o motorista ja iniciou viagem, se está chegando e chegada no destino.
