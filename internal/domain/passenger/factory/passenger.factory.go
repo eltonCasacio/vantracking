@@ -24,11 +24,10 @@ func PassengerFactory() *passengerFactory {
 }
 
 func (df *passengerFactory) Create(input PassengerInputDTO) (*entity.Passenger, error) {
-	monitorID, err := identity.ParseID(input.ID)
+	monitorID, err := identity.ParseID(input.MonitorID)
 	if err != nil {
 		return nil, err
 	}
-
 	p, err := entity.NewPassenger(
 		input.ID,
 		input.Name,

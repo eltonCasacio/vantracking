@@ -1,3 +1,4 @@
+
 POST http://localhost:8000/passenger HTTP/1.1
 Content-Type:  application/json
 
@@ -5,35 +6,30 @@ Content-Type:  application/json
     "name" : "any_name",
 	"nickname" : "any_nickname",
 	"route_code" : "any_route_code",
-	"monitor_id" : "any_monitor_id"
+	"monitor_id" : "5c39847f-3005-4fc5-8e88-217f817ce7e5"
 }
 
-###  BUSCAR TODOS MONITORES
+###  BUSCAR TODOS PASSAGEIROS
 GET  http://localhost:8000/passenger HTTP/1.1
 Content-Type:  application/json
 
-
 ### BUSCAR POR ID
-GET  http://localhost:8000/passenger/f6a60a78-ba95-47cf-b589-37d0a36c1862 HTTP/1.1
+GET  http://localhost:8000/passenger/df25c902-1381-4615-809b-d9a30cd60bc7 HTTP/1.1
 Content-Type:  application/json
 
 
-### ATUALIZAR DADOS DO MONITORES
+### ATUALIZAR DADOS DO PASSAGEIROS
 PUT   http://localhost:8000/passenger HTTP/1.1
 Content-Type:  application/json
 
 {
-	"id": 			"f6a60a78-ba95-47cf-b589-37d0a36c1862",
-    "name":        	"O cara que vai ficar vendo as rotas",
-	"cpf":         	"22222222222",
-	"phone_number": "76767676767",
-    "uf":			"MG",
-	"city":			"Belo Horizonte",
-	"street":		"Rua lagoinha",
-	"number":		"6565",
-	"cep":			"13233309"
+	"id": "df25c902-1381-4615-809b-d9a30cd60bc7",
+	"name" : "other_name",
+	"nickname" : "other_nickname",
+	"route_code" : "other_route_code",
+	"monitor_id": "5c39847f-3005-4fc5-8e88-217f817ce7e5"
 }
 
 ###
-DELETE    http://localhost:8000/passenger/f6a60a78-ba95-47cf-b589-37d0a36c1862 HTTP/1.1
+DELETE    http://localhost:8000/passenger/df25c902-1381-4615-809b-d9a30cd60bc7 HTTP/1.1
 Content-Type:  application/json

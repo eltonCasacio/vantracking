@@ -8,4 +8,5 @@ import (
 type PassengerRepositoryInterface interface {
 	repo.RepositoryInterface[entity.Passenger]
 	ListNotConfirmedPassengers() ([]entity.Passenger, error)
+	FindByNameAndNickname(name, monitorID string) (*entity.Passenger, error)
 }

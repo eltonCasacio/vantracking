@@ -1,6 +1,8 @@
 package passenger
 
 import (
+	"errors"
+
 	f "github.com/eltoncasacio/vantracking/internal/domain/passenger/factory"
 	repo "github.com/eltoncasacio/vantracking/internal/domain/passenger/repository"
 )
@@ -27,6 +29,13 @@ func (u *registerUseCase) Register(input PassengerInputDTO) error {
 	passenger, err := f.PassengerFactory().Create(Input)
 	if err != nil {
 		return err
+	}
+
+	found, _ := u.repository.FindByNameAndNickname(
+		passenger.GetName(), string(passenger.GetMonitorID().String()),
+	)
+	if found != nil {
+		return errors.New("passenger already exists")
 	}
 
 	err = u.repository.Create(passenger)

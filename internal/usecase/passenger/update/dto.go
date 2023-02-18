@@ -1,9 +1,9 @@
 package passenger
 
 type PassengerOutDTO struct {
-	ID        string
-	Name      string
-	Nickname  string
-	RouteCode string
-	MonitorID string
+	ID        string `json:"id"`
+	Name      string `json:"name"`
+	Nickname  string `json:"nickname"`
+	RouteCode string `json:"route_code"`
+	MonitorID string `json:"monitor_id"`
 }

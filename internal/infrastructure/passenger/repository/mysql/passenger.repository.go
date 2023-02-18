@@ -16,7 +16,7 @@ func NewPassengerRepository(db *sql.DB) *passengerRepository {
 }
 
 func (r *passengerRepository) Create(passenger *entity.Passenger) error {
-	stmt, err := r.db.Prepare("INSERT INTO passengers (id, name, nickname, route_code, monitor_id) values(?,?,?,?,?,?,?, ?)")
+	stmt, err := r.db.Prepare("INSERT INTO passengers (id, name, nickname, route_code, monitor_id) values(?,?,?,?,?)")
 	if err != nil {
 		return err
 	}
@@ -207,4 +207,48 @@ func (r *passengerRepository) Delete(id string) error {
 		return err
 	}
 	return nil
+}
+
+func (r *passengerRepository) FindByNameAndNickname(name, monitorID string) (*entity.Passenger, error) {
+	stmt, err := r.db.Prepare("SELECT * FROM passengers WHERE name = ? and monitor_id = ? and active = true")
+	if err != nil {
+		return nil, err
+	}
+	defer stmt.Close()
+
+	var model PassengerModel
+	rows := stmt.QueryRow(name, monitorID)
+	rows.Scan(
+		&model.ID,
+		&model.Name,
+		&model.Nickname,
+		&model.RouteCode,
+		&model.Goes,
+		&model.Comesback,
+		&model.RegisterConfirmed,
+		&model.MonitorID,
+		&model.active,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	inputPassenger := factory.PassengerInputDTO{
+		ID:                model.ID,
+		Name:              model.Name,
+		Nickname:          model.Nickname,
+		RouteCode:         model.RouteCode,
+		Goes:              model.Goes,
+		Comesback:         model.Comesback,
+		RegisterConfirmed: model.RegisterConfirmed,
+		MonitorID:         model.MonitorID,
+	}
+
+	newPassenger, err := factory.PassengerFactory().Create(inputPassenger)
+	if err != nil {
+		return nil, err
+	}
+
+	newPassenger.ChangeGoNoGo(model.Goes, model.Comesback)
+	return newPassenger, nil
 }

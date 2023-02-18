@@ -29,7 +29,7 @@ func (dr *passengerRoutes) CreateRoutes() {
 		r.Get("/", handler.ListAll)
 		r.Get("/{id}", handler.Find)
 		r.Put("/", handler.Update)
-		r.Delete("/", handler.Delete)
+		r.Delete("/{id}", handler.Delete)
 		r.Get("/not-confirmed", handler.ListNotConfirmed)
 	})
 }

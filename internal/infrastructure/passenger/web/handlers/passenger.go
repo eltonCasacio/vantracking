@@ -23,7 +23,7 @@ func NewPassengerHandler(repo repo.PassengerRepositoryInterface) *passengerHandl
 }
 
 func (h *passengerHandler) Register(w http.ResponseWriter, r *http.Request) {
-	var input CreateInputDTO
+	var input registerUsecase.PassengerInputDTO
 	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
@@ -50,7 +50,7 @@ func (dh *passengerHandler) Find(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
 	passenger, _ := findUsecase.NewUseCase(dh.repository).FindByID(id)
 
-	driver := OutputDTO{
+	driver := findUsecase.PassengerOutDTO{
 		ID:                passenger.ID,
 		Name:              passenger.Name,
 		Nickname:          passenger.Nickname,
@@ -66,7 +66,7 @@ func (dh *passengerHandler) Find(w http.ResponseWriter, r *http.Request) {
 }
 
 func (dh *passengerHandler) Update(w http.ResponseWriter, r *http.Request) {
-	var input UpdateInputDTO
+	var input updateUsecase.PassengerOutDTO
 	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil || input.ID == "" {
 		w.WriteHeader(http.StatusBadRequest)
@@ -78,6 +78,7 @@ func (dh *passengerHandler) Update(w http.ResponseWriter, r *http.Request) {
 		Name:      input.Name,
 		Nickname:  input.Nickname,
 		RouteCode: input.RouteCode,
+		MonitorID: input.MonitorID,
 	}
 
 	err = updateUsecase.NewUseCase(dh.repository).Update(usecaseInput)
@@ -106,9 +107,9 @@ func (dh *passengerHandler) Delete(w http.ResponseWriter, r *http.Request) {
 func (h *passengerHandler) ListAll(w http.ResponseWriter, r *http.Request) {
 	usecaseOutput, _ := listUsecase.NewUseCase(h.repository).ListAll()
 
-	output := []OutputDTO{}
+	output := []listUsecase.PassengerOutputDTO{}
 	for _, passenger := range usecaseOutput {
-		d := OutputDTO{
+		d := listUsecase.PassengerOutputDTO{
 			ID:                passenger.ID,
 			Name:              passenger.Name,
 			Nickname:          passenger.Nickname,
@@ -128,9 +129,9 @@ func (h *passengerHandler) ListAll(w http.ResponseWriter, r *http.Request) {
 func (h *passengerHandler) ListNotConfirmed(w http.ResponseWriter, r *http.Request) {
 	usecaseOutput, _ := notConfirmedUsecase.NewUseCase(h.repository).ListNotConfirmedPassengers()
 
-	output := []OutputDTO{}
+	output := []notConfirmedUsecase.PassengerOutDTO{}
 	for _, passenger := range usecaseOutput {
-		d := OutputDTO{
+		d := notConfirmedUsecase.PassengerOutDTO{
 			ID:                passenger.ID,
 			Name:              passenger.Name,
 			Nickname:          passenger.Nickname,

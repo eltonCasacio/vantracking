@@ -20,3 +20,12 @@ STATUS do passageiro se vai viajar ou nao:
 
 O MOTORISTA ira atualizar a tela de status de quem vai ou nao via na van ao checkar 
 quem entrou na van.
+
+
+
+****************************************************************
+UMA FORMA DO MOTORISTA GANHAR COM NOSSO APP
+o motorista pode ganhar uma porcentagem a cada compra realizada no app por seus monitores vinculados.
+exemplo:
+    o Monitor compra uniforme pelo app, o motorista ganha uma porcentagem.
+ACHO que é uma forma de fazer com que os motorista se interessem pelo app e fazer com que seus clientes usem o app.
