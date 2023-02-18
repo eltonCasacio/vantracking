@@ -22,25 +22,14 @@ func NewMonitorHandler(repo repo.MonitorRepositoryInterface) *monitorHandler {
 }
 
 func (h *monitorHandler) Register(w http.ResponseWriter, r *http.Request) {
-	var input CreateInputDTO
+	var input rusecase.InputDTO
 	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
-	inputDriver := rusecase.InputDTO{
-		Name:        input.Name,
-		CPF:         input.CPF,
-		PhoneNumber: input.PhoneNumber,
-		UF:          input.UF,
-		City:        input.City,
-		Street:      input.Street,
-		Number:      input.Number,
-		CEP:         input.CEP,
-	}
-
-	err = rusecase.NewUseCase(h.repository).Register(inputDriver)
+	err = rusecase.NewUseCase(h.repository).Register(input)
 	if err != nil {
 		w.Write([]byte(err.Error()))
 		w.WriteHeader(http.StatusInternalServerError)
@@ -52,9 +41,9 @@ func (h *monitorHandler) Register(w http.ResponseWriter, r *http.Request) {
 func (h *monitorHandler) ConsultAll(w http.ResponseWriter, r *http.Request) {
 	usecaseOutput, _ := fausecase.NewUseCase(h.repository).List()
 
-	output := []OutputDTO{}
+	output := []fausecase.OutputDTO{}
 	for _, monitor := range usecaseOutput {
-		d := OutputDTO{
+		d := fausecase.OutputDTO{
 			ID:          monitor.ID,
 			Name:        monitor.Name,
 			CPF:         monitor.CPF,
@@ -76,7 +65,7 @@ func (dh *monitorHandler) Consult(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
 	output, _ := fusecase.NewUseCase(dh.repository).FindByID(id)
 
-	driver := OutputDTO{
+	driver := fusecase.OutputDTO{
 		ID:          output.ID,
 		CPF:         output.CPF,
 		Name:        output.Name,
@@ -93,26 +82,14 @@ func (dh *monitorHandler) Consult(w http.ResponseWriter, r *http.Request) {
 }
 
 func (dh *monitorHandler) Update(w http.ResponseWriter, r *http.Request) {
-	var input UpdateInputDTO
+	var input upusecase.InputDTO
 	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil || input.ID == "" {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
-	inputDriver := upusecase.DriverInputDTO{
-		ID:          input.ID,
-		CPF:         input.CPF,
-		Name:        input.Name,
-		PhoneNumber: input.PhoneNumber,
-		UF:          input.UF,
-		City:        input.City,
-		Street:      input.Street,
-		Number:      input.Number,
-		CEP:         input.CEP,
-	}
-
-	err = upusecase.NewUseCase(dh.repository).Update(inputDriver)
+	err = upusecase.NewUseCase(dh.repository).Update(input)
 	if err != nil {
 		w.Write([]byte(err.Error()))
 		return

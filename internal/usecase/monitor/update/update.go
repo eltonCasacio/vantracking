@@ -1,4 +1,4 @@
-package driver
+package monitor
 
 import (
 	f "github.com/eltoncasacio/vantracking/internal/domain/monitor/factory"
@@ -15,7 +15,7 @@ func NewUseCase(repository repo.MonitorRepositoryInterface) *updateUseCase {
 	}
 }
 
-func (u *updateUseCase) Update(input DriverInputDTO) error {
+func (u *updateUseCase) Update(input InputDTO) error {
 	Input := f.CreateMonitorInputDTO{
 		ID:          input.ID,
 		Name:        input.Name,
