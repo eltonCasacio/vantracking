@@ -31,5 +31,6 @@ func (dr *passengerRoutes) CreateRoutes() {
 		r.Put("/", handler.Update)
 		r.Delete("/{id}", handler.Delete)
 		r.Get("/not-confirmed", handler.ListNotConfirmed)
+		r.Put("/confirm-passenger", handler.ConfirmPassengerRegister)
 	})
 }

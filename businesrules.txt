@@ -22,7 +22,7 @@ OK  se cadastrar.
 OK  alterar informacoes "pessoais".
 OK  excluir conta.
 OK  visualizar suas proprias informacoes "pessoais".
-    cadastrar passageiro "na ROTA"
+OK  cadastrar passageiro "na ROTA"
     visualizar onde o motorista está no mapa em tempo real.
     informar se o passageiro vai ou nao vai.
     receber mensagem do motorista.

@@ -252,3 +252,21 @@ func (r *passengerRepository) FindByNameAndNickname(name, monitorID string) (*en
 	newPassenger.ChangeGoNoGo(model.Goes, model.Comesback)
 	return newPassenger, nil
 }
+
+func (r *passengerRepository) ConfirmPassengerRegister(id string, confirm bool) error {
+	stmt, err := r.db.Prepare("UPDATE passengers SET  register_confirmed = ? WHERE id = ?")
+	if err != nil {
+		return err
+	}
+	defer stmt.Close()
+
+	_, err = stmt.Exec(
+		confirm,
+		id,
+	)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

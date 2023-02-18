@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	repo "github.com/eltoncasacio/vantracking/internal/domain/passenger/repository"
+	confirmRegisterUsecase "github.com/eltoncasacio/vantracking/internal/usecase/passenger/confirm_passenger_register"
 	deleteUsecase "github.com/eltoncasacio/vantracking/internal/usecase/passenger/delete"
 	findUsecase "github.com/eltoncasacio/vantracking/internal/usecase/passenger/findbyid"
 	listUsecase "github.com/eltoncasacio/vantracking/internal/usecase/passenger/list"
@@ -145,5 +146,17 @@ func (h *passengerHandler) ListNotConfirmed(w http.ResponseWriter, r *http.Reque
 	}
 
 	json.NewEncoder(w).Encode(output)
+	w.WriteHeader(http.StatusOK)
+}
+
+func (h *passengerHandler) ConfirmPassengerRegister(w http.ResponseWriter, r *http.Request) {
+	var input confirmRegisterUsecase.PassengerInputDTO
+	err := json.NewDecoder(r.Body).Decode(&input)
+
+	err = confirmRegisterUsecase.NewUseCase(h.repository).ConfirmPassengerRegister(input)
+	if err != nil {
+		w.Write([]byte(err.Error()))
+		return
+	}
 	w.WriteHeader(http.StatusOK)
 }
