@@ -23,9 +23,13 @@ func NewPassengerRoutes(db *sql.DB, c *chi.Mux) *passengerRoutes {
 
 func (dr *passengerRoutes) CreateRoutes() {
 	repository := repo.NewPassengerRepository(dr.db)
-	handler := handlers.NewMonitorHandler(repository)
-	dr.chi.Route("/monitor", func(r chi.Router) {
+	handler := handlers.NewPassengerHandler(repository)
+	dr.chi.Route("/passenger", func(r chi.Router) {
+		r.Post("/", handler.Register)
 		r.Get("/", handler.ListAll)
+		r.Get("/{id}", handler.Find)
+		r.Put("/", handler.Update)
+		r.Delete("/", handler.Delete)
 		r.Get("/not-confirmed", handler.ListNotConfirmed)
 	})
 }

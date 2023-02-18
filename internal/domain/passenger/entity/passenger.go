@@ -17,20 +17,21 @@ type Passenger struct {
 	registerConfirmed bool
 }
 
-func NewPassenger(id, name, nickname, routeCode string, monitorID identity.ID) (*Passenger, error) {
+func NewPassenger(id, name, nickname, routeCode string, goes, comesback, registerConfirmed bool, monitorID identity.ID) (*Passenger, error) {
 	newID, err := identity.ParseID(id)
 	if err != nil {
 		newID = identity.NewID()
 	}
 
 	p := &Passenger{
-		id:        newID,
-		name:      name,
-		nickname:  nickname,
-		routeCode: routeCode,
-		monitorID: monitorID,
-		goes:      true,
-		comesback: true,
+		id:                newID,
+		name:              name,
+		nickname:          nickname,
+		routeCode:         routeCode,
+		monitorID:         monitorID,
+		goes:              goes,
+		comesback:         comesback,
+		registerConfirmed: registerConfirmed,
 	}
 
 	err = p.IsValid()
@@ -46,6 +47,13 @@ func (p *Passenger) IsValid() error {
 	}
 	if err := p.GetRouteCode() == ""; err {
 		return errors.New("invalid route code")
+	}
+	if err := p.GetMonitorID().String() == ""; err {
+		return errors.New("invalid monitor id")
+	}
+	_, err := identity.ParseID(p.GetMonitorID().String())
+	if err != nil {
+		return errors.New("invalid monitor id")
 	}
 	return nil
 }

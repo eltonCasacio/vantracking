@@ -9,7 +9,7 @@ import (
 
 func TestNewPassenger(t *testing.T) {
 	id := identity.NewID()
-	p, err := NewPassenger("", "any_name", "any_nickname", "any_routecode", id)
+	p, err := NewPassenger("", "any_name", "any_nickname", "any_routecode", true, true, false, id)
 	assert.Nil(t, err)
 	assert.Equal(t, p.GetMonitorID(), id)
 	assert.Equal(t, p.GetName(), "any_name")
@@ -18,21 +18,21 @@ func TestNewPassenger(t *testing.T) {
 }
 
 func TestNewPassenge_InvalidName(t *testing.T) {
-	p, err := NewPassenger("", "", "any_nickname", "any_routecode", identity.NewID())
+	p, err := NewPassenger("", "", "any_nickname", "any_routecode", true, true, false, identity.NewID())
 	assert.Nil(t, p)
 	assert.NotNil(t, err)
 	assert.EqualError(t, err, "invalid name")
 }
 
 func TestNewPassenge_InvalidRouteCode(t *testing.T) {
-	p, err := NewPassenger("", "any_name", "any_nickname", "", identity.NewID())
+	p, err := NewPassenger("", "any_name", "any_nickname", "", true, true, false, identity.NewID())
 	assert.Nil(t, p)
 	assert.NotNil(t, err)
 	assert.EqualError(t, err, "invalid route code")
 }
 
 func TestSetNickname(t *testing.T) {
-	p, _ := NewPassenger("", "any_name", "any_nickname", "any_routecode", identity.NewID())
+	p, _ := NewPassenger("", "any_name", "any_nickname", "any_routecode", true, true, false, identity.NewID())
 	assert.Equal(t, p.nickname, "any_nickname")
 
 	p.SetNickname("other_nickname")
@@ -40,7 +40,7 @@ func TestSetNickname(t *testing.T) {
 }
 
 func TestSetRouteCode(t *testing.T) {
-	p, _ := NewPassenger("", "any_name", "any_nickname", "any_routecode", identity.NewID())
+	p, _ := NewPassenger("", "any_name", "any_nickname", "any_routecode", true, true, false, identity.NewID())
 	assert.Equal(t, p.GetRouteCode(), "any_routecode")
 
 	p.SetRouteCode("other_routecode")
@@ -48,7 +48,7 @@ func TestSetRouteCode(t *testing.T) {
 }
 
 func TestSetInvalidRouteCode(t *testing.T) {
-	p, _ := NewPassenger("", "any_name", "any_nickname", "any_routecode", identity.NewID())
+	p, _ := NewPassenger("", "any_name", "any_nickname", "any_routecode", true, true, false, identity.NewID())
 	assert.Equal(t, p.GetRouteCode(), "any_routecode")
 
 	err := p.SetRouteCode("")

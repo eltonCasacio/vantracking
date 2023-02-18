@@ -16,22 +16,18 @@ func NewPassengerRepository(db *sql.DB) *passengerRepository {
 }
 
 func (r *passengerRepository) Create(passenger *entity.Passenger) error {
-	stmt, err := r.db.Prepare("INSERT INTO passengers (id, name, nickname, route_code, goes, comesback, register_confirmed, monitor_id, active) values(?,?,?,?,?,?,?, ?)")
+	stmt, err := r.db.Prepare("INSERT INTO passengers (id, name, nickname, route_code, monitor_id) values(?,?,?,?,?,?,?, ?)")
 	if err != nil {
 		return err
 	}
 	defer stmt.Close()
 
 	model := PassengerModel{
-		ID:                passenger.GetID().String(),
-		Name:              passenger.GetName(),
-		Nickname:          passenger.GetNickname(),
-		RouteCode:         passenger.GetRouteCode(),
-		Goes:              passenger.GetGoes(),
-		Comesback:         passenger.GetComesBack(),
-		RegisterConfirmed: passenger.IsRegisterConfirmed(),
-		MonitorID:         passenger.GetMonitorID().String(),
-		active:            true,
+		ID:        passenger.GetID().String(),
+		Name:      passenger.GetName(),
+		Nickname:  passenger.GetNickname(),
+		RouteCode: passenger.GetRouteCode(),
+		MonitorID: passenger.GetMonitorID().String(),
 	}
 
 	_, err = stmt.Exec(
@@ -39,11 +35,7 @@ func (r *passengerRepository) Create(passenger *entity.Passenger) error {
 		model.Name,
 		model.Nickname,
 		model.RouteCode,
-		model.Goes,
-		model.Comesback,
-		model.RegisterConfirmed,
 		model.MonitorID,
-		model.active,
 	)
 	if err != nil {
 		return err
@@ -52,7 +44,7 @@ func (r *passengerRepository) Create(passenger *entity.Passenger) error {
 }
 
 func (r *passengerRepository) Update(passenger *entity.Passenger) error {
-	stmt, err := r.db.Prepare("UPDATE passengers SET name = ?, nickname = ?, route_code = ?, goes = ?, comesback = ? register_confirmed = ? WHERE id = ?")
+	stmt, err := r.db.Prepare("UPDATE passengers SET name = ?, nickname = ?, route_code = ? WHERE id = ?")
 	if err != nil {
 		return err
 	}
@@ -62,9 +54,7 @@ func (r *passengerRepository) Update(passenger *entity.Passenger) error {
 		passenger.GetName(),
 		passenger.GetNickname(),
 		passenger.GetRouteCode(),
-		passenger.GetGoes(),
-		passenger.GetComesBack(),
-		passenger.IsRegisterConfirmed(),
+		passenger.GetID().String(),
 	)
 	if err != nil {
 		return err
@@ -109,6 +99,7 @@ func (r *passengerRepository) FindAll() ([]entity.Passenger, error) {
 		}
 
 		newPassenger, err := factory.PassengerFactory().Create(inputPassenger)
+
 		if err != nil {
 			return nil, err
 		}
@@ -156,6 +147,8 @@ func (r *passengerRepository) FindByID(id string) (*entity.Passenger, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	newPassenger.ChangeGoNoGo(model.Goes, model.Comesback)
 	return newPassenger, nil
 }
 

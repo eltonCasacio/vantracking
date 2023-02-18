@@ -5,20 +5,106 @@ import (
 	"net/http"
 
 	repo "github.com/eltoncasacio/vantracking/internal/domain/passenger/repository"
+	deleteUsecase "github.com/eltoncasacio/vantracking/internal/usecase/passenger/delete"
+	findUsecase "github.com/eltoncasacio/vantracking/internal/usecase/passenger/findbyid"
+	listUsecase "github.com/eltoncasacio/vantracking/internal/usecase/passenger/list"
 	notConfirmedUsecase "github.com/eltoncasacio/vantracking/internal/usecase/passenger/list_not_confirmed_passengers"
-	listAllUsecase "github.com/eltoncasacio/vantracking/internal/usecase/passenger/listall"
+	registerUsecase "github.com/eltoncasacio/vantracking/internal/usecase/passenger/register"
+	updateUsecase "github.com/eltoncasacio/vantracking/internal/usecase/passenger/update"
+	"github.com/go-chi/chi"
 )
 
 type passengerHandler struct {
 	repository repo.PassengerRepositoryInterface
 }
 
-func NewMonitorHandler(repo repo.PassengerRepositoryInterface) *passengerHandler {
+func NewPassengerHandler(repo repo.PassengerRepositoryInterface) *passengerHandler {
 	return &passengerHandler{repository: repo}
 }
 
+func (h *passengerHandler) Register(w http.ResponseWriter, r *http.Request) {
+	var input CreateInputDTO
+	err := json.NewDecoder(r.Body).Decode(&input)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	usecaseInput := registerUsecase.PassengerInputDTO{
+		Name:      input.Name,
+		Nickname:  input.Nickname,
+		RouteCode: input.RouteCode,
+		MonitorID: input.MonitorID,
+	}
+
+	err = registerUsecase.NewUseCase(h.repository).Register(usecaseInput)
+	if err != nil {
+		w.Write([]byte(err.Error()))
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+}
+
+func (dh *passengerHandler) Find(w http.ResponseWriter, r *http.Request) {
+	id := chi.URLParam(r, "id")
+	passenger, _ := findUsecase.NewUseCase(dh.repository).FindByID(id)
+
+	driver := OutputDTO{
+		ID:                passenger.ID,
+		Name:              passenger.Name,
+		Nickname:          passenger.Nickname,
+		RouteCode:         passenger.RouteCode,
+		Goes:              passenger.Goes,
+		Comesback:         passenger.Comesback,
+		RegisterConfirmed: passenger.RegisterConfirmed,
+		MonitorID:         passenger.MonitorID,
+	}
+
+	json.NewEncoder(w).Encode(driver)
+	w.WriteHeader(http.StatusOK)
+}
+
+func (dh *passengerHandler) Update(w http.ResponseWriter, r *http.Request) {
+	var input UpdateInputDTO
+	err := json.NewDecoder(r.Body).Decode(&input)
+	if err != nil || input.ID == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	usecaseInput := updateUsecase.PassengerOutDTO{
+		ID:        input.ID,
+		Name:      input.Name,
+		Nickname:  input.Nickname,
+		RouteCode: input.RouteCode,
+	}
+
+	err = updateUsecase.NewUseCase(dh.repository).Update(usecaseInput)
+	if err != nil {
+		w.Write([]byte(err.Error()))
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+}
+
+func (dh *passengerHandler) Delete(w http.ResponseWriter, r *http.Request) {
+	id := chi.URLParam(r, "id")
+	if id == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	err := deleteUsecase.NewUseCase(dh.repository).Delete(id)
+	if err != nil {
+		w.Write([]byte(err.Error()))
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+}
+
 func (h *passengerHandler) ListAll(w http.ResponseWriter, r *http.Request) {
-	usecaseOutput, _ := listAllUsecase.NewUseCase(h.repository).ListAll()
+	usecaseOutput, _ := listUsecase.NewUseCase(h.repository).ListAll()
 
 	output := []OutputDTO{}
 	for _, passenger := range usecaseOutput {
@@ -60,111 +146,3 @@ func (h *passengerHandler) ListNotConfirmed(w http.ResponseWriter, r *http.Reque
 	json.NewEncoder(w).Encode(output)
 	w.WriteHeader(http.StatusOK)
 }
-
-// func (h *passengerHandler) Register(w http.ResponseWriter, r *http.Request) {
-// 	var input CreateInputDTO
-// 	err := json.NewDecoder(r.Body).Decode(&input)
-// 	if err != nil {
-// 		w.WriteHeader(http.StatusBadRequest)
-// 		return
-// 	}
-
-// 	inputDriver := rusecase.InputDTO{
-// 		Name:        input.Name,
-
-// 	}
-
-// 	err = rusecase.NewUseCase(h.repository).Register(inputDriver)
-// 	if err != nil {
-// 		w.Write([]byte(err.Error()))
-// 		w.WriteHeader(http.StatusInternalServerError)
-// 		return
-// 	}
-// 	w.WriteHeader(http.StatusOK)
-// }
-
-// func (h *monitorHandler) ConsultAll(w http.ResponseWriter, r *http.Request) {
-// 	usecaseOutput, _ := fausecase.NewUseCase(h.repository).List()
-
-// 	output := []OutputDTO{}
-// 	for _, monitor := range usecaseOutput {
-// 		d := OutputDTO{
-// 			ID:          monitor.ID,
-// 			Name:        monitor.Name,
-// 			CPF:         monitor.CPF,
-// 			PhoneNumber: monitor.PhoneNumber,
-// 			UF:          monitor.UF,
-// 			City:        monitor.City,
-// 			Street:      monitor.Street,
-// 			Number:      monitor.Number,
-// 			CEP:         monitor.CEP,
-// 		}
-// 		output = append(output, d)
-// 	}
-
-// 	json.NewEncoder(w).Encode(output)
-// 	w.WriteHeader(http.StatusOK)
-// }
-
-// func (dh *monitorHandler) Consult(w http.ResponseWriter, r *http.Request) {
-// 	id := chi.URLParam(r, "id")
-// 	output, _ := fusecase.NewUseCase(dh.repository).FindByID(id)
-
-// 	driver := OutputDTO{
-// 		ID:          output.ID,
-// 		CPF:         output.CPF,
-// 		Name:        output.Name,
-// 		PhoneNumber: output.PhoneNumber,
-// 		UF:          output.UF,
-// 		City:        output.City,
-// 		Street:      output.Street,
-// 		Number:      output.Number,
-// 		CEP:         output.CEP,
-// 	}
-
-// 	json.NewEncoder(w).Encode(driver)
-// 	w.WriteHeader(http.StatusOK)
-// }
-
-// func (dh *monitorHandler) Update(w http.ResponseWriter, r *http.Request) {
-// 	var input UpdateInputDTO
-// 	err := json.NewDecoder(r.Body).Decode(&input)
-// 	if err != nil || input.ID == "" {
-// 		w.WriteHeader(http.StatusBadRequest)
-// 		return
-// 	}
-
-// 	inputDriver := upusecase.DriverInputDTO{
-// 		ID:          input.ID,
-// 		CPF:         input.CPF,
-// 		Name:        input.Name,
-// 		PhoneNumber: input.PhoneNumber,
-// 		UF:          input.UF,
-// 		City:        input.City,
-// 		Street:      input.Street,
-// 		Number:      input.Number,
-// 		CEP:         input.CEP,
-// 	}
-
-// 	err = upusecase.NewUseCase(dh.repository).Update(inputDriver)
-// 	if err != nil {
-// 		w.Write([]byte(err.Error()))
-// 		return
-// 	}
-// 	w.WriteHeader(http.StatusOK)
-// }
-
-// func (dh *monitorHandler) Delete(w http.ResponseWriter, r *http.Request) {
-// 	id := chi.URLParam(r, "id")
-// 	if id == "" {
-// 		w.WriteHeader(http.StatusBadRequest)
-// 		return
-// 	}
-
-// 	err := dusecase.NewUseCase(dh.repository).Delete(id)
-// 	if err != nil {
-// 		w.Write([]byte(err.Error()))
-// 		return
-// 	}
-// 	w.WriteHeader(http.StatusOK)
-// }

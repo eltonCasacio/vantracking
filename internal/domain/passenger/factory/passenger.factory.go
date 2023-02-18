@@ -34,6 +34,9 @@ func (df *passengerFactory) Create(input PassengerInputDTO) (*entity.Passenger, 
 		input.Name,
 		input.Nickname,
 		input.RouteCode,
+		input.Goes,
+		input.Comesback,
+		input.RegisterConfirmed,
 		monitorID,
 	)
 	if err != nil {
