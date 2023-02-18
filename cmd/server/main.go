@@ -8,6 +8,7 @@ import (
 	"github.com/eltoncasacio/vantracking/configs"
 	driverRoutes "github.com/eltoncasacio/vantracking/internal/infrastructure/driver/web/routes"
 	monitorRoutes "github.com/eltoncasacio/vantracking/internal/infrastructure/monitor/web/routes"
+	passengerRoutes "github.com/eltoncasacio/vantracking/internal/infrastructure/passenger/web/routes"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 
@@ -38,6 +39,7 @@ func main() {
 
 	driverRoutes.NewDriverRoutes(db, chi).CreateRoutes()
 	monitorRoutes.NewMonitorRoutes(db, chi).CreateRoutes()
+	passengerRoutes.NewPassengerRoutes(db, chi).CreateRoutes()
 
 	http.ListenAndServe(":8000", chi)
 }

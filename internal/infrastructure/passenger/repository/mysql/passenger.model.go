@@ -1,12 +1,13 @@
-package passenger
+package repository
 
-type PassengerOutputDTO struct {
+type PassengerModel struct {
 	ID                string
 	Name              string
 	Nickname          string
 	RouteCode         string
-	MonitorID         string
 	Goes              bool
 	Comesback         bool
+	MonitorID         string
+	active            bool
 	RegisterConfirmed bool
 }

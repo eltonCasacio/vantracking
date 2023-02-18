@@ -1,6 +1,6 @@
 package passenger
 
-type PassengerOutputDTO struct {
+type PassengerOutDTO struct {
 	ID                string
 	Name              string
 	Nickname          string

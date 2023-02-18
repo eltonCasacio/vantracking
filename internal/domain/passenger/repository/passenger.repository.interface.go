@@ -7,4 +7,5 @@ import (
 
 type PassengerRepositoryInterface interface {
 	repo.RepositoryInterface[entity.Passenger]
+	ListNotConfirmedPassengers() ([]entity.Passenger, error)
 }

@@ -1,12 +1,12 @@
-package passenger
+package factory
 
-type PassengerOutputDTO struct {
+type PassengerInputDTO struct {
 	ID                string
 	Name              string
 	Nickname          string
 	RouteCode         string
-	MonitorID         string
 	Goes              bool
 	Comesback         bool
 	RegisterConfirmed bool
+	MonitorID         string
 }

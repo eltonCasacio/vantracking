@@ -16,7 +16,7 @@ func TestCreate(t *testing.T) {
 		Name:      "any_name",
 		Nickname:  "any_nickname",
 		RouteCode: "any_route_code",
-		MonitorID: identity.NewID(),
+		MonitorID: identity.NewID().String(),
 	}
 	passenger, err := p.Create(input)
 	assert.Nil(t, err)

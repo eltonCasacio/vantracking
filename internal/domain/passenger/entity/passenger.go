@@ -7,31 +7,36 @@ import (
 )
 
 type Passenger struct {
-	id           identity.ID
-	name         string
-	nickname     string
-	routeCode    string
-	monitorID    identity.ID
-	dontGo       bool
-	dontComeback bool
+	id                identity.ID
+	name              string
+	nickname          string
+	routeCode         string
+	monitorID         identity.ID
+	goes              bool
+	comesback         bool
+	registerConfirmed bool
 }
 
-func NewPassenger(name, nickname, routeCode string, monitorID identity.ID) (*Passenger, error) {
-	p := &Passenger{
-		id:           identity.NewID(),
-		name:         name,
-		nickname:     nickname,
-		routeCode:    routeCode,
-		monitorID:    monitorID,
-		dontGo:       false,
-		dontComeback: false,
+func NewPassenger(id, name, nickname, routeCode string, monitorID identity.ID) (*Passenger, error) {
+	newID, err := identity.ParseID(id)
+	if err != nil {
+		newID = identity.NewID()
 	}
 
-	err := p.IsValid()
+	p := &Passenger{
+		id:        newID,
+		name:      name,
+		nickname:  nickname,
+		routeCode: routeCode,
+		monitorID: monitorID,
+		goes:      true,
+		comesback: true,
+	}
+
+	err = p.IsValid()
 	if err != nil {
 		return nil, err
 	}
-
 	return p, nil
 }
 
@@ -65,12 +70,12 @@ func (p *Passenger) GetMonitorID() identity.ID {
 	return p.monitorID
 }
 
-func (p *Passenger) GetDontGo() bool {
-	return p.dontGo
+func (p *Passenger) GetGoes() bool {
+	return p.goes
 }
 
-func (p *Passenger) GetDontComeback() bool {
-	return p.dontComeback
+func (p *Passenger) GetComesBack() bool {
+	return p.comesback
 }
 
 func (p *Passenger) SetNickname(nickname string) {
@@ -85,7 +90,15 @@ func (p *Passenger) SetRouteCode(routeCode string) error {
 	return nil
 }
 
-func (p *Passenger) ChangeGoNoGo(dontGo, dontComeback bool) {
-	p.dontGo = dontGo
-	p.dontComeback = dontComeback
+func (p *Passenger) ChangeGoNoGo(goes, comesback bool) {
+	p.goes = goes
+	p.comesback = comesback
+}
+
+func (p *Passenger) IsRegisterConfirmed() bool {
+	return p.registerConfirmed
+}
+
+func (p *Passenger) ConfirmeRegister(confirmed bool) {
+	p.registerConfirmed = confirmed
 }
