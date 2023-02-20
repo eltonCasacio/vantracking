@@ -18,7 +18,7 @@ STATUS do passageiro se vai viajar ou nao:
 2 - se ele nao vai de van, mas volta
 3 - ele nao vai e nao volta de van.
 
-O MOTORISTA ira atualizar a tela de status de quem vai ou nao via na van ao checkar 
+O MOTORISTA ira atualizar a tela de status de quem vai ou nao vai na van ao checkar 
 quem entrou na van.
 
 

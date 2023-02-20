@@ -9,7 +9,6 @@ create table monitors (id varchar(255) NOT NULL, cpf varchar(255) NOT NULL, name
 create table passengers (id varchar(255) NOT NULL, name varchar(255) NOT NULL, nickname varchar(255) NOT NULL, route_code varchar(255), goes BOOLEAN DEFAULT true, comesback BOOLEAN DEFAULT true, register_confirmed BOOLEAN DEFAULT false, monitor_id varchar(50), active BOOLEAN DEFAULT true, PRIMARY KEY (id));
 
 
-
 ***** DOCKER COMPOSE *****
 docker-compose exec mysql bash
 mysql -uroot -p vantracking

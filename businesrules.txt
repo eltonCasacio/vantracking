@@ -8,27 +8,27 @@ Cada PASSAGEIRO está ligado a uma ROTA. Essa ligacao se da pelo codigo da ROTA.
 *********************** BACKEND ***********************
 
 CASO DE USO MOTORISTA:
-    LOGIN???
+    LOGIN - Informar CPF
 OK  se cadastrar.
 OK  alterar informacoes "pessoais".
 OK  excluir conta.
 OK  visualizar suas proprias informacoes "pessoais".
 OK  confirmar cadastro de passageiro na rota.
-    enviar mensagens aos MONITORES, enviar para todos de uma vez.
-OK  visualizar qual passageiro vai ou nao vai na viajem. (lista de passageiros com status)
-    API para receber a localizacao
+DEPOIS    enviar mensagens aos MONITORES, enviar para todos de uma vez.
+    visualizar qual passageiro vai ou nao vai na viajem. (lista de passageiros com status)
+    API websocket para receber a localizacao
 
 
 CASO DE USO MONITORES:
-    LOGIN???
+    LOGIN - Informar CPF
 OK  se cadastrar.
 OK  alterar informacoes "pessoais".
 OK  excluir conta.
 OK  visualizar suas proprias informacoes "pessoais".
-OK  cadastrar passageiro "na ROTA"
-    visualizar onde o motorista está no mapa em tempo real.
-    informar se o passageiro vai ou nao vai.
-    receber mensagem do motorista.
+OK  cadastrar passageiro
+    CASO DE USO buscar localizacao do motorista(WEBSOCKET)
+    CASO DE USO informar se o passageiro vai ou nao vai.
+DEPOIS    receber mensagem do motorista.
     receber notificacoes se o motorista ja iniciou viagem, se está chegando e chegada no destino.
 
 
@@ -42,7 +42,7 @@ CASO DE USO MOTORISTA:
     visualizar suas proprias informacoes "pessoais".
     confirmar cadastro de passageiro na rota.
     enviar mensagens aos MONITORES, enviar para todos de uma vez.
-    visualizar qual passageiro vai ou nao vai na viajem. (lista de passageiros com status)
+    visualizar qual passageiro vai ou nao vai na viagem. (lista de passageiros com status)
     Enviar localizacao em tempo real.
 
 

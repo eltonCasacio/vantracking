@@ -209,7 +209,7 @@ func (r *passengerRepository) Delete(id string) error {
 	return nil
 }
 
-func (r *passengerRepository) FindByNameAndNickname(name, monitorID string) (*entity.Passenger, error) {
+func (r *passengerRepository) FindByNameAndMonitorID(name, monitorID string) (*entity.Passenger, error) {
 	stmt, err := r.db.Prepare("SELECT * FROM passengers WHERE name = ? and monitor_id = ? and active = true")
 	if err != nil {
 		return nil, err

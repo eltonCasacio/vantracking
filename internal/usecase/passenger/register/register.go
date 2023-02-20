@@ -31,7 +31,7 @@ func (u *registerUseCase) Register(input PassengerInputDTO) error {
 		return err
 	}
 
-	found, _ := u.repository.FindByNameAndNickname(
+	found, _ := u.repository.FindByNameAndMonitorID(
 		passenger.GetName(), string(passenger.GetMonitorID().String()),
 	)
 	if found != nil {
