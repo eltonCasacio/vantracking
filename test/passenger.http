@@ -6,7 +6,7 @@ Content-Type:  application/json
     "name" : "any_name",
 	"nickname" : "any_nickname",
 	"route_code" : "any_route_code",
-	"monitor_id" : "5c39847f-3005-4fc5-8e88-217f817ce7e5"
+	"monitor_id" : "3017aae8-572f-4482-ad36-5c3db9946185"
 }
 
 ###  BUSCAR TODOS PASSAGEIROS
@@ -14,7 +14,7 @@ GET  http://localhost:8000/passenger HTTP/1.1
 Content-Type:  application/json
 
 ### BUSCAR POR ID
-GET  http://localhost:8000/passenger/1062768d-689d-421f-a04b-a983d91b9c03 HTTP/1.1
+GET  http://localhost:8000/passenger/3204aa1c-08a9-454d-b6d9-25e4cd69de98 HTTP/1.1
 Content-Type:  application/json
 
 
@@ -23,15 +23,14 @@ PUT   http://localhost:8000/passenger HTTP/1.1
 Content-Type:  application/json
 
 {
-	"id": "df25c902-1381-4615-809b-d9a30cd60bc7",
-	"name" : "other_name",
+	"id": "3204aa1c-08a9-454d-b6d9-25e4cd69de98",
+	"name" : "teste",
 	"nickname" : "other_nickname",
-	"route_code" : "other_route_code",
-	"monitor_id": "5c39847f-3005-4fc5-8e88-217f817ce7e5"
+	"route_code" : "other_route_code"
 }
 
 ###
-DELETE    http://localhost:8000/passenger/df25c902-1381-4615-809b-d9a30cd60bc7 HTTP/1.1
+DELETE    http://localhost:8000/passenger/060456c3-f4d7-4404-a7d9-80999490f018 HTTP/1.1
 Content-Type:  application/json
 
 ### ATUALIZAR DADOS DO MOTORISTA
@@ -41,4 +40,12 @@ Content-Type:  application/json
 {
 	"passenger_id": 		"1062768d-689d-421f-a04b-a983d91b9c03",
     "register_confirmed":	false
+}
+
+###
+GET    http://localhost:8000/passenger/gonogo HTTP/1.1
+Content-Type:  application/json
+
+{
+	"route_code": "1062768d-689d-421f-a04b-a983d91b9c03",
 }

@@ -22,14 +22,14 @@ func (cd *findByIDUseCase) FindByID(id string) (PassengerOutDTO, error) {
 	}
 
 	output := PassengerOutDTO{
-		ID:                passenger.GetID().String(),
-		Name:              passenger.GetName(),
-		Nickname:          passenger.GetNickname(),
-		RouteCode:         passenger.GetRouteCode(),
-		Goes:              passenger.GetGoes(),
-		Comesback:         passenger.GetComesBack(),
+		ID:                passenger.ID.String(),
+		Name:              passenger.Name,
+		Nickname:          passenger.Nickname,
+		RouteCode:         passenger.RouteCode,
+		Goes:              passenger.Goes,
+		Comesback:         passenger.Comesback,
 		RegisterConfirmed: passenger.IsRegisterConfirmed(),
-		MonitorID:         passenger.GetMonitorID().String(),
+		MonitorID:         passenger.MonitorID.String(),
 	}
 	return output, nil
 }

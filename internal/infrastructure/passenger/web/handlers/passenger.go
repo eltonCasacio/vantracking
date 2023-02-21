@@ -9,6 +9,7 @@ import (
 	deleteUsecase "github.com/eltoncasacio/vantracking/internal/usecase/passenger/delete"
 	findUsecase "github.com/eltoncasacio/vantracking/internal/usecase/passenger/findbyid"
 	listUsecase "github.com/eltoncasacio/vantracking/internal/usecase/passenger/list"
+	gonogoUsecase "github.com/eltoncasacio/vantracking/internal/usecase/passenger/list_gonogo"
 	notConfirmedUsecase "github.com/eltoncasacio/vantracking/internal/usecase/passenger/list_not_confirmed_passengers"
 	registerUsecase "github.com/eltoncasacio/vantracking/internal/usecase/passenger/register"
 	updateUsecase "github.com/eltoncasacio/vantracking/internal/usecase/passenger/update"
@@ -79,7 +80,6 @@ func (dh *passengerHandler) Update(w http.ResponseWriter, r *http.Request) {
 		Name:      input.Name,
 		Nickname:  input.Nickname,
 		RouteCode: input.RouteCode,
-		MonitorID: input.MonitorID,
 	}
 
 	err = updateUsecase.NewUseCase(dh.repository).Update(usecaseInput)
@@ -158,5 +158,34 @@ func (h *passengerHandler) ConfirmPassengerRegister(w http.ResponseWriter, r *ht
 		w.Write([]byte(err.Error()))
 		return
 	}
+	w.WriteHeader(http.StatusOK)
+}
+
+func (h *passengerHandler) ListGoNoGoPassenger(w http.ResponseWriter, r *http.Request) {
+	var input gonogoUsecase.PassengerGoNoGoInputDTO
+	json.NewDecoder(r.Body).Decode(&input)
+
+	outputUsecase, err := gonogoUsecase.NewUseCase(h.repository).ListGoNoGo(input)
+	if err != nil {
+		w.Write([]byte(err.Error()))
+		return
+	}
+
+	var output []gonogoUsecase.PassengerOutputDTO
+	for _, passenger := range outputUsecase {
+		p := gonogoUsecase.PassengerOutputDTO{
+			ID:                passenger.ID,
+			Name:              passenger.Name,
+			Nickname:          passenger.Nickname,
+			RouteCode:         passenger.RouteCode,
+			Goes:              passenger.Goes,
+			Comesback:         passenger.Comesback,
+			MonitorID:         passenger.MonitorID,
+			RegisterConfirmed: passenger.RegisterConfirmed,
+		}
+		output = append(output, p)
+	}
+
+	json.NewEncoder(w).Encode(output)
 	w.WriteHeader(http.StatusOK)
 }

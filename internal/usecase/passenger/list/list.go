@@ -23,13 +23,13 @@ func (u *listAllUseCase) ListAll() ([]PassengerOutputDTO, error) {
 	var passengersOutput []PassengerOutputDTO
 	for _, passenger := range passengers {
 		p := PassengerOutputDTO{
-			ID:                passenger.GetID().String(),
-			Name:              passenger.GetName(),
-			Nickname:          passenger.GetNickname(),
-			RouteCode:         passenger.GetRouteCode(),
-			MonitorID:         passenger.GetMonitorID().String(),
-			Goes:              passenger.GetGoes(),
-			Comesback:         passenger.GetComesBack(),
+			ID:                passenger.ID.String(),
+			Name:              passenger.Name,
+			Nickname:          passenger.Nickname,
+			RouteCode:         passenger.RouteCode,
+			MonitorID:         passenger.MonitorID.String(),
+			Goes:              passenger.Goes,
+			Comesback:         passenger.Comesback,
 			RegisterConfirmed: passenger.IsRegisterConfirmed(),
 		}
 		passengersOutput = append(passengersOutput, p)

@@ -1,4 +1,4 @@
-package entity
+package passenger
 
 import (
 	"errors"
@@ -7,34 +7,28 @@ import (
 )
 
 type Passenger struct {
-	id                identity.ID
-	name              string
-	nickname          string
-	routeCode         string
-	monitorID         identity.ID
-	goes              bool
-	comesback         bool
-	registerConfirmed bool
+	ID                identity.ID
+	Name              string
+	Nickname          string
+	RouteCode         string
+	MonitorID         identity.ID
+	Goes              bool
+	Comesback         bool
+	RegisterConfirmed bool
 }
 
-func NewPassenger(id, name, nickname, routeCode string, goes, comesback, registerConfirmed bool, monitorID identity.ID) (*Passenger, error) {
-	newID, err := identity.ParseID(id)
-	if err != nil {
-		newID = identity.NewID()
-	}
-
+func NewPassenger(name, routeCode string, monitorID identity.ID) (*Passenger, error) {
 	p := &Passenger{
-		id:                newID,
-		name:              name,
-		nickname:          nickname,
-		routeCode:         routeCode,
-		monitorID:         monitorID,
-		goes:              goes,
-		comesback:         comesback,
-		registerConfirmed: registerConfirmed,
+		ID:                identity.NewID(),
+		Name:              name,
+		RouteCode:         routeCode,
+		MonitorID:         monitorID,
+		Goes:              true,
+		Comesback:         true,
+		RegisterConfirmed: false,
 	}
 
-	err = p.IsValid()
+	err := p.IsValid()
 	if err != nil {
 		return nil, err
 	}
@@ -42,71 +36,44 @@ func NewPassenger(id, name, nickname, routeCode string, goes, comesback, registe
 }
 
 func (p *Passenger) IsValid() error {
-	if err := p.GetName() == ""; err {
+	if p.Name == "" {
 		return errors.New("invalid name")
 	}
-	if err := p.GetRouteCode() == ""; err {
+	if p.RouteCode == "" {
 		return errors.New("invalid route code")
-	}
-	if err := p.GetMonitorID().String() == ""; err {
-		return errors.New("invalid monitor id")
-	}
-	_, err := identity.ParseID(p.GetMonitorID().String())
-	if err != nil {
-		return errors.New("invalid monitor id")
 	}
 	return nil
 }
 
-func (p *Passenger) GetName() string {
-	return p.name
-}
-
-func (p *Passenger) GetID() identity.ID {
-	return p.id
-}
-
-func (p *Passenger) GetNickname() string {
-	return p.nickname
-}
-
-func (p *Passenger) GetRouteCode() string {
-	return p.routeCode
-}
-
-func (p *Passenger) GetMonitorID() identity.ID {
-	return p.monitorID
-}
-
-func (p *Passenger) GetGoes() bool {
-	return p.goes
-}
-
-func (p *Passenger) GetComesBack() bool {
-	return p.comesback
+func (p *Passenger) SetName(name string) error {
+	if name == "" {
+		return errors.New("invalid name")
+	}
+	p.Name = name
+	return nil
 }
 
 func (p *Passenger) SetNickname(nickname string) {
-	p.nickname = nickname
+	p.Nickname = nickname
 }
 
 func (p *Passenger) SetRouteCode(routeCode string) error {
 	if err := routeCode == ""; err {
 		return errors.New("invalid route code")
 	}
-	p.routeCode = routeCode
+	p.RouteCode = routeCode
 	return nil
 }
 
 func (p *Passenger) ChangeGoNoGo(goes, comesback bool) {
-	p.goes = goes
-	p.comesback = comesback
+	p.Goes = goes
+	p.Comesback = comesback
 }
 
 func (p *Passenger) IsRegisterConfirmed() bool {
-	return p.registerConfirmed
+	return p.RegisterConfirmed
 }
 
-func (p *Passenger) ConfirmeRegister(confirmed bool) {
-	p.registerConfirmed = confirmed
+func (p *Passenger) ConfirmRegister(confirmed bool) {
+	p.RegisterConfirmed = confirmed
 }

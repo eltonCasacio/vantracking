@@ -1,13 +1,13 @@
 package repository
 
 import (
-	"github.com/eltoncasacio/vantracking/internal/domain/passenger/entity"
+	e "github.com/eltoncasacio/vantracking/internal/domain/passenger/entity"
 	repo "github.com/eltoncasacio/vantracking/internal/domain/shared/repository"
 )
 
 type PassengerRepositoryInterface interface {
-	repo.RepositoryInterface[entity.Passenger]
-	ListNotConfirmedPassengers() ([]entity.Passenger, error)
-	FindByNameAndMonitorID(name, monitorID string) (*entity.Passenger, error)
+	repo.RepositoryInterface[e.Passenger]
+	ListNotConfirmedPassengers() ([]e.Passenger, error)
 	ConfirmPassengerRegister(id string, confirm bool) error
+	ListGoNoGoPassenger(routeCode string) ([]e.Passenger, error)
 }

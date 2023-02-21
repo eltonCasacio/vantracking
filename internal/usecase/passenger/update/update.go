@@ -21,10 +21,9 @@ func (u *updateUseCase) Update(input PassengerOutDTO) error {
 		Name:      input.Name,
 		Nickname:  input.Nickname,
 		RouteCode: input.RouteCode,
-		MonitorID: input.MonitorID,
 	}
 
-	passenger, err := f.PassengerFactory().Create(Input)
+	passenger, err := f.PassengerFactory().CreateInstance(Input)
 	if err != nil {
 		return err
 	}

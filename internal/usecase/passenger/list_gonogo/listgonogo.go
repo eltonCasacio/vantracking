@@ -4,33 +4,33 @@ import (
 	repo "github.com/eltoncasacio/vantracking/internal/domain/passenger/repository"
 )
 
-type newPassengersUseCase struct {
+type listGoNoGoUseCase struct {
 	repository repo.PassengerRepositoryInterface
 }
 
-func NewUseCase(repository repo.PassengerRepositoryInterface) *newPassengersUseCase {
-	return &newPassengersUseCase{
+func NewUseCase(repository repo.PassengerRepositoryInterface) *listGoNoGoUseCase {
+	return &listGoNoGoUseCase{
 		repository: repository,
 	}
 }
 
-func (u *newPassengersUseCase) ListNotConfirmedPassengers() ([]PassengerOutDTO, error) {
-	passengers, err := u.repository.ListNotConfirmedPassengers()
+func (u *listGoNoGoUseCase) ListGoNoGo(routeCode PassengerGoNoGoInputDTO) ([]PassengerOutputDTO, error) {
+	passengers, err := u.repository.ListGoNoGoPassenger(routeCode.RouteCode)
 	if err != nil {
-		return []PassengerOutDTO{}, err
+		return []PassengerOutputDTO{}, err
 	}
 
-	var passengersOutput []PassengerOutDTO
+	var passengersOutput []PassengerOutputDTO
 	for _, passenger := range passengers {
-		p := PassengerOutDTO{
+		p := PassengerOutputDTO{
 			ID:                passenger.ID.String(),
 			Name:              passenger.Name,
 			Nickname:          passenger.Nickname,
 			RouteCode:         passenger.RouteCode,
+			MonitorID:         passenger.MonitorID.String(),
 			Goes:              passenger.Goes,
 			Comesback:         passenger.Comesback,
 			RegisterConfirmed: passenger.IsRegisterConfirmed(),
-			MonitorID:         passenger.MonitorID.String(),
 		}
 		passengersOutput = append(passengersOutput, p)
 	}

@@ -1,9 +1,9 @@
-package factory
+package passenger
 
 import (
 	"sync"
 
-	"github.com/eltoncasacio/vantracking/internal/domain/passenger/entity"
+	e "github.com/eltoncasacio/vantracking/internal/domain/passenger/entity"
 	"github.com/eltoncasacio/vantracking/pkg/identity"
 )
 
@@ -23,23 +23,44 @@ func PassengerFactory() *passengerFactory {
 	return instance
 }
 
-func (df *passengerFactory) Create(input PassengerInputDTO) (*entity.Passenger, error) {
+func (df *passengerFactory) New(input PassengerInputDTO) (*e.Passenger, error) {
 	monitorID, err := identity.ParseID(input.MonitorID)
 	if err != nil {
 		return nil, err
 	}
-	p, err := entity.NewPassenger(
-		input.ID,
+	p, err := e.NewPassenger(
 		input.Name,
-		input.Nickname,
 		input.RouteCode,
-		input.Goes,
-		input.Comesback,
-		input.RegisterConfirmed,
 		monitorID,
 	)
 	if err != nil {
 		return nil, err
 	}
 	return p, nil
+}
+
+func (df *passengerFactory) CreateInstance(input PassengerInputDTO) (*e.Passenger, error) {
+	id, err := identity.ParseID(input.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	monitorID, err := identity.ParseID(input.MonitorID)
+	if err != nil {
+		return nil, err
+	}
+	p := e.Passenger{
+		ID:                id,
+		Name:              input.Name,
+		Nickname:          input.Nickname,
+		RouteCode:         input.RouteCode,
+		MonitorID:         monitorID,
+		Goes:              input.Goes,
+		Comesback:         input.Comesback,
+		RegisterConfirmed: input.RegisterConfirmed,
+	}
+	if err := p.IsValid(); err != nil {
+		return nil, err
+	}
+	return &p, nil
 }

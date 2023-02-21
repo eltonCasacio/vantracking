@@ -2,9 +2,10 @@ package repository
 
 import (
 	"database/sql"
+	"errors"
 
-	"github.com/eltoncasacio/vantracking/internal/domain/passenger/entity"
-	"github.com/eltoncasacio/vantracking/internal/domain/passenger/factory"
+	e "github.com/eltoncasacio/vantracking/internal/domain/passenger/entity"
+	f "github.com/eltoncasacio/vantracking/internal/domain/passenger/factory"
 )
 
 type passengerRepository struct {
@@ -15,19 +16,43 @@ func NewPassengerRepository(db *sql.DB) *passengerRepository {
 	return &passengerRepository{db: db}
 }
 
-func (r *passengerRepository) Create(passenger *entity.Passenger) error {
-	stmt, err := r.db.Prepare("INSERT INTO passengers (id, name, nickname, route_code, monitor_id) values(?,?,?,?,?)")
+func (r *passengerRepository) Create(passenger *e.Passenger) error {
+	// PARA VERIFICAR SE O MONITOR É VALIDO
+	stmt, err := r.db.Prepare("SELECT id FROM monitors WHERE id = ? and active = true")
+	if err != nil {
+		return err
+	}
+	defer stmt.Close()
+	var id string
+	stmt.QueryRow(passenger.ID.String()).Scan(&id)
+	if id == "" {
+		return errors.New("monitor id is invalid")
+	}
+
+	// VERIFICAR SE JA EXISTE
+	stmt, err = r.db.Prepare("SELECT name FROM passengers WHERE name = ? and monitor_id = ? and active = true")
+	if err != nil {
+		return err
+	}
+	defer stmt.Close()
+	var name string
+	stmt.QueryRow(passenger.Name, passenger.MonitorID.String()).Scan(&name)
+	if name != "" {
+		return errors.New("passenger already exists")
+	}
+
+	stmt, err = r.db.Prepare("INSERT INTO passengers (id, name, nickname, route_code, monitor_id) values(?,?,?,?,?)")
 	if err != nil {
 		return err
 	}
 	defer stmt.Close()
 
 	model := PassengerModel{
-		ID:        passenger.GetID().String(),
-		Name:      passenger.GetName(),
-		Nickname:  passenger.GetNickname(),
-		RouteCode: passenger.GetRouteCode(),
-		MonitorID: passenger.GetMonitorID().String(),
+		ID:        passenger.ID.String(),
+		Name:      passenger.Name,
+		Nickname:  passenger.Nickname,
+		RouteCode: passenger.RouteCode,
+		MonitorID: passenger.MonitorID.String(),
 	}
 
 	_, err = stmt.Exec(
@@ -43,7 +68,7 @@ func (r *passengerRepository) Create(passenger *entity.Passenger) error {
 	return nil
 }
 
-func (r *passengerRepository) Update(passenger *entity.Passenger) error {
+func (r *passengerRepository) Update(passenger *e.Passenger) error {
 	stmt, err := r.db.Prepare("UPDATE passengers SET name = ?, nickname = ?, route_code = ? WHERE id = ?")
 	if err != nil {
 		return err
@@ -51,10 +76,10 @@ func (r *passengerRepository) Update(passenger *entity.Passenger) error {
 	defer stmt.Close()
 
 	_, err = stmt.Exec(
-		passenger.GetName(),
-		passenger.GetNickname(),
-		passenger.GetRouteCode(),
-		passenger.GetID().String(),
+		passenger.Name,
+		passenger.Nickname,
+		passenger.RouteCode,
+		passenger.ID.String(),
 	)
 	if err != nil {
 		return err
@@ -62,14 +87,14 @@ func (r *passengerRepository) Update(passenger *entity.Passenger) error {
 	return nil
 }
 
-func (r *passengerRepository) FindAll() ([]entity.Passenger, error) {
+func (r *passengerRepository) FindAll() ([]e.Passenger, error) {
 	rows, err := r.db.Query("SELECT * FROM passengers WHERE active = true")
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
-	var Passengers []entity.Passenger
+	var Passengers []e.Passenger
 	for rows.Next() {
 		var model PassengerModel
 		err := rows.Scan(
@@ -87,7 +112,7 @@ func (r *passengerRepository) FindAll() ([]entity.Passenger, error) {
 			return nil, err
 		}
 
-		inputPassenger := factory.PassengerInputDTO{
+		inputPassenger := f.PassengerInputDTO{
 			ID:                model.ID,
 			Name:              model.Name,
 			Nickname:          model.Nickname,
@@ -98,7 +123,7 @@ func (r *passengerRepository) FindAll() ([]entity.Passenger, error) {
 			MonitorID:         model.MonitorID,
 		}
 
-		newPassenger, err := factory.PassengerFactory().Create(inputPassenger)
+		newPassenger, err := f.PassengerFactory().CreateInstance(inputPassenger)
 
 		if err != nil {
 			return nil, err
@@ -108,7 +133,7 @@ func (r *passengerRepository) FindAll() ([]entity.Passenger, error) {
 	return Passengers, nil
 }
 
-func (r *passengerRepository) FindByID(id string) (*entity.Passenger, error) {
+func (r *passengerRepository) FindByID(id string) (*e.Passenger, error) {
 	stmt, err := r.db.Prepare("SELECT * FROM passengers WHERE id = ? and active = true")
 	if err != nil {
 		return nil, err
@@ -132,7 +157,7 @@ func (r *passengerRepository) FindByID(id string) (*entity.Passenger, error) {
 		return nil, err
 	}
 
-	inputPassenger := factory.PassengerInputDTO{
+	inputPassenger := f.PassengerInputDTO{
 		ID:                model.ID,
 		Name:              model.Name,
 		Nickname:          model.Nickname,
@@ -143,7 +168,7 @@ func (r *passengerRepository) FindByID(id string) (*entity.Passenger, error) {
 		MonitorID:         model.MonitorID,
 	}
 
-	newPassenger, err := factory.PassengerFactory().Create(inputPassenger)
+	newPassenger, err := f.PassengerFactory().CreateInstance(inputPassenger)
 	if err != nil {
 		return nil, err
 	}
@@ -152,14 +177,14 @@ func (r *passengerRepository) FindByID(id string) (*entity.Passenger, error) {
 	return newPassenger, nil
 }
 
-func (r *passengerRepository) ListNotConfirmedPassengers() ([]entity.Passenger, error) {
+func (r *passengerRepository) ListNotConfirmedPassengers() ([]e.Passenger, error) {
 	rows, err := r.db.Query("SELECT * FROM passengers WHERE register_confirmed = false  active = true")
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
-	var passengers []entity.Passenger
+	var passengers []e.Passenger
 	for rows.Next() {
 		var model PassengerModel
 		err := rows.Scan(
@@ -176,7 +201,7 @@ func (r *passengerRepository) ListNotConfirmedPassengers() ([]entity.Passenger, 
 			return nil, err
 		}
 
-		inputPassenger := factory.PassengerInputDTO{
+		inputPassenger := f.PassengerInputDTO{
 			ID:        model.ID,
 			Name:      model.Name,
 			Nickname:  model.Nickname,
@@ -186,7 +211,7 @@ func (r *passengerRepository) ListNotConfirmedPassengers() ([]entity.Passenger, 
 			MonitorID: model.MonitorID,
 		}
 
-		newPassenger, err := factory.PassengerFactory().Create(inputPassenger)
+		newPassenger, err := f.PassengerFactory().CreateInstance(inputPassenger)
 		if err != nil {
 			return nil, err
 		}
@@ -209,50 +234,6 @@ func (r *passengerRepository) Delete(id string) error {
 	return nil
 }
 
-func (r *passengerRepository) FindByNameAndMonitorID(name, monitorID string) (*entity.Passenger, error) {
-	stmt, err := r.db.Prepare("SELECT * FROM passengers WHERE name = ? and monitor_id = ? and active = true")
-	if err != nil {
-		return nil, err
-	}
-	defer stmt.Close()
-
-	var model PassengerModel
-	rows := stmt.QueryRow(name, monitorID)
-	rows.Scan(
-		&model.ID,
-		&model.Name,
-		&model.Nickname,
-		&model.RouteCode,
-		&model.Goes,
-		&model.Comesback,
-		&model.RegisterConfirmed,
-		&model.MonitorID,
-		&model.active,
-	)
-	if err != nil {
-		return nil, err
-	}
-
-	inputPassenger := factory.PassengerInputDTO{
-		ID:                model.ID,
-		Name:              model.Name,
-		Nickname:          model.Nickname,
-		RouteCode:         model.RouteCode,
-		Goes:              model.Goes,
-		Comesback:         model.Comesback,
-		RegisterConfirmed: model.RegisterConfirmed,
-		MonitorID:         model.MonitorID,
-	}
-
-	newPassenger, err := factory.PassengerFactory().Create(inputPassenger)
-	if err != nil {
-		return nil, err
-	}
-
-	newPassenger.ChangeGoNoGo(model.Goes, model.Comesback)
-	return newPassenger, nil
-}
-
 func (r *passengerRepository) ConfirmPassengerRegister(id string, confirm bool) error {
 	stmt, err := r.db.Prepare("UPDATE passengers SET  register_confirmed = ? WHERE id = ?")
 	if err != nil {
@@ -269,4 +250,48 @@ func (r *passengerRepository) ConfirmPassengerRegister(id string, confirm bool) 
 	}
 
 	return nil
+}
+
+func (r *passengerRepository) ListGoNoGoPassenger(routeCode string) ([]e.Passenger, error) {
+	rows, err := r.db.Query("SELECT * FROM passengers WHERE route_code = ? and  active = true", routeCode)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var passengers []e.Passenger
+	for rows.Next() {
+		var model PassengerModel
+		err := rows.Scan(
+			&model.ID,
+			&model.Name,
+			&model.Nickname,
+			&model.RouteCode,
+			&model.Goes,
+			&model.Comesback,
+			&model.MonitorID,
+			&model.active,
+		)
+		if err != nil {
+			return nil, err
+		}
+
+		inputPassenger := f.PassengerInputDTO{
+			ID:        model.ID,
+			Name:      model.Name,
+			Nickname:  model.Nickname,
+			RouteCode: model.RouteCode,
+			Goes:      model.Goes,
+			Comesback: model.Comesback,
+			MonitorID: model.MonitorID,
+		}
+
+		newPassenger, err := f.PassengerFactory().CreateInstance(inputPassenger)
+		if err != nil {
+			return nil, err
+		}
+		passengers = append(passengers, *newPassenger)
+	}
+
+	return passengers, nil
 }

@@ -15,7 +15,7 @@ OK  excluir conta.
 OK  visualizar suas proprias informacoes "pessoais".
 OK  confirmar cadastro de passageiro na rota.
 DEPOIS    enviar mensagens aos MONITORES, enviar para todos de uma vez.
-    visualizar qual passageiro vai ou nao vai na viajem. (lista de passageiros com status)
+    para visualizar qual passageiro vai ou nao vai na viajem. (lista de passageiros com status)
     API websocket para receber a localizacao
 
 

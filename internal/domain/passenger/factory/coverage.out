@@ -1,0 +1,17 @@
+mode: set
+github.com/eltoncasacio/vantracking/internal/domain/passenger/factory/passenger.factory.go:15.43,16.21 1 1
+github.com/eltoncasacio/vantracking/internal/domain/passenger/factory/passenger.factory.go:16.21,19.22 3 1
+github.com/eltoncasacio/vantracking/internal/domain/passenger/factory/passenger.factory.go:19.22,21.4 1 1
+github.com/eltoncasacio/vantracking/internal/domain/passenger/factory/passenger.factory.go:23.2,23.17 1 1
+github.com/eltoncasacio/vantracking/internal/domain/passenger/factory/passenger.factory.go:26.80,28.16 2 1
+github.com/eltoncasacio/vantracking/internal/domain/passenger/factory/passenger.factory.go:28.16,30.3 1 1
+github.com/eltoncasacio/vantracking/internal/domain/passenger/factory/passenger.factory.go:31.2,36.16 2 1
+github.com/eltoncasacio/vantracking/internal/domain/passenger/factory/passenger.factory.go:36.16,38.3 1 1
+github.com/eltoncasacio/vantracking/internal/domain/passenger/factory/passenger.factory.go:39.2,39.15 1 1
+github.com/eltoncasacio/vantracking/internal/domain/passenger/factory/passenger.factory.go:42.91,44.16 2 1
+github.com/eltoncasacio/vantracking/internal/domain/passenger/factory/passenger.factory.go:44.16,46.3 1 1
+github.com/eltoncasacio/vantracking/internal/domain/passenger/factory/passenger.factory.go:48.2,49.16 2 1
+github.com/eltoncasacio/vantracking/internal/domain/passenger/factory/passenger.factory.go:49.16,51.3 1 1
+github.com/eltoncasacio/vantracking/internal/domain/passenger/factory/passenger.factory.go:52.2,62.36 2 1
+github.com/eltoncasacio/vantracking/internal/domain/passenger/factory/passenger.factory.go:62.36,64.3 1 1
+github.com/eltoncasacio/vantracking/internal/domain/passenger/factory/passenger.factory.go:65.2,65.16 1 1

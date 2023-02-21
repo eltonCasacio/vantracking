@@ -1,4 +1,4 @@
-package factory
+package passenger
 
 type PassengerInputDTO struct {
 	ID                string
