@@ -22,18 +22,18 @@ func (cd *findAllDriverUseCase) ListAll() ([]DriverOutputDTO, error) {
 
 	var drivers []DriverOutputDTO
 	for _, driver := range driversFound {
-		addr := driver.GetAddress()
+		addr := driver.Address
 		output := DriverOutputDTO{
-			ID:       driver.GetID().String(),
-			CPF:      driver.GetCPF(),
-			Name:     driver.GetName(),
-			Nickname: driver.GetNickName(),
-			Phone:    driver.GetPhone(),
-			UF:       addr.GetUF(),
-			City:     addr.GetCity(),
-			Street:   addr.GetStreet(),
-			Number:   addr.GetNumber(),
-			CEP:      addr.GetCEP(),
+			ID:       driver.ID.String(),
+			CPF:      driver.CPF,
+			Name:     driver.Name,
+			Nickname: driver.Nickname,
+			Phone:    driver.Phone,
+			UF:       addr.UF,
+			City:     addr.City,
+			Street:   addr.Street,
+			Number:   addr.Number,
+			CEP:      addr.CEP,
 		}
 		drivers = append(drivers, output)
 	}

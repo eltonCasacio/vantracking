@@ -16,15 +16,13 @@ func NewUseCase(repository repo.PassengerRepositoryInterface) *registerUseCase {
 }
 
 func (u *registerUseCase) Register(input PassengerInputDTO) error {
-	Input := f.PassengerInputDTO{
-		ID:        "",
+	Input := f.NewPassengerInputDTO{
 		Name:      input.Name,
-		Nickname:  input.Nickname,
 		RouteCode: input.RouteCode,
 		MonitorID: input.MonitorID,
 	}
 
-	passenger, err := f.PassengerFactory().Create(Input)
+	passenger, err := f.PassengerFactory().NewPassenger(Input)
 	if err != nil {
 		return err
 	}

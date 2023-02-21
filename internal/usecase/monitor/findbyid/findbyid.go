@@ -23,18 +23,18 @@ func (cd *findByIDUseCase) FindByID(id string) (OutputDTO, error) {
 		return OutputDTO{}, err
 	}
 
-	addr := found.GetAddress()
+	addr := found.Address
 
 	output := OutputDTO{
-		ID:          found.GetID().String(),
-		Name:        found.GetName(),
-		CPF:         found.GetCPF(),
-		PhoneNumber: found.GetPhoneNumber(),
-		UF:          addr.GetUF(),
-		City:        addr.GetCity(),
-		Street:      addr.GetCity(),
-		Number:      addr.GetNumber(),
-		CEP:         fmt.Sprint(addr.GetCEP()),
+		ID:          found.ID.String(),
+		Name:        found.Name,
+		CPF:         found.CPF,
+		PhoneNumber: found.PhoneNumber,
+		UF:          addr.UF,
+		City:        addr.City,
+		Street:      addr.City,
+		Number:      addr.Number,
+		CEP:         fmt.Sprint(addr.CEP),
 	}
 	return output, nil
 }

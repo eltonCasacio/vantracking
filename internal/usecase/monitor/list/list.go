@@ -25,18 +25,18 @@ func (cd *listUseCase) List() ([]OutputDTO, error) {
 	monitorsOutput := []OutputDTO{}
 
 	for _, monitor := range found {
-		addr := monitor.GetAddress()
+		addr := monitor.Address
 
 		output := OutputDTO{
-			ID:          monitor.GetID().String(),
-			Name:        monitor.GetName(),
-			CPF:         monitor.GetCPF(),
-			PhoneNumber: monitor.GetPhoneNumber(),
-			UF:          addr.GetUF(),
-			City:        addr.GetCity(),
-			Street:      addr.GetCity(),
-			Number:      addr.GetNumber(),
-			CEP:         fmt.Sprint(addr.GetCEP()),
+			ID:          monitor.ID.String(),
+			Name:        monitor.Name,
+			CPF:         monitor.CPF,
+			PhoneNumber: monitor.PhoneNumber,
+			UF:          addr.UF,
+			City:        addr.City,
+			Street:      addr.City,
+			Number:      addr.Number,
+			CEP:         fmt.Sprint(addr.CEP),
 		}
 		monitorsOutput = append(monitorsOutput, output)
 	}

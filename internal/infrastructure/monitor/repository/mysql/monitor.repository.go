@@ -22,31 +22,19 @@ func (m *MonitorRepository) Create(monitor *entity.Monitor) error {
 	}
 	defer stmt.Close()
 
-	address := monitor.GetAddress()
+	address := monitor.Address
 
-	model := MonitorModel{
-		id:          monitor.GetID().String(),
-		name:        monitor.GetName(),
-		cpf:         monitor.GetCPF(),
-		phoneNumber: monitor.GetPhoneNumber(),
-		uf:          address.GetUF(),
-		city:        address.GetCity(),
-		street:      address.GetStreet(),
-		number:      address.GetNumber(),
-		cep:         address.GetCEP(),
-		active:      true,
-	}
 	_, err = stmt.Exec(
-		model.id,
-		model.cpf,
-		model.name,
-		model.phoneNumber,
-		model.uf,
-		model.city,
-		model.street,
-		model.number,
-		model.cep,
-		model.active,
+		monitor.ID.String(),
+		monitor.CPF,
+		monitor.Name,
+		monitor.PhoneNumber,
+		address.UF,
+		address.City,
+		address.Street,
+		address.Number,
+		address.CEP,
+		true,
 	)
 	if err != nil {
 		return err
@@ -61,18 +49,18 @@ func (m *MonitorRepository) Update(monitor *entity.Monitor) error {
 	}
 	defer stmt.Close()
 
-	address := monitor.GetAddress()
+	address := monitor.Address
 
 	_, err = stmt.Exec(
-		monitor.GetCPF(),
-		monitor.GetName(),
-		monitor.GetPhoneNumber(),
-		address.GetUF(),
-		address.GetCity(),
-		address.GetStreet(),
-		address.GetNumber(),
-		address.GetCEP(),
-		monitor.GetID().String(),
+		monitor.CPF,
+		monitor.Name,
+		monitor.PhoneNumber,
+		address.UF,
+		address.City,
+		address.Street,
+		address.Number,
+		address.CEP,
+		monitor.ID.String(),
 	)
 	if err != nil {
 		return err
@@ -94,7 +82,7 @@ func (m *MonitorRepository) Delete(id string) error {
 }
 
 func (m *MonitorRepository) FindAll() ([]entity.Monitor, error) {
-	rows, err := m.db.Query("SELECT * FROM monitors WHERE active = true")
+	rows, err := m.db.Query("SELECT id, cpf, name, phone_number, uf, city, street, number, cep FROM monitors WHERE active = true")
 	if err != nil {
 		return nil, err
 	}
@@ -102,36 +90,23 @@ func (m *MonitorRepository) FindAll() ([]entity.Monitor, error) {
 
 	var monitors []entity.Monitor
 	for rows.Next() {
-		var model MonitorModel
+		inputMonitor := factory.InstanceMonitorInputDTO{}
 		err := rows.Scan(
-			&model.id,
-			&model.cpf,
-			&model.name,
-			&model.phoneNumber,
-			&model.uf,
-			&model.city,
-			&model.street,
-			&model.number,
-			&model.cep,
-			&model.active,
+			&inputMonitor.ID,
+			&inputMonitor.CPF,
+			&inputMonitor.Name,
+			&inputMonitor.PhoneNumber,
+			&inputMonitor.UF,
+			&inputMonitor.City,
+			&inputMonitor.Street,
+			&inputMonitor.Number,
+			&inputMonitor.CEP,
 		)
 		if err != nil {
 			return nil, err
 		}
 
-		inputMonitor := factory.CreateMonitorInputDTO{
-			ID:          model.id,
-			Name:        model.name,
-			CPF:         model.cpf,
-			PhoneNumber: model.phoneNumber,
-			UF:          model.uf,
-			City:        model.city,
-			Street:      model.street,
-			Number:      model.number,
-			CEP:         model.cep,
-		}
-
-		newMonitor, err := factory.MonitorFactory().Create(inputMonitor)
+		newMonitor, err := factory.MonitorFactory().Instance(inputMonitor)
 		if err != nil {
 			return nil, err
 		}
@@ -141,43 +116,30 @@ func (m *MonitorRepository) FindAll() ([]entity.Monitor, error) {
 }
 
 func (m *MonitorRepository) FindByID(id string) (*entity.Monitor, error) {
-	stmt, err := m.db.Prepare("SELECT * FROM monitors WHERE id = ? and active = true")
+	stmt, err := m.db.Prepare("SELECT id, cpf, name, phone_number, uf, city, street, number, cep FROM monitors WHERE id = ? and active = true")
 	if err != nil {
 		return nil, err
 	}
 	defer stmt.Close()
 
-	var model MonitorModel
+	inputMonitor := factory.InstanceMonitorInputDTO{}
 	rows := stmt.QueryRow(id)
 	rows.Scan(
-		&model.id,
-		&model.cpf,
-		&model.name,
-		&model.phoneNumber,
-		&model.uf,
-		&model.city,
-		&model.street,
-		&model.number,
-		&model.cep,
-		&model.active,
+		&inputMonitor.ID,
+		&inputMonitor.CPF,
+		&inputMonitor.Name,
+		&inputMonitor.PhoneNumber,
+		&inputMonitor.UF,
+		&inputMonitor.City,
+		&inputMonitor.Street,
+		&inputMonitor.Number,
+		&inputMonitor.CEP,
 	)
 	if err != nil {
 		return nil, err
 	}
 
-	inputMonitor := factory.CreateMonitorInputDTO{
-		ID:          model.id,
-		Name:        model.name,
-		CPF:         model.cpf,
-		PhoneNumber: model.phoneNumber,
-		UF:          model.uf,
-		City:        model.city,
-		Street:      model.street,
-		Number:      model.number,
-		CEP:         model.cep,
-	}
-
-	newMonitor, err := factory.MonitorFactory().Create(inputMonitor)
+	newMonitor, err := factory.MonitorFactory().Instance(inputMonitor)
 	if err != nil {
 		return nil, err
 	}
@@ -185,41 +147,29 @@ func (m *MonitorRepository) FindByID(id string) (*entity.Monitor, error) {
 }
 
 func (d *MonitorRepository) FindByCPF(cpf string) (*entity.Monitor, error) {
-	stmt, err := d.db.Prepare("SELECT * FROM monitors WHERE cpf = ? and active = true")
+	stmt, err := d.db.Prepare("SELECT id, cpf, name, phone_number, uf, city, street, number, cep FROM monitors WHERE cpf = ? and active = true")
 	if err != nil {
 		return nil, err
 	}
 	defer stmt.Close()
 
-	var model MonitorModel
+	inputMonitor := factory.InstanceMonitorInputDTO{}
 	err = stmt.QueryRow(cpf).Scan(
-		&model.id,
-		&model.cpf,
-		&model.name,
-		&model.phoneNumber,
-		&model.uf,
-		&model.city,
-		&model.street,
-		&model.number,
-		&model.cep,
-		&model.active,
+		&inputMonitor.ID,
+		&inputMonitor.CPF,
+		&inputMonitor.Name,
+		&inputMonitor.PhoneNumber,
+		&inputMonitor.UF,
+		&inputMonitor.City,
+		&inputMonitor.Street,
+		&inputMonitor.Number,
+		&inputMonitor.CEP,
 	)
 	if err != nil {
 		return nil, err
 	}
 
-	inputMonitor := factory.CreateMonitorInputDTO{
-		ID:          model.id,
-		Name:        model.name,
-		CPF:         model.cpf,
-		PhoneNumber: model.phoneNumber,
-		UF:          model.uf,
-		City:        model.city,
-		Street:      model.street,
-		Number:      model.number,
-		CEP:         model.cep,
-	}
-	driver, err := factory.MonitorFactory().Create(inputMonitor)
+	driver, err := factory.MonitorFactory().Instance(inputMonitor)
 	if err != nil {
 		return nil, err
 	}

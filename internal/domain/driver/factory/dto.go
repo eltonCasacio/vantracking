@@ -1,7 +1,6 @@
 package factory
 
 type NewDriverInputDTO struct {
-	ID     string
 	CPF    string
 	Name   string
 	Phone  string

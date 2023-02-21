@@ -23,7 +23,7 @@ func (u *updateUseCase) Update(input PassengerOutDTO) error {
 		RouteCode: input.RouteCode,
 	}
 
-	passenger, err := f.PassengerFactory().CreateInstance(Input)
+	passenger, err := f.PassengerFactory().Instance(Input)
 	if err != nil {
 		return err
 	}

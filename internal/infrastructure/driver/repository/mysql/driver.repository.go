@@ -27,19 +27,19 @@ func (d *DriverRepository) Create(driver *entity.Driver) error {
 	}
 	defer stmt.Close()
 
-	addr := driver.GetAddress()
+	addr := driver.Address
 
 	_, err = stmt.Exec(
-		driver.GetID().String(),
-		driver.GetCPF(),
-		driver.GetName(),
-		driver.GetNickName(),
-		driver.GetPhone(),
-		addr.GetUF(),
-		addr.GetCity(),
-		addr.GetStreet(),
-		addr.GetNumber(),
-		addr.GetCEP(),
+		driver.ID.String(),
+		driver.CPF,
+		driver.Name,
+		driver.Nickname,
+		driver.Phone,
+		addr.UF,
+		addr.City,
+		addr.Street,
+		addr.Number,
+		addr.CEP,
 	)
 	if err != nil {
 		return err
@@ -76,7 +76,7 @@ func (d *DriverRepository) FindByID(id string) (*entity.Driver, error) {
 		return nil, err
 	}
 
-	driverInput := factory.CreateDriverInputDTO{
+	driverInput := factory.CreateInstanceDriverInputDTO{
 		ID:       model.id,
 		CPF:      model.cpf,
 		Name:     model.name,
@@ -88,7 +88,7 @@ func (d *DriverRepository) FindByID(id string) (*entity.Driver, error) {
 		Number:   model.number,
 		CEP:      model.cep,
 	}
-	driver, err := factory.DriverFactory().Create(driverInput)
+	driver, err := factory.DriverFactory().CreateInstance(driverInput)
 	if err != nil {
 		return nil, err
 	}
@@ -107,19 +107,19 @@ func (d *DriverRepository) Update(driver *entity.Driver) error {
 	}
 	defer stmt.Close()
 
-	addr := driver.GetAddress()
+	addr := driver.Address
 
 	_, err = stmt.Exec(
-		driver.GetCPF(),
-		driver.GetName(),
-		driver.GetNickName(),
-		driver.GetPhone(),
-		addr.GetUF(),
-		addr.GetCity(),
-		addr.GetStreet(),
-		addr.GetNumber(),
-		addr.GetCEP(),
-		driver.GetID(),
+		driver.CPF,
+		driver.Name,
+		driver.Nickname,
+		driver.Phone,
+		addr.UF,
+		addr.City,
+		addr.Street,
+		addr.Number,
+		addr.CEP,
+		driver.ID,
 	)
 	if err != nil {
 		return err
@@ -167,7 +167,7 @@ func (d *DriverRepository) FindAll() ([]entity.Driver, error) {
 			return nil, err
 		}
 
-		driverInput := factory.CreateDriverInputDTO{
+		driverInput := factory.CreateInstanceDriverInputDTO{
 			ID:       model.id,
 			CPF:      model.cpf,
 			Name:     model.name,
@@ -180,7 +180,7 @@ func (d *DriverRepository) FindAll() ([]entity.Driver, error) {
 			CEP:      model.cep,
 		}
 
-		d, err := factory.DriverFactory().Create(driverInput)
+		d, err := factory.DriverFactory().CreateInstance(driverInput)
 		if err != nil {
 			return nil, err
 		}
@@ -215,7 +215,7 @@ func (d *DriverRepository) FindByCPF(cpf string) (*entity.Driver, error) {
 		return nil, err
 	}
 
-	driverInput := factory.CreateDriverInputDTO{
+	driverInput := factory.CreateInstanceDriverInputDTO{
 		ID:       model.id,
 		CPF:      model.cpf,
 		Name:     model.name,
@@ -227,7 +227,7 @@ func (d *DriverRepository) FindByCPF(cpf string) (*entity.Driver, error) {
 		Number:   model.number,
 		CEP:      model.cep,
 	}
-	driver, err := factory.DriverFactory().Create(driverInput)
+	driver, err := factory.DriverFactory().CreateInstance(driverInput)
 	if err != nil {
 		return nil, err
 	}

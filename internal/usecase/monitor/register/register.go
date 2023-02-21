@@ -18,7 +18,7 @@ func NewUseCase(repository repo.MonitorRepositoryInterface) *RegisterUseCase {
 }
 
 func (cd *RegisterUseCase) Register(input InputDTO) error {
-	Input := f.CreateMonitorInputDTO{
+	Input := f.NewMonitorInputDTO{
 		Name:        input.Name,
 		CPF:         input.CPF,
 		PhoneNumber: input.PhoneNumber,
@@ -34,7 +34,7 @@ func (cd *RegisterUseCase) Register(input InputDTO) error {
 		return err
 	}
 
-	found, _ := cd.repository.FindByCPF(monitorInstance.GetCPF())
+	found, _ := cd.repository.FindByCPF(monitorInstance.CPF)
 	if found != nil {
 		return errors.New("monitor already exists")
 	}
@@ -43,6 +43,5 @@ func (cd *RegisterUseCase) Register(input InputDTO) error {
 	if err != nil {
 		return err
 	}
-
 	return nil
 }

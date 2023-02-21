@@ -41,26 +41,19 @@ func (r *passengerRepository) Create(passenger *e.Passenger) error {
 		return errors.New("passenger already exists")
 	}
 
+	//CRIA PASSAGEIRO
 	stmt, err = r.db.Prepare("INSERT INTO passengers (id, name, nickname, route_code, monitor_id) values(?,?,?,?,?)")
 	if err != nil {
 		return err
 	}
 	defer stmt.Close()
 
-	model := PassengerModel{
-		ID:        passenger.ID.String(),
-		Name:      passenger.Name,
-		Nickname:  passenger.Nickname,
-		RouteCode: passenger.RouteCode,
-		MonitorID: passenger.MonitorID.String(),
-	}
-
 	_, err = stmt.Exec(
-		model.ID,
-		model.Name,
-		model.Nickname,
-		model.RouteCode,
-		model.MonitorID,
+		passenger.ID.String(),
+		passenger.Name,
+		passenger.Nickname,
+		passenger.RouteCode,
+		passenger.MonitorID.String(),
 	)
 	if err != nil {
 		return err
@@ -88,7 +81,7 @@ func (r *passengerRepository) Update(passenger *e.Passenger) error {
 }
 
 func (r *passengerRepository) FindAll() ([]e.Passenger, error) {
-	rows, err := r.db.Query("SELECT * FROM passengers WHERE active = true")
+	rows, err := r.db.Query("SELECT id, name, nickname, route_code, goes, comes_back, register_confirmed, monitor_id FROM passengers WHERE active = true")
 	if err != nil {
 		return nil, err
 	}
@@ -96,34 +89,22 @@ func (r *passengerRepository) FindAll() ([]e.Passenger, error) {
 
 	var Passengers []e.Passenger
 	for rows.Next() {
-		var model PassengerModel
+		inputPassenger := f.PassengerInputDTO{}
 		err := rows.Scan(
-			&model.ID,
-			&model.Name,
-			&model.Nickname,
-			&model.RouteCode,
-			&model.Goes,
-			&model.Comesback,
-			&model.RegisterConfirmed,
-			&model.MonitorID,
-			&model.active,
+			&inputPassenger.ID,
+			&inputPassenger.Name,
+			&inputPassenger.Nickname,
+			&inputPassenger.RouteCode,
+			&inputPassenger.Goes,
+			&inputPassenger.Comesback,
+			&inputPassenger.RegisterConfirmed,
+			&inputPassenger.MonitorID,
 		)
 		if err != nil {
 			return nil, err
 		}
 
-		inputPassenger := f.PassengerInputDTO{
-			ID:                model.ID,
-			Name:              model.Name,
-			Nickname:          model.Nickname,
-			RouteCode:         model.RouteCode,
-			Goes:              model.Goes,
-			Comesback:         model.Comesback,
-			RegisterConfirmed: model.RegisterConfirmed,
-			MonitorID:         model.MonitorID,
-		}
-
-		newPassenger, err := f.PassengerFactory().CreateInstance(inputPassenger)
+		newPassenger, err := f.PassengerFactory().Instance(inputPassenger)
 
 		if err != nil {
 			return nil, err
@@ -134,51 +115,37 @@ func (r *passengerRepository) FindAll() ([]e.Passenger, error) {
 }
 
 func (r *passengerRepository) FindByID(id string) (*e.Passenger, error) {
-	stmt, err := r.db.Prepare("SELECT * FROM passengers WHERE id = ? and active = true")
+	stmt, err := r.db.Prepare("SELECT id, name, nickname, route_code, goes, comes_back, register_confirmed, monitor_id FROM passengers WHERE id = ? and active = true")
 	if err != nil {
 		return nil, err
 	}
 	defer stmt.Close()
 
-	var model PassengerModel
+	inputPassenger := f.PassengerInputDTO{}
 	rows := stmt.QueryRow(id)
 	rows.Scan(
-		&model.ID,
-		&model.Name,
-		&model.Nickname,
-		&model.RouteCode,
-		&model.Goes,
-		&model.Comesback,
-		&model.RegisterConfirmed,
-		&model.MonitorID,
-		&model.active,
+		&inputPassenger.ID,
+		&inputPassenger.Name,
+		&inputPassenger.Nickname,
+		&inputPassenger.RouteCode,
+		&inputPassenger.Goes,
+		&inputPassenger.Comesback,
+		&inputPassenger.RegisterConfirmed,
+		&inputPassenger.MonitorID,
 	)
 	if err != nil {
 		return nil, err
 	}
 
-	inputPassenger := f.PassengerInputDTO{
-		ID:                model.ID,
-		Name:              model.Name,
-		Nickname:          model.Nickname,
-		RouteCode:         model.RouteCode,
-		Goes:              model.Goes,
-		Comesback:         model.Comesback,
-		RegisterConfirmed: model.RegisterConfirmed,
-		MonitorID:         model.MonitorID,
-	}
-
-	newPassenger, err := f.PassengerFactory().CreateInstance(inputPassenger)
+	newPassenger, err := f.PassengerFactory().Instance(inputPassenger)
 	if err != nil {
 		return nil, err
 	}
-
-	newPassenger.ChangeGoNoGo(model.Goes, model.Comesback)
 	return newPassenger, nil
 }
 
 func (r *passengerRepository) ListNotConfirmedPassengers() ([]e.Passenger, error) {
-	rows, err := r.db.Query("SELECT * FROM passengers WHERE register_confirmed = false  active = true")
+	rows, err := r.db.Query("SELECT id, name, nickname, route_code, goes, comes_back, register_confirmed, monitor_id FROM passengers WHERE register_confirmed = false  active = true")
 	if err != nil {
 		return nil, err
 	}
@@ -186,32 +153,21 @@ func (r *passengerRepository) ListNotConfirmedPassengers() ([]e.Passenger, error
 
 	var passengers []e.Passenger
 	for rows.Next() {
-		var model PassengerModel
+		inputPassenger := f.PassengerInputDTO{}
 		err := rows.Scan(
-			&model.ID,
-			&model.Name,
-			&model.Nickname,
-			&model.RouteCode,
-			&model.Goes,
-			&model.Comesback,
-			&model.MonitorID,
-			&model.active,
+			&inputPassenger.ID,
+			&inputPassenger.Name,
+			&inputPassenger.Nickname,
+			&inputPassenger.RouteCode,
+			&inputPassenger.Goes,
+			&inputPassenger.Comesback,
+			&inputPassenger.MonitorID,
 		)
 		if err != nil {
 			return nil, err
 		}
 
-		inputPassenger := f.PassengerInputDTO{
-			ID:        model.ID,
-			Name:      model.Name,
-			Nickname:  model.Nickname,
-			RouteCode: model.RouteCode,
-			Goes:      model.Goes,
-			Comesback: model.Comesback,
-			MonitorID: model.MonitorID,
-		}
-
-		newPassenger, err := f.PassengerFactory().CreateInstance(inputPassenger)
+		newPassenger, err := f.PassengerFactory().Instance(inputPassenger)
 		if err != nil {
 			return nil, err
 		}
@@ -253,7 +209,7 @@ func (r *passengerRepository) ConfirmPassengerRegister(id string, confirm bool) 
 }
 
 func (r *passengerRepository) ListGoNoGoPassenger(routeCode string) ([]e.Passenger, error) {
-	rows, err := r.db.Query("SELECT * FROM passengers WHERE route_code = ? and  active = true", routeCode)
+	rows, err := r.db.Query("SELECT id, name, nickname, route_code, goes, comes_back, register_confirmed, monitor_id FROM passengers WHERE route_code = ? and  active = true", routeCode)
 	if err != nil {
 		return nil, err
 	}
@@ -261,32 +217,21 @@ func (r *passengerRepository) ListGoNoGoPassenger(routeCode string) ([]e.Passeng
 
 	var passengers []e.Passenger
 	for rows.Next() {
-		var model PassengerModel
+		inputPassenger := f.PassengerInputDTO{}
 		err := rows.Scan(
-			&model.ID,
-			&model.Name,
-			&model.Nickname,
-			&model.RouteCode,
-			&model.Goes,
-			&model.Comesback,
-			&model.MonitorID,
-			&model.active,
+			&inputPassenger.ID,
+			&inputPassenger.Name,
+			&inputPassenger.Nickname,
+			&inputPassenger.RouteCode,
+			&inputPassenger.Goes,
+			&inputPassenger.Comesback,
+			&inputPassenger.MonitorID,
 		)
 		if err != nil {
 			return nil, err
 		}
 
-		inputPassenger := f.PassengerInputDTO{
-			ID:        model.ID,
-			Name:      model.Name,
-			Nickname:  model.Nickname,
-			RouteCode: model.RouteCode,
-			Goes:      model.Goes,
-			Comesback: model.Comesback,
-			MonitorID: model.MonitorID,
-		}
-
-		newPassenger, err := f.PassengerFactory().CreateInstance(inputPassenger)
+		newPassenger, err := f.PassengerFactory().Instance(inputPassenger)
 		if err != nil {
 			return nil, err
 		}

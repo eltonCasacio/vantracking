@@ -16,7 +16,7 @@ func NewUseCase(repository repo.MonitorRepositoryInterface) *updateUseCase {
 }
 
 func (u *updateUseCase) Update(input InputDTO) error {
-	Input := f.CreateMonitorInputDTO{
+	Input := f.InstanceMonitorInputDTO{
 		ID:          input.ID,
 		Name:        input.Name,
 		CPF:         input.CPF,
@@ -28,7 +28,7 @@ func (u *updateUseCase) Update(input InputDTO) error {
 		CEP:         input.CEP,
 	}
 
-	monitorInstance, err := f.MonitorFactory().Create(Input)
+	monitorInstance, err := f.MonitorFactory().Instance(Input)
 	if err != nil {
 		return err
 	}

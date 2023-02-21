@@ -16,7 +16,7 @@ func NewUseCase(driverRepository repo.DriverRepositoryInterface) *updateDriverUs
 }
 
 func (u *updateDriverUseCase) Update(input DriverInputDTO) error {
-	driverInput := f.CreateDriverInputDTO{
+	driverInput := f.CreateInstanceDriverInputDTO{
 		ID:       input.ID,
 		CPF:      input.CPF,
 		Name:     input.Name,
@@ -29,7 +29,7 @@ func (u *updateDriverUseCase) Update(input DriverInputDTO) error {
 		CEP:      input.CEP,
 	}
 
-	driver, err := f.DriverFactory().Create(driverInput)
+	driver, err := f.DriverFactory().CreateInstance(driverInput)
 	if err != nil {
 		return err
 	}
