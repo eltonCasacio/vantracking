@@ -1,10 +1,14 @@
 mode: set
-github.com/eltoncasacio/vantracking/internal/domain/driver/factory/driver.factory.go:27.37,28.21 1 1
-github.com/eltoncasacio/vantracking/internal/domain/driver/factory/driver.factory.go:28.21,31.22 3 1
-github.com/eltoncasacio/vantracking/internal/domain/driver/factory/driver.factory.go:31.22,33.4 1 1
-github.com/eltoncasacio/vantracking/internal/domain/driver/factory/driver.factory.go:35.2,35.17 1 1
-github.com/eltoncasacio/vantracking/internal/domain/driver/factory/driver.factory.go:38.74,40.16 2 1
-github.com/eltoncasacio/vantracking/internal/domain/driver/factory/driver.factory.go:40.16,42.3 1 1
-github.com/eltoncasacio/vantracking/internal/domain/driver/factory/driver.factory.go:44.2,45.16 2 1
-github.com/eltoncasacio/vantracking/internal/domain/driver/factory/driver.factory.go:45.16,47.3 1 1
-github.com/eltoncasacio/vantracking/internal/domain/driver/factory/driver.factory.go:49.2,49.20 1 1
+github.com/eltoncasacio/vantracking/internal/domain/driver/factory/driver.factory.go:11.37,13.2 1 1
+github.com/eltoncasacio/vantracking/internal/domain/driver/factory/driver.factory.go:15.74,17.16 2 1
+github.com/eltoncasacio/vantracking/internal/domain/driver/factory/driver.factory.go:17.16,19.3 1 1
+github.com/eltoncasacio/vantracking/internal/domain/driver/factory/driver.factory.go:21.2,22.16 2 1
+github.com/eltoncasacio/vantracking/internal/domain/driver/factory/driver.factory.go:22.16,24.3 1 1
+github.com/eltoncasacio/vantracking/internal/domain/driver/factory/driver.factory.go:26.2,26.20 1 1
+github.com/eltoncasacio/vantracking/internal/domain/driver/factory/driver.factory.go:29.96,31.16 2 1
+github.com/eltoncasacio/vantracking/internal/domain/driver/factory/driver.factory.go:31.16,33.3 1 1
+github.com/eltoncasacio/vantracking/internal/domain/driver/factory/driver.factory.go:35.2,36.16 2 1
+github.com/eltoncasacio/vantracking/internal/domain/driver/factory/driver.factory.go:36.16,38.3 1 1
+github.com/eltoncasacio/vantracking/internal/domain/driver/factory/driver.factory.go:40.2,49.41 2 1
+github.com/eltoncasacio/vantracking/internal/domain/driver/factory/driver.factory.go:49.41,51.3 1 1
+github.com/eltoncasacio/vantracking/internal/domain/driver/factory/driver.factory.go:53.2,53.21 1 1
