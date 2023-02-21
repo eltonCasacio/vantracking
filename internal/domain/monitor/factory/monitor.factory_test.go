@@ -15,7 +15,7 @@ func TestMonitorFactory_SigleInstance(t *testing.T) {
 func TestMonitorFactory_Create(t *testing.T) {
 	factory := MonitorFactory()
 
-	input := CreateMonitorInputDTO{
+	input := NewMonitorInputDTO{
 		Name:        "any_name",
 		CPF:         "any_cpf",
 		PhoneNumber: "any_phone",
@@ -34,7 +34,7 @@ func TestMonitorFactory_Create(t *testing.T) {
 func TestMonitorFactory_Create_InvalidMonitorData(t *testing.T) {
 	factory := MonitorFactory()
 
-	input := CreateMonitorInputDTO{
+	input := NewMonitorInputDTO{
 		Name:        "",
 		CPF:         "any_cpf",
 		PhoneNumber: "any_phone",
@@ -53,7 +53,7 @@ func TestMonitorFactory_Create_InvalidMonitorData(t *testing.T) {
 func TestMonitorFactory_Create_InvalidAddressData(t *testing.T) {
 	factory := MonitorFactory()
 
-	input := CreateMonitorInputDTO{
+	input := NewMonitorInputDTO{
 		Name:        "",
 		CPF:         "any_cpf",
 		PhoneNumber: "any_phone",

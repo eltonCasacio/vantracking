@@ -8,28 +8,23 @@ import (
 )
 
 type Monitor struct {
-	id          identity.ID
-	name        string
-	cpf         string
-	phoneNumber string
-	address     vo.Address
+	ID          identity.ID
+	Name        string
+	CPF         string
+	PhoneNumber string
+	Address     vo.Address
 }
 
-func NewMonitor(id, name, cpf, phoneNumber string, address vo.Address) (*Monitor, error) {
-	newID, err := identity.ParseID(id)
-	if err != nil {
-		newID = identity.NewID()
-	}
-
+func NewMonitor(name, cpf, phoneNumber string, address vo.Address) (*Monitor, error) {
 	m := &Monitor{
-		id:          newID,
-		name:        name,
-		cpf:         cpf,
-		phoneNumber: phoneNumber,
-		address:     address,
+		ID:          identity.NewID(),
+		Name:        name,
+		CPF:         cpf,
+		PhoneNumber: phoneNumber,
+		Address:     address,
 	}
 
-	err = m.IsValid()
+	err := m.IsValid()
 	if err != nil {
 		return nil, err
 	}
@@ -39,37 +34,17 @@ func NewMonitor(id, name, cpf, phoneNumber string, address vo.Address) (*Monitor
 
 func (m *Monitor) IsValid() error {
 	var errs error
-	if err := m.GetName() == ""; err {
+	if err := m.Name == ""; err {
 		return errors.New("invalid name")
 	}
-	if err := m.GetCPF() == ""; err {
+	if err := m.CPF == ""; err {
 		return errors.New("invalid cpf")
 	}
-	if err := m.GetPhoneNumber() == ""; err {
+	if err := m.PhoneNumber == ""; err {
 		return errors.New("invalid phonenumber")
 	}
-	if err := m.address.IsValid() != nil; err {
+	if err := m.Address.IsValid() != nil; err {
 		return errors.New("address must be a valid address")
 	}
 	return errs
-}
-
-func (m *Monitor) GetID() identity.ID {
-	return m.id
-}
-
-func (m *Monitor) GetName() string {
-	return m.name
-}
-
-func (m *Monitor) GetCPF() string {
-	return m.cpf
-}
-
-func (m *Monitor) GetPhoneNumber() string {
-	return m.phoneNumber
-}
-
-func (m *Monitor) GetAddress() vo.Address {
-	return m.address
 }

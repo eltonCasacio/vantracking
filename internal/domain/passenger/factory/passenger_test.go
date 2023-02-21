@@ -12,13 +12,12 @@ func TestNew(t *testing.T) {
 	psg := PassengerFactory()
 	assert.Equal(t, p, psg)
 
-	input := PassengerInputDTO{
+	input := NewPassengerInputDTO{
 		Name:      "any_name",
-		Nickname:  "any_nickname",
 		RouteCode: "any_route_code",
 		MonitorID: identity.NewID().String(),
 	}
-	passenger, err := p.New(input)
+	passenger, err := p.NewPassenger(input)
 	assert.Nil(t, err)
 	assert.Equal(t, passenger.Name, input.Name)
 }
@@ -26,13 +25,12 @@ func TestNew(t *testing.T) {
 func TestNew_InvalidMonitorID(t *testing.T) {
 	p := PassengerFactory()
 
-	input := PassengerInputDTO{
+	input := NewPassengerInputDTO{
 		Name:      "any_name",
-		Nickname:  "any_nickname",
 		RouteCode: "any_route_code",
 		MonitorID: "",
 	}
-	passenger, err := p.New(input)
+	passenger, err := p.NewPassenger(input)
 	assert.NotNil(t, err)
 	assert.Nil(t, passenger)
 }
@@ -40,107 +38,92 @@ func TestNew_InvalidMonitorID(t *testing.T) {
 func TestNew_InvalidParams(t *testing.T) {
 	p := PassengerFactory()
 
-	input := PassengerInputDTO{
+	input := NewPassengerInputDTO{
 		Name:      "",
-		Nickname:  "any_nickname",
 		RouteCode: "any_route_code",
 		MonitorID: identity.NewID().String(),
 	}
-	passenger, err := p.New(input)
+	passenger, err := p.NewPassenger(input)
 	assert.NotNil(t, err)
 	assert.Nil(t, passenger)
 	assert.EqualError(t, err, "invalid name")
 }
 
-func TestCreateInstance(t *testing.T) {
+func TestInstance(t *testing.T) {
 	p := PassengerFactory()
 
 	id := identity.NewID().String()
-	monitorid := identity.NewID().String()
-
 	input := PassengerInputDTO{
 		ID:                id,
-		Name:              "any_name",
-		Nickname:          "any_nickname",
+		Name:              "name",
+		Nickname:          "nickname",
 		RouteCode:         "any_route_code",
 		Goes:              true,
 		Comesback:         false,
 		RegisterConfirmed: true,
-		MonitorID:         monitorid,
+		MonitorID:         identity.NewID().String(),
 	}
-	passenger, err := p.CreateInstance(input)
+	passenger, err := p.Instance(input)
 	assert.Nil(t, err)
+	assert.NotNil(t, passenger)
 	assert.Equal(t, passenger.ID.String(), id)
-	assert.Equal(t, passenger.Goes, input.Goes)
-	assert.Equal(t, passenger.Comesback, input.Comesback)
-	assert.Equal(t, passenger.RegisterConfirmed, input.RegisterConfirmed)
+	assert.True(t, passenger.Goes)
+	assert.False(t, passenger.Comesback)
 }
 
-func TestCreateInstance_InvalidID(t *testing.T) {
+func TestInstance_InvalidID(t *testing.T) {
 	p := PassengerFactory()
 
-	id := ""
-	monitorid := identity.NewID().String()
-
 	input := PassengerInputDTO{
-		ID:                id,
-		Name:              "any_name",
-		Nickname:          "any_nickname",
+		ID:                "",
+		Name:              "name",
+		Nickname:          "nickname",
 		RouteCode:         "any_route_code",
-		Goes:              false,
+		Goes:              true,
 		Comesback:         false,
 		RegisterConfirmed: true,
-		MonitorID:         monitorid,
+		MonitorID:         identity.NewID().String(),
 	}
-	passenger, err := p.CreateInstance(input)
-	assert.NotNil(t, err)
+	passenger, err := p.Instance(input)
 	assert.Nil(t, passenger)
-	assert.Equal(t, input.ID, "")
+	assert.NotNil(t, err)
+	assert.EqualError(t, err, "invalid id")
 }
 
-func TestCreateInstance_InvalidMonitorID(t *testing.T) {
+func TestInstance_InvalidMonitorID(t *testing.T) {
 	p := PassengerFactory()
 
-	id := identity.NewID().String()
-	monitorid := ""
-
 	input := PassengerInputDTO{
-		ID:                id,
-		Name:              "any_name",
-		Nickname:          "any_nickname",
+		ID:                identity.NewID().String(),
+		Name:              "name",
+		Nickname:          "nickname",
 		RouteCode:         "any_route_code",
-		Goes:              false,
+		Goes:              true,
 		Comesback:         false,
 		RegisterConfirmed: true,
-		MonitorID:         monitorid,
+		MonitorID:         "",
 	}
-	passenger, err := p.CreateInstance(input)
-	assert.NotNil(t, err)
+	passenger, err := p.Instance(input)
 	assert.Nil(t, passenger)
-	assert.Equal(t, input.ID, id)
-	assert.Equal(t, input.MonitorID, "")
+	assert.NotNil(t, err)
+	assert.EqualError(t, err, "invalid monitor id")
 }
 
-func TestCreateInstance_InvalidParams(t *testing.T) {
+func TestInstance_InvalidParams(t *testing.T) {
 	p := PassengerFactory()
 
-	id := identity.NewID().String()
-	monitorid := identity.NewID().String()
-
 	input := PassengerInputDTO{
-		ID:                id,
+		ID:                identity.NewID().String(),
 		Name:              "",
-		Nickname:          "any_nickname",
+		Nickname:          "nickname",
 		RouteCode:         "any_route_code",
-		Goes:              false,
+		Goes:              true,
 		Comesback:         false,
 		RegisterConfirmed: true,
-		MonitorID:         monitorid,
+		MonitorID:         identity.NewID().String(),
 	}
-	passenger, err := p.CreateInstance(input)
-	assert.NotNil(t, err)
+	passenger, err := p.Instance(input)
 	assert.Nil(t, passenger)
-	assert.Equal(t, input.ID, id)
-	assert.Equal(t, input.MonitorID, monitorid)
-	assert.Equal(t, input.Name, "")
+	assert.NotNil(t, err)
+	assert.EqualError(t, err, "invalid name")
 }

@@ -1,5 +1,11 @@
 package passenger
 
+type NewPassengerInputDTO struct {
+	Name      string
+	RouteCode string
+	MonitorID string
+}
+
 type PassengerInputDTO struct {
 	ID                string
 	Name              string

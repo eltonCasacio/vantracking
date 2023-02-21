@@ -1,6 +1,7 @@
 package passenger
 
 import (
+	"errors"
 	"sync"
 
 	e "github.com/eltoncasacio/vantracking/internal/domain/passenger/entity"
@@ -23,7 +24,7 @@ func PassengerFactory() *passengerFactory {
 	return instance
 }
 
-func (df *passengerFactory) New(input PassengerInputDTO) (*e.Passenger, error) {
+func (df *passengerFactory) NewPassenger(input NewPassengerInputDTO) (*e.Passenger, error) {
 	monitorID, err := identity.ParseID(input.MonitorID)
 	if err != nil {
 		return nil, err
@@ -39,16 +40,17 @@ func (df *passengerFactory) New(input PassengerInputDTO) (*e.Passenger, error) {
 	return p, nil
 }
 
-func (df *passengerFactory) CreateInstance(input PassengerInputDTO) (*e.Passenger, error) {
+func (df *passengerFactory) Instance(input PassengerInputDTO) (*e.Passenger, error) {
 	id, err := identity.ParseID(input.ID)
 	if err != nil {
-		return nil, err
+		return nil, errors.New("invalid id")
 	}
 
 	monitorID, err := identity.ParseID(input.MonitorID)
 	if err != nil {
-		return nil, err
+		return nil, errors.New("invalid monitor id")
 	}
+
 	p := e.Passenger{
 		ID:                id,
 		Name:              input.Name,

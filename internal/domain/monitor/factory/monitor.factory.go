@@ -1,39 +1,46 @@
 package factory
 
 import (
-	"sync"
-
 	"github.com/eltoncasacio/vantracking/internal/domain/monitor/entity"
+	"github.com/eltoncasacio/vantracking/pkg/identity"
 
 	vo "github.com/eltoncasacio/vantracking/internal/domain/shared/valueobjects"
 )
 
 type monitorFactory struct{}
 
-var instance *monitorFactory
-var lock = &sync.Mutex{}
-
 func MonitorFactory() *monitorFactory {
-	if instance == nil {
-		lock.Lock()
-		defer lock.Unlock()
-		if instance == nil {
-			instance = &monitorFactory{}
-		}
-	}
-	return instance
+	return &monitorFactory{}
 }
 
-func (df *monitorFactory) Create(input CreateMonitorInputDTO) (*entity.Monitor, error) {
+func (df *monitorFactory) Create(input NewMonitorInputDTO) (*entity.Monitor, error) {
 	addrDriver, err := vo.NewAddress(input.UF, input.City, input.Street, input.Number, input.CEP)
 	if err != nil {
 		return nil, err
 	}
 
-	driver, err := entity.NewMonitor(input.ID, input.Name, input.CPF, input.PhoneNumber, *addrDriver)
+	driver, err := entity.NewMonitor(input.Name, input.CPF, input.PhoneNumber, *addrDriver)
 	if err != nil {
 		return nil, err
 	}
 
 	return driver, nil
+}
+
+func (df *monitorFactory) Instance(input InstanceMonitorInputDTO) (*entity.Monitor, error) {
+	addrDriver, err := vo.NewAddress(input.UF, input.City, input.Street, input.Number, input.CEP)
+	if err != nil {
+		return nil, err
+	}
+
+	id, _ := identity.ParseID(input.ID)
+	driver := entity.Monitor{
+		ID:          id,
+		Name:        input.Name,
+		CPF:         input.CPF,
+		PhoneNumber: input.PhoneNumber,
+		Address:     *addrDriver,
+	}
+
+	return &driver, nil
 }

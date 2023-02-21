@@ -10,11 +10,11 @@ func TestNewAddress(t *testing.T) {
 	addr, err := NewAddress("uf", "any_city", "any_street", "any_number", "123123")
 	assert.Nil(t, err)
 	assert.NotEmpty(t, addr)
-	assert.Equal(t, addr.cep, "123123")
-	assert.Equal(t, addr.uf, "uf")
-	assert.Equal(t, addr.city, "any_city")
-	assert.Equal(t, addr.street, "any_street")
-	assert.Equal(t, addr.number, "any_number")
+	assert.Equal(t, addr.CEP, "123123")
+	assert.Equal(t, addr.UF, "uf")
+	assert.Equal(t, addr.City, "any_city")
+	assert.Equal(t, addr.Street, "any_street")
+	assert.Equal(t, addr.Number, "any_number")
 }
 
 func TestNewAddresses_ErrorUFInvalid(t *testing.T) {
