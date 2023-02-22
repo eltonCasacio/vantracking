@@ -30,5 +30,6 @@ func (dr *monitorRoutes) CreateRoutes() {
 		r.Get("/{id}", monitorHandler.Consult)
 		r.Put("/", monitorHandler.Update)
 		r.Delete("/{id}", monitorHandler.Delete)
+		r.Get("/location/{routecode}", monitorHandler.GetLocation)
 	})
 }

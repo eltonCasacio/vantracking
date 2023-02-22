@@ -30,5 +30,6 @@ func (dr *driverRoutes) CreateRoutes() {
 		r.Get("/{id}", handler.Consult)
 		r.Put("/", handler.Update)
 		r.Delete("/{id}", handler.Delete)
+		r.Post("/location", handler.SetLocation)
 	})
 }

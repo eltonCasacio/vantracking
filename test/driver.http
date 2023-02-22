@@ -44,3 +44,13 @@ Content-Type:  application/json
 ###
 DELETE    http://localhost:8000/driver/1ce70440-beb4-40c3-bd66-ff89abd3e62a HTTP/1.1
 Content-Type:  application/json
+
+
+###
+POST http://localhost:8000/driver/location HTTP/1.1
+
+{
+	"route_code": "route_code",
+	"latitude": "111",
+	"longitude": "321"
+}

@@ -9,6 +9,7 @@ import (
 	fusecase "github.com/eltoncasacio/vantracking/internal/usecase/driver/findbyid"
 	fausecase "github.com/eltoncasacio/vantracking/internal/usecase/driver/listall"
 	rusecase "github.com/eltoncasacio/vantracking/internal/usecase/driver/register"
+	setLocationusecase "github.com/eltoncasacio/vantracking/internal/usecase/driver/setlocation"
 	upusecase "github.com/eltoncasacio/vantracking/internal/usecase/driver/update"
 	"github.com/go-chi/chi"
 )
@@ -107,6 +108,18 @@ func (dh *DriverHandler) Delete(w http.ResponseWriter, r *http.Request) {
 	}
 
 	err := dusecase.NewUseCase(dh.repository).Delete(id)
+	if err != nil {
+		w.Write([]byte(err.Error()))
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+}
+
+func (dh *DriverHandler) SetLocation(w http.ResponseWriter, r *http.Request) {
+	var input setLocationusecase.SetLocationInputDTO
+	json.NewDecoder(r.Body).Decode(&input)
+
+	err := setLocationusecase.NewUseCase(dh.repository).Set(input)
 	if err != nil {
 		w.Write([]byte(err.Error()))
 		return

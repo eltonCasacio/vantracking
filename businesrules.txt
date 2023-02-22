@@ -8,28 +8,27 @@ Cada PASSAGEIRO está ligado a uma ROTA. Essa ligacao se da pelo codigo da ROTA.
 *********************** BACKEND ***********************
 
 CASO DE USO MOTORISTA:
-    LOGIN - Informar CPF
+OK  LOGIN - Informar CPF (consultar se existe motorista cadastrado com aquele CPF)
 OK  se cadastrar.
 OK  alterar informacoes "pessoais".
 OK  excluir conta.
 OK  visualizar suas proprias informacoes "pessoais".
 OK  confirmar cadastro de passageiro na rota.
 DEPOIS    enviar mensagens aos MONITORES, enviar para todos de uma vez.
-    para visualizar qual passageiro vai ou nao vai na viajem. (lista de passageiros com status)
-    API websocket para receber a localizacao
-
+OK  para visualizar qual passageiro vai ou nao vai na viajem. (lista de passageiros)
+DEPOIS    API websocket para receber a localizacao
+    Enviar notificacao aos monitores quando o motorista iniciar corrida, estiver chegando na casa do monitor e quando chegar na escola
 
 CASO DE USO MONITORES:
-    LOGIN - Informar CPF
+OK  LOGIN - Informar CPF (consultar se existe monitor cadastrado com aquele CPF)
 OK  se cadastrar.
 OK  alterar informacoes "pessoais".
 OK  excluir conta.
 OK  visualizar suas proprias informacoes "pessoais".
 OK  cadastrar passageiro
-    CASO DE USO buscar localizacao do motorista(WEBSOCKET)
-    CASO DE USO informar se o passageiro vai ou nao vai.
+OK  informar se o passageiro vai ou nao vai. (chamar api de update)
+    buscar localizacao do motorista(WEBSOCKET)
 DEPOIS    receber mensagem do motorista.
-    receber notificacoes se o motorista ja iniciou viagem, se está chegando e chegada no destino.
 
 
 *********************** FRONTEND ***********************

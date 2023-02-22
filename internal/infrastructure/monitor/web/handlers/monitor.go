@@ -7,6 +7,7 @@ import (
 	repo "github.com/eltoncasacio/vantracking/internal/domain/monitor/repository"
 	dusecase "github.com/eltoncasacio/vantracking/internal/usecase/monitor/delete"
 	fusecase "github.com/eltoncasacio/vantracking/internal/usecase/monitor/findbyid"
+	getlocationusecase "github.com/eltoncasacio/vantracking/internal/usecase/monitor/getlocation"
 	fausecase "github.com/eltoncasacio/vantracking/internal/usecase/monitor/list"
 	rusecase "github.com/eltoncasacio/vantracking/internal/usecase/monitor/register"
 	upusecase "github.com/eltoncasacio/vantracking/internal/usecase/monitor/update"
@@ -110,4 +111,16 @@ func (dh *monitorHandler) Delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.WriteHeader(http.StatusOK)
+}
+
+func (dh *monitorHandler) GetLocation(w http.ResponseWriter, r *http.Request) {
+	routeCode := chi.URLParam(r, "routecode")
+	if routeCode == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	output := getlocationusecase.NewUseCase(dh.repository).Get(routeCode)
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(output)
 }
