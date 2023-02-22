@@ -16,6 +16,20 @@ import (
 )
 
 func main() {
+	db, _ := Init()
+
+	chi := chi.NewRouter()
+	chi.Use(middleware.Logger)
+	chi.Use(middleware.Recoverer)
+
+	driverRoutes.NewDriverRoutes(db, chi).CreateRoutes()
+	monitorRoutes.NewMonitorRoutes(db, chi).CreateRoutes()
+	passengerRoutes.NewPassengerRoutes(db, chi).CreateRoutes()
+
+	http.ListenAndServe(":8000", chi)
+}
+
+func Init() (*sql.DB, *configs.Config) {
 	config, err := configs.LoadConfig(".env")
 	if err != nil {
 		panic(err)
@@ -31,15 +45,5 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	// driverLocations := map[string]string{}
-
-	chi := chi.NewRouter()
-	chi.Use(middleware.Logger)
-	chi.Use(middleware.Recoverer)
-
-	driverRoutes.NewDriverRoutes(db, chi).CreateRoutes()
-	monitorRoutes.NewMonitorRoutes(db, chi).CreateRoutes()
-	passengerRoutes.NewPassengerRoutes(db, chi).CreateRoutes()
-
-	http.ListenAndServe(":8000", chi)
+	return db, config
 }
