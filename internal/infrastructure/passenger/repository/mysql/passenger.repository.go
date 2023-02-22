@@ -209,36 +209,3 @@ func (r *passengerRepository) ConfirmPassengerRegister(id string, confirm bool) 
 
 	return nil
 }
-
-func (r *passengerRepository) ListGoNoGoPassenger(routeCode string) ([]e.Passenger, error) {
-	rows, err := r.db.Query("SELECT id, name, nickname, route_code, goes, comesback, register_confirmed, monitor_id FROM passengers WHERE route_code = ? and  active = true", routeCode)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-
-	var passengers []e.Passenger
-	for rows.Next() {
-		inputPassenger := f.PassengerInputDTO{}
-		err := rows.Scan(
-			&inputPassenger.ID,
-			&inputPassenger.Name,
-			&inputPassenger.Nickname,
-			&inputPassenger.RouteCode,
-			&inputPassenger.Goes,
-			&inputPassenger.Comesback,
-			&inputPassenger.MonitorID,
-		)
-		if err != nil {
-			return nil, err
-		}
-
-		newPassenger, err := f.PassengerFactory().Instance(inputPassenger)
-		if err != nil {
-			return nil, err
-		}
-		passengers = append(passengers, *newPassenger)
-	}
-
-	return passengers, nil
-}
