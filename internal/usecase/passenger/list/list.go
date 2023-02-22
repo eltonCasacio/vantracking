@@ -15,6 +15,7 @@ func NewUseCase(repository repo.PassengerRepositoryInterface) *listAllUseCase {
 }
 
 func (u *listAllUseCase) ListAll() ([]PassengerOutputDTO, error) {
+
 	passengers, err := u.repository.FindAll()
 	if err != nil {
 		return []PassengerOutputDTO{}, err

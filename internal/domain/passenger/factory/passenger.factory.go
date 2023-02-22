@@ -14,14 +14,7 @@ var instance *passengerFactory
 var lock = &sync.Mutex{}
 
 func PassengerFactory() *passengerFactory {
-	if instance == nil {
-		lock.Lock()
-		defer lock.Unlock()
-		if instance == nil {
-			instance = &passengerFactory{}
-		}
-	}
-	return instance
+	return &passengerFactory{}
 }
 
 func (df *passengerFactory) NewPassenger(input NewPassengerInputDTO) (*e.Passenger, error) {
@@ -31,6 +24,7 @@ func (df *passengerFactory) NewPassenger(input NewPassengerInputDTO) (*e.Passeng
 	}
 	p, err := e.NewPassenger(
 		input.Name,
+		input.Nickname,
 		input.RouteCode,
 		monitorID,
 	)

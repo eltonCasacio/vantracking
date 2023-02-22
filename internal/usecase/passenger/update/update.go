@@ -15,12 +15,16 @@ func NewUseCase(repository repo.PassengerRepositoryInterface) *updateUseCase {
 	}
 }
 
-func (u *updateUseCase) Update(input PassengerOutDTO) error {
+func (u *updateUseCase) Update(input PassengerInputDTO) error {
 	Input := f.PassengerInputDTO{
-		ID:        input.ID,
-		Name:      input.Name,
-		Nickname:  input.Nickname,
-		RouteCode: input.RouteCode,
+		ID:                input.ID,
+		Name:              input.Name,
+		Nickname:          input.Nickname,
+		RouteCode:         input.RouteCode,
+		Goes:              input.Goes,
+		Comesback:         input.Comesback,
+		RegisterConfirmed: input.RegisterConfirmed,
+		MonitorID:         input.MonitorID,
 	}
 
 	passenger, err := f.PassengerFactory().Instance(Input)

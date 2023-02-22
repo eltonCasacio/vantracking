@@ -3,6 +3,7 @@ package repository
 import (
 	"database/sql"
 	"errors"
+	"fmt"
 
 	e "github.com/eltoncasacio/vantracking/internal/domain/passenger/entity"
 	f "github.com/eltoncasacio/vantracking/internal/domain/passenger/factory"
@@ -24,7 +25,7 @@ func (r *passengerRepository) Create(passenger *e.Passenger) error {
 	}
 	defer stmt.Close()
 	var id string
-	stmt.QueryRow(passenger.ID.String()).Scan(&id)
+	stmt.QueryRow(passenger.MonitorID.String()).Scan(&id)
 	if id == "" {
 		return errors.New("monitor id is invalid")
 	}
@@ -81,8 +82,9 @@ func (r *passengerRepository) Update(passenger *e.Passenger) error {
 }
 
 func (r *passengerRepository) FindAll() ([]e.Passenger, error) {
-	rows, err := r.db.Query("SELECT id, name, nickname, route_code, goes, comes_back, register_confirmed, monitor_id FROM passengers WHERE active = true")
+	rows, err := r.db.Query("SELECT id, name, nickname, route_code, goes, comesback, register_confirmed, monitor_id FROM passengers WHERE active = true")
 	if err != nil {
+		fmt.Println("row")
 		return nil, err
 	}
 	defer rows.Close()
@@ -115,7 +117,7 @@ func (r *passengerRepository) FindAll() ([]e.Passenger, error) {
 }
 
 func (r *passengerRepository) FindByID(id string) (*e.Passenger, error) {
-	stmt, err := r.db.Prepare("SELECT id, name, nickname, route_code, goes, comes_back, register_confirmed, monitor_id FROM passengers WHERE id = ? and active = true")
+	stmt, err := r.db.Prepare("SELECT id, name, nickname, route_code, goes, comesback, register_confirmed, monitor_id FROM passengers WHERE id = ? and active = true")
 	if err != nil {
 		return nil, err
 	}
@@ -145,7 +147,7 @@ func (r *passengerRepository) FindByID(id string) (*e.Passenger, error) {
 }
 
 func (r *passengerRepository) ListNotConfirmedPassengers() ([]e.Passenger, error) {
-	rows, err := r.db.Query("SELECT id, name, nickname, route_code, goes, comes_back, register_confirmed, monitor_id FROM passengers WHERE register_confirmed = false  active = true")
+	rows, err := r.db.Query("SELECT id, name, nickname, route_code, goes, comesback, register_confirmed, monitor_id FROM passengers WHERE register_confirmed = false  active = true")
 	if err != nil {
 		return nil, err
 	}
@@ -209,7 +211,7 @@ func (r *passengerRepository) ConfirmPassengerRegister(id string, confirm bool) 
 }
 
 func (r *passengerRepository) ListGoNoGoPassenger(routeCode string) ([]e.Passenger, error) {
-	rows, err := r.db.Query("SELECT id, name, nickname, route_code, goes, comes_back, register_confirmed, monitor_id FROM passengers WHERE route_code = ? and  active = true", routeCode)
+	rows, err := r.db.Query("SELECT id, name, nickname, route_code, goes, comesback, register_confirmed, monitor_id FROM passengers WHERE route_code = ? and  active = true", routeCode)
 	if err != nil {
 		return nil, err
 	}

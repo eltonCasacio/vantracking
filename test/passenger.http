@@ -6,7 +6,7 @@ Content-Type:  application/json
     "name" : "any_name",
 	"nickname" : "any_nickname",
 	"route_code" : "any_route_code",
-	"monitor_id" : "3017aae8-572f-4482-ad36-5c3db9946185"
+	"monitor_id" : "6a6b2b14-345e-4e09-9a9e-0e72871094ce"
 }
 
 ###  BUSCAR TODOS PASSAGEIROS
@@ -14,7 +14,7 @@ GET  http://localhost:8000/passenger HTTP/1.1
 Content-Type:  application/json
 
 ### BUSCAR POR ID
-GET  http://localhost:8000/passenger/3204aa1c-08a9-454d-b6d9-25e4cd69de98 HTTP/1.1
+GET  http://localhost:8000/passenger/29da43e1-ed45-48a3-b73c-3c603d8447bc HTTP/1.1
 Content-Type:  application/json
 
 
@@ -23,10 +23,14 @@ PUT   http://localhost:8000/passenger HTTP/1.1
 Content-Type:  application/json
 
 {
-	"id": "3204aa1c-08a9-454d-b6d9-25e4cd69de98",
+	"id": "29da43e1-ed45-48a3-b73c-3c603d8447bc",
 	"name" : "teste",
 	"nickname" : "other_nickname",
-	"route_code" : "other_route_code"
+	"route_code" : "other_route_code",
+	"goes":true,
+	"comesback": true,
+	"register_confirmed": true,
+	"monitor_id": "6a6b2b14-345e-4e09-9a9e-0e72871094ce"
 }
 
 ###

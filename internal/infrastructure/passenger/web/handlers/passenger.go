@@ -68,21 +68,14 @@ func (dh *passengerHandler) Find(w http.ResponseWriter, r *http.Request) {
 }
 
 func (dh *passengerHandler) Update(w http.ResponseWriter, r *http.Request) {
-	var input updateUsecase.PassengerOutDTO
+	var input updateUsecase.PassengerInputDTO
 	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil || input.ID == "" {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
-	usecaseInput := updateUsecase.PassengerOutDTO{
-		ID:        input.ID,
-		Name:      input.Name,
-		Nickname:  input.Nickname,
-		RouteCode: input.RouteCode,
-	}
-
-	err = updateUsecase.NewUseCase(dh.repository).Update(usecaseInput)
+	err = updateUsecase.NewUseCase(dh.repository).Update(input)
 	if err != nil {
 		w.Write([]byte(err.Error()))
 		return

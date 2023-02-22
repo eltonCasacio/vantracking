@@ -2,6 +2,7 @@ package passenger
 
 type NewPassengerInputDTO struct {
 	Name      string
+	Nickname  string
 	RouteCode string
 	MonitorID string
 }

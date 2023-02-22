@@ -17,10 +17,11 @@ type Passenger struct {
 	RegisterConfirmed bool
 }
 
-func NewPassenger(name, routeCode string, monitorID identity.ID) (*Passenger, error) {
+func NewPassenger(name, routeCode, nickname string, monitorID identity.ID) (*Passenger, error) {
 	p := &Passenger{
 		ID:                identity.NewID(),
 		Name:              name,
+		Nickname:          nickname,
 		RouteCode:         routeCode,
 		MonitorID:         monitorID,
 		Goes:              true,
