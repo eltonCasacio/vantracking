@@ -6,17 +6,17 @@ import (
 	repo "github.com/eltoncasacio/vantracking/internal/domain/driver/repository"
 )
 
-type findDriverByIDUseCase struct {
+type FindDriverByIDUseCase struct {
 	driverRepository repo.DriverRepositoryInterface
 }
 
-func NewUseCase(driverRepository repo.DriverRepositoryInterface) *findDriverByIDUseCase {
-	return &findDriverByIDUseCase{
+func NewUseCase(driverRepository repo.DriverRepositoryInterface) *FindDriverByIDUseCase {
+	return &FindDriverByIDUseCase{
 		driverRepository: driverRepository,
 	}
 }
 
-func (cd *findDriverByIDUseCase) FindByID(id string) (DriverOutputDTO, error) {
+func (cd *FindDriverByIDUseCase) FindByID(id string) (DriverOutputDTO, error) {
 
 	d, err := cd.driverRepository.FindByID(id)
 	if err != nil {

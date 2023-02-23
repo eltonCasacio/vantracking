@@ -7,17 +7,17 @@ import (
 	repo "github.com/eltoncasacio/vantracking/internal/domain/driver/repository"
 )
 
-type setDriverLocationUseCase struct {
+type SetDriverLocationUseCase struct {
 	driverRepository repo.DriverRepositoryInterface
 }
 
-func NewUseCase(driverRepository repo.DriverRepositoryInterface) *setDriverLocationUseCase {
-	return &setDriverLocationUseCase{
+func NewUseCase(driverRepository repo.DriverRepositoryInterface) *SetDriverLocationUseCase {
+	return &SetDriverLocationUseCase{
 		driverRepository: driverRepository,
 	}
 }
 
-func (u *setDriverLocationUseCase) Set(input SetLocationInputDTO) error {
+func (u *SetDriverLocationUseCase) Set(input SetLocationInputDTO) error {
 	if err := os.Setenv("latitude_"+input.RouteCode, input.Latitude); err != nil {
 		return err
 	}

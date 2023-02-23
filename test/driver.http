@@ -20,7 +20,7 @@ Content-Type:  application/json
 
 
 ### BUSCAR POR ID
-GET  http://localhost:8000/driver/b6d7ef0e-3e5b-4c41-968f-b4816eb52b65 HTTP/1.1
+GET  http://localhost:8000/driver/2d763fea-29fe-4ed0-a898-ebf73fce4343 HTTP/1.1
 Content-Type:  application/json
 
 
@@ -29,7 +29,7 @@ PUT   http://localhost:8000/driver HTTP/1.1
 Content-Type:  application/json
 
 {
-	"id": "b6d7ef0e-3e5b-4c41-968f-b4816eb52b65",
+	"id": "2d763fea-29fe-4ed0-a898-ebf73fce4343",
     "cpf":"23453235345",
 	"name":"Joao",
 	"nickname":"motô",
@@ -42,11 +42,13 @@ Content-Type:  application/json
 }
 
 ###
-DELETE    http://localhost:8000/driver/1ce70440-beb4-40c3-bd66-ff89abd3e62a HTTP/1.1
+
+DELETE    http://localhost:8000/driver/2d763fea-29fe-4ed0-a898-ebf73fce4343 HTTP/1.1
 Content-Type:  application/json
 
 
 ###
+
 POST http://localhost:8000/driver/location HTTP/1.1
 
 {

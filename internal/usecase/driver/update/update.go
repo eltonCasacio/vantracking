@@ -5,17 +5,17 @@ import (
 	repo "github.com/eltoncasacio/vantracking/internal/domain/driver/repository"
 )
 
-type updateDriverUseCase struct {
+type UpdateDriverUseCase struct {
 	driverRepository repo.DriverRepositoryInterface
 }
 
-func NewUseCase(driverRepository repo.DriverRepositoryInterface) *updateDriverUseCase {
-	return &updateDriverUseCase{
+func NewUseCase(driverRepository repo.DriverRepositoryInterface) *UpdateDriverUseCase {
+	return &UpdateDriverUseCase{
 		driverRepository: driverRepository,
 	}
 }
 
-func (u *updateDriverUseCase) Update(input DriverInputDTO) error {
+func (u *UpdateDriverUseCase) Update(input DriverInputDTO) error {
 	driverInput := f.CreateInstanceDriverInputDTO{
 		ID:       input.ID,
 		CPF:      input.CPF,

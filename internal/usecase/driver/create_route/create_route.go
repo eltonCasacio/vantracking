@@ -6,17 +6,17 @@ import (
 	"github.com/eltoncasacio/vantracking/pkg/identity"
 )
 
-type registerRouteUseCase struct {
+type RegisterRouteUseCase struct {
 	driverRepository repo.DriverRepositoryInterface
 }
 
-func NewUseCase(driverRepository repo.DriverRepositoryInterface) *registerRouteUseCase {
-	return &registerRouteUseCase{
+func NewUseCase(driverRepository repo.DriverRepositoryInterface) *RegisterRouteUseCase {
+	return &RegisterRouteUseCase{
 		driverRepository: driverRepository,
 	}
 }
 
-func (cd *registerRouteUseCase) RegisterDriver(input CreateRouteInputDTO) error {
+func (cd *RegisterRouteUseCase) RegisterDriver(input CreateRouteInputDTO) error {
 	driverID, err := identity.ParseID(input.DriverID)
 	if err != nil {
 		return err

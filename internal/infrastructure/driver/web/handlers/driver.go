@@ -5,33 +5,28 @@ import (
 	"net/http"
 
 	repo "github.com/eltoncasacio/vantracking/internal/domain/driver/repository"
-	create_route_usecase "github.com/eltoncasacio/vantracking/internal/usecase/driver/create_route"
-	dusecase "github.com/eltoncasacio/vantracking/internal/usecase/driver/delete"
-	fusecase "github.com/eltoncasacio/vantracking/internal/usecase/driver/findbyid"
-	fausecase "github.com/eltoncasacio/vantracking/internal/usecase/driver/listall"
-	rusecase "github.com/eltoncasacio/vantracking/internal/usecase/driver/register"
-	setLocationusecase "github.com/eltoncasacio/vantracking/internal/usecase/driver/setlocation"
-	upusecase "github.com/eltoncasacio/vantracking/internal/usecase/driver/update"
+	usecases "github.com/eltoncasacio/vantracking/internal/usecase/driver"
 	"github.com/go-chi/chi"
 )
 
 type DriverHandler struct {
-	repository repo.DriverRepositoryInterface
+	usecases usecases.DriverUseCases
 }
 
 func NewDriverHandler(repo repo.DriverRepositoryInterface) *DriverHandler {
-	return &DriverHandler{repository: repo}
+	return &DriverHandler{usecases: *usecases.NewDriverUsecases(repo)}
 }
 
 func (dh *DriverHandler) Register(w http.ResponseWriter, r *http.Request) {
-	var input rusecase.DriverInputDTO
+	usecase, input := dh.usecases.RegisterDriverUsecase()
+
 	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
-	err = rusecase.NewUseCase(dh.repository).RegisterDriver(input)
+	err = usecase.RegisterDriver(input)
 	if err != nil {
 		w.Write([]byte(err.Error()))
 		w.WriteHeader(http.StatusInternalServerError)
@@ -41,59 +36,60 @@ func (dh *DriverHandler) Register(w http.ResponseWriter, r *http.Request) {
 }
 
 func (dh *DriverHandler) ConsultAll(w http.ResponseWriter, r *http.Request) {
-	usecaseOutput, _ := fausecase.NewUseCase(dh.repository).ListAll()
+	usecase, output := dh.usecases.FindAllDriverUsecase()
+	usecaseOutput, _ := usecase.ListAll()
 
-	output := []fausecase.DriverOutputDTO{}
+	var outputs []interface{}
+
 	for _, driver := range usecaseOutput {
-		d := fausecase.DriverOutputDTO{
-			ID:       driver.ID,
-			CPF:      driver.CPF,
-			Name:     driver.Name,
-			Nickname: driver.Nickname,
-			Phone:    driver.Phone,
-			UF:       driver.UF,
-			City:     driver.City,
-			Street:   driver.Street,
-			Number:   driver.Number,
-			CEP:      driver.CEP,
-		}
-		output = append(output, d)
+		output.ID = driver.ID
+		output.CPF = driver.CPF
+		output.Name = driver.Name
+		output.Nickname = driver.Nickname
+		output.Phone = driver.Phone
+		output.UF = driver.UF
+		output.City = driver.City
+		output.Street = driver.Street
+		output.Number = driver.Number
+		output.CEP = driver.CEP
+
+		outputs = append(outputs, output)
 	}
 
-	json.NewEncoder(w).Encode(output)
+	json.NewEncoder(w).Encode(outputs)
 	w.WriteHeader(http.StatusOK)
 }
 
 func (dh *DriverHandler) Consult(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
-	output, _ := fusecase.NewUseCase(dh.repository).FindByID(id)
-
-	driver := fusecase.DriverOutputDTO{
-		ID:       output.ID,
-		CPF:      output.CPF,
-		Name:     output.Name,
-		Nickname: output.Nickname,
-		Phone:    output.Phone,
-		UF:       output.UF,
-		City:     output.City,
-		Street:   output.Street,
-		Number:   output.Number,
-		CEP:      output.CEP,
+	usecase, output := dh.usecases.FindDriverByIDUsecase()
+	driver, err := usecase.FindByID(id)
+	if err != nil {
+		w.Write([]byte(err.Error()))
+		return
 	}
+
+	output.ID = driver.ID
+	output.CPF = driver.CPF
+	output.Name = driver.Name
+	output.Nickname = driver.Nickname
+	output.Phone = driver.Phone
+	output.UF = driver.UF
+	output.City = driver.City
+	output.Street = driver.Street
+	output.Number = driver.Number
+	output.CEP = driver.CEP
 
 	json.NewEncoder(w).Encode(driver)
 	w.WriteHeader(http.StatusOK)
 }
 
 func (dh *DriverHandler) Update(w http.ResponseWriter, r *http.Request) {
-	var input upusecase.DriverInputDTO
-	err := json.NewDecoder(r.Body).Decode(&input)
-	if err != nil || input.ID == "" {
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
+	usecase, input := dh.usecases.UpdateDriverUsecase()
 
-	err = upusecase.NewUseCase(dh.repository).Update(input)
+	err := json.NewDecoder(r.Body).Decode(&input)
+
+	err = usecase.Update(input)
 	if err != nil {
 		w.Write([]byte(err.Error()))
 		return
@@ -103,12 +99,10 @@ func (dh *DriverHandler) Update(w http.ResponseWriter, r *http.Request) {
 
 func (dh *DriverHandler) Delete(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
-	if id == "" {
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
 
-	err := dusecase.NewUseCase(dh.repository).Delete(id)
+	usecase := dh.usecases.DeleteDriverUsecase()
+
+	err := usecase.Delete(id)
 	if err != nil {
 		w.Write([]byte(err.Error()))
 		return
@@ -117,10 +111,10 @@ func (dh *DriverHandler) Delete(w http.ResponseWriter, r *http.Request) {
 }
 
 func (dh *DriverHandler) SetLocation(w http.ResponseWriter, r *http.Request) {
-	var input setLocationusecase.SetLocationInputDTO
+	usecase, input := dh.usecases.SetDriverLocationUsecase()
 	json.NewDecoder(r.Body).Decode(&input)
 
-	err := setLocationusecase.NewUseCase(dh.repository).Set(input)
+	err := usecase.Set(input)
 	if err != nil {
 		w.Write([]byte(err.Error()))
 		return
@@ -129,17 +123,32 @@ func (dh *DriverHandler) SetLocation(w http.ResponseWriter, r *http.Request) {
 }
 
 func (dh *DriverHandler) CreateRoute(w http.ResponseWriter, r *http.Request) {
-	var input create_route_usecase.CreateRouteInputDTO
+	usecase, inputDTO := dh.usecases.CreateRouteUsecase()
+
+	input := inputDTO
 	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
-	err = create_route_usecase.NewUseCase(dh.repository).RegisterDriver(input)
+	err = usecase.RegisterDriver(input)
+
 	if err != nil {
 		w.Write([]byte(err.Error()))
 		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+}
+
+func (dh *DriverHandler) DeleteRoute(w http.ResponseWriter, r *http.Request) {
+	id := chi.URLParam(r, "id")
+
+	usecase := dh.usecases.DeleteRouteUsecase()
+	err := usecase.DeleleRoute(id)
+	if err != nil {
+		w.Write([]byte(err.Error()))
 		return
 	}
 	w.WriteHeader(http.StatusOK)
