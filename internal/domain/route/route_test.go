@@ -1,4 +1,4 @@
-package valueobjects
+package route
 
 import (
 	"testing"
@@ -31,36 +31,16 @@ func (suite *RouteTestSuite) SetupTest() {
 }
 
 func (s *RouteTestSuite) TestNewRoute() {
-	route, err := NewRoute(s.Driver.ID, "1", "alves aranha manha", s.DriverAddress, s.DestinyAddress)
+	route, err := NewRoute(s.Driver.ID, "alves aranha manha")
 	assert.Nil(s.T(), err)
 	assert.NotNil(s.T(), route)
 	assert.Equal(s.T(), route.Code, "1")
 	assert.Equal(s.T(), route.Name, "alves aranha manha")
-	assert.EqualValues(s.T(), route.Origin, s.DriverAddress)
-	assert.EqualValues(s.T(), route.Destiny, s.DestinyAddress)
 	assert.NotEmpty(s.T(), route.DriverID)
 }
 
-func (s *RouteTestSuite) TestNewRoute_InvalidCode() {
-	_, err := NewRoute(s.Driver.ID, "", "alves aranha manha", s.DriverAddress, s.DestinyAddress)
-	assert.NotNil(s.T(), err)
-	assert.EqualError(s.T(), err, "invalid code")
-}
-
 func (s *RouteTestSuite) TestNewRoute_InvalidName() {
-	_, err := NewRoute(s.Driver.ID, "1", "", s.DriverAddress, s.DestinyAddress)
+	_, err := NewRoute(s.Driver.ID, "")
 	assert.NotNil(s.T(), err)
 	assert.EqualError(s.T(), err, "invalid name")
-}
-
-func (s *RouteTestSuite) TestNewRoute_ErrorOrigin() {
-	route, err := NewRoute(s.Driver.ID, "1", "alves aranha manha", valueobjects.Address{}, s.DestinyAddress)
-	assert.Nil(s.T(), route)
-	assert.NotNil(s.T(), err)
-}
-
-func (s *RouteTestSuite) TestNewRoute_ErrorDestiny() {
-	route, err := NewRoute(s.Driver.ID, "1", "alves aranha manha", s.DriverAddress, valueobjects.Address{})
-	assert.Nil(s.T(), route)
-	assert.NotNil(s.T(), err)
 }

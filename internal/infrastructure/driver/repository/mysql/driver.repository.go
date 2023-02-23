@@ -3,9 +3,11 @@ package repository
 import (
 	"database/sql"
 	"errors"
+	"fmt"
 
 	entity "github.com/eltoncasacio/vantracking/internal/domain/driver/entity"
 	factory "github.com/eltoncasacio/vantracking/internal/domain/driver/factory"
+	route "github.com/eltoncasacio/vantracking/internal/domain/route"
 )
 
 type DriverRepository struct {
@@ -233,4 +235,41 @@ func (d *DriverRepository) FindByCPF(cpf string) (*entity.Driver, error) {
 	}
 
 	return driver, nil
+}
+
+func (d *DriverRepository) CreateRoute(route *route.Route) error {
+	if err := route.IsValid(); err != nil {
+		return err
+	}
+
+	stmt, _ := d.db.Prepare("SELECT id FROM drivers WHERE id = ? and active = true")
+	defer stmt.Close()
+	var driverID string
+	stmt.QueryRow(route.DriverID).Scan(&driverID)
+	if driverID != route.DriverID.String() {
+		return errors.New("invalid driver ID")
+	}
+
+	stmt, _ = d.db.Prepare("SELECT name FROM routes WHERE name = ?")
+	defer stmt.Close()
+	var name string
+	stmt.QueryRow(route.Name).Scan(&name)
+	fmt.Println(name)
+	if name == route.Name {
+		return errors.New("already exists the same name, choice another name")
+	}
+
+	stmt, _ = d.db.Prepare(`INSERT INTO routes(code, name, driver_id, started) values(?,?,?,?)`)
+	defer stmt.Close()
+
+	_, err := stmt.Exec(
+		route.Code,
+		route.Name,
+		route.DriverID,
+		route.Started,
+	)
+	if err != nil {
+		return err
+	}
+	return nil
 }

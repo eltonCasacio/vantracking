@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	repo "github.com/eltoncasacio/vantracking/internal/domain/driver/repository"
+	create_route_usecase "github.com/eltoncasacio/vantracking/internal/usecase/driver/create_route"
 	dusecase "github.com/eltoncasacio/vantracking/internal/usecase/driver/delete"
 	fusecase "github.com/eltoncasacio/vantracking/internal/usecase/driver/findbyid"
 	fausecase "github.com/eltoncasacio/vantracking/internal/usecase/driver/listall"
@@ -122,6 +123,23 @@ func (dh *DriverHandler) SetLocation(w http.ResponseWriter, r *http.Request) {
 	err := setLocationusecase.NewUseCase(dh.repository).Set(input)
 	if err != nil {
 		w.Write([]byte(err.Error()))
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+}
+
+func (dh *DriverHandler) CreateRoute(w http.ResponseWriter, r *http.Request) {
+	var input create_route_usecase.CreateRouteInputDTO
+	err := json.NewDecoder(r.Body).Decode(&input)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	err = create_route_usecase.NewUseCase(dh.repository).RegisterDriver(input)
+	if err != nil {
+		w.Write([]byte(err.Error()))
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 	w.WriteHeader(http.StatusOK)
