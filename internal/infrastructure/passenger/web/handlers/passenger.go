@@ -9,7 +9,8 @@ import (
 	deleteUsecase "github.com/eltoncasacio/vantracking/internal/usecase/passenger/delete"
 	findUsecase "github.com/eltoncasacio/vantracking/internal/usecase/passenger/findbyid"
 	listUsecase "github.com/eltoncasacio/vantracking/internal/usecase/passenger/list"
-	notConfirmedUsecase "github.com/eltoncasacio/vantracking/internal/usecase/passenger/list_not_confirmed_passengers"
+	listByMonitorID "github.com/eltoncasacio/vantracking/internal/usecase/passenger/list_by_monitorid"
+	notConfirmedUsecase "github.com/eltoncasacio/vantracking/internal/usecase/passenger/list_not_confirmed"
 	registerUsecase "github.com/eltoncasacio/vantracking/internal/usecase/passenger/register"
 	updateUsecase "github.com/eltoncasacio/vantracking/internal/usecase/passenger/update"
 	"github.com/go-chi/chi"
@@ -120,7 +121,7 @@ func (h *passengerHandler) ListAll(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *passengerHandler) ListNotConfirmed(w http.ResponseWriter, r *http.Request) {
-	usecaseOutput, _ := notConfirmedUsecase.NewUseCase(h.repository).ListNotConfirmedPassengers()
+	usecaseOutput, _ := notConfirmedUsecase.NewUseCase(h.repository).ListNotConfirmed()
 
 	output := []notConfirmedUsecase.PassengerOutDTO{}
 	for _, passenger := range usecaseOutput {
@@ -150,5 +151,21 @@ func (h *passengerHandler) ConfirmPassengerRegister(w http.ResponseWriter, r *ht
 		w.Write([]byte(err.Error()))
 		return
 	}
+	w.WriteHeader(http.StatusOK)
+}
+
+func (h *passengerHandler) ListByMonitorID(w http.ResponseWriter, r *http.Request) {
+	monitor_id := chi.URLParam(r, "monitor_id")
+	if monitor_id == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	output, err := listByMonitorID.NewUseCase(h.repository).ListByMonitorID(monitor_id)
+	if err != nil {
+		w.Write([]byte(err.Error()))
+		return
+	}
+	json.NewEncoder(w).Encode(output)
 	w.WriteHeader(http.StatusOK)
 }

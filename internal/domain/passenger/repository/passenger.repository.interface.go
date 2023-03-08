@@ -9,4 +9,5 @@ type PassengerRepositoryInterface interface {
 	repo.RepositoryInterface[e.Passenger]
 	ListNotConfirmedPassengers() ([]e.Passenger, error)
 	ConfirmPassengerRegister(id string, confirm bool) error
+	ListByMonitorID(monitorID string) ([]e.Passenger, error)
 }

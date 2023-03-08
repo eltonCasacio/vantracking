@@ -4,18 +4,18 @@ import (
 	repo "github.com/eltoncasacio/vantracking/internal/domain/passenger/repository"
 )
 
-type newPassengersUseCase struct {
+type PassengersUseCase struct {
 	repository repo.PassengerRepositoryInterface
 }
 
-func NewUseCase(repository repo.PassengerRepositoryInterface) *newPassengersUseCase {
-	return &newPassengersUseCase{
+func NewUseCase(repository repo.PassengerRepositoryInterface) *PassengersUseCase {
+	return &PassengersUseCase{
 		repository: repository,
 	}
 }
 
-func (u *newPassengersUseCase) ListNotConfirmedPassengers() ([]PassengerOutDTO, error) {
-	passengers, err := u.repository.ListNotConfirmedPassengers()
+func (u *PassengersUseCase) ListByMonitorID(monitorID string) ([]PassengerOutDTO, error) {
+	passengers, err := u.repository.ListByMonitorID(monitorID)
 	if err != nil {
 		return []PassengerOutDTO{}, err
 	}

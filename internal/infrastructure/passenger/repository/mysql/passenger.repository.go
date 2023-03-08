@@ -3,7 +3,6 @@ package repository
 import (
 	"database/sql"
 	"errors"
-	"fmt"
 
 	e "github.com/eltoncasacio/vantracking/internal/domain/passenger/entity"
 	f "github.com/eltoncasacio/vantracking/internal/domain/passenger/factory"
@@ -84,7 +83,6 @@ func (r *passengerRepository) Update(passenger *e.Passenger) error {
 func (r *passengerRepository) FindAll() ([]e.Passenger, error) {
 	rows, err := r.db.Query("SELECT id, name, nickname, route_code, goes, comesback, register_confirmed, monitor_id FROM passengers WHERE active = true")
 	if err != nil {
-		fmt.Println("row")
 		return nil, err
 	}
 	defer rows.Close()
@@ -208,4 +206,37 @@ func (r *passengerRepository) ConfirmPassengerRegister(id string, confirm bool) 
 	}
 
 	return nil
+}
+
+func (r *passengerRepository) ListByMonitorID(monitorID string) ([]e.Passenger, error) {
+	rows, err := r.db.Query("SELECT id, name, nickname, route_code, goes, comesback, monitor_id FROM passengers WHERE monitor_id = ? and  active = true", monitorID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var passengers []e.Passenger
+	for rows.Next() {
+		inputPassenger := f.PassengerInputDTO{}
+		err := rows.Scan(
+			&inputPassenger.ID,
+			&inputPassenger.Name,
+			&inputPassenger.Nickname,
+			&inputPassenger.RouteCode,
+			&inputPassenger.Goes,
+			&inputPassenger.Comesback,
+			&inputPassenger.MonitorID,
+		)
+		if err != nil {
+			return nil, err
+		}
+
+		newPassenger, err := f.PassengerFactory().Instance(inputPassenger)
+		if err != nil {
+			return nil, err
+		}
+		passengers = append(passengers, *newPassenger)
+	}
+
+	return passengers, nil
 }

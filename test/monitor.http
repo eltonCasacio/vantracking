@@ -40,9 +40,16 @@ Content-Type:  application/json
 }
 
 ###
+
 DELETE    http://localhost:8000/monitor/3017aae8-572f-4482-ad36-5c3db9946185 HTTP/1.1
 Content-Type:  application/json
 
 ###
+
 GET  http://localhost:8000/monitor/location/route_code HTTP/1.1
+Content-Type:  application/json
+
+
+###  BUSCAR PASSAGEIROS API
+GET  http://localhost:8000/passenger/list-passenger/5d5ecc87-5405-4607-84ba-390e4119298f HTTP/1.1
 Content-Type:  application/json
