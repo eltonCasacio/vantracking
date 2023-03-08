@@ -54,42 +54,29 @@ func (d *DriverRepository) FindByID(id string) (*entity.Driver, error) {
 		return nil, errors.New("id is required")
 	}
 
-	stmt, err := d.db.Prepare("SELECT * FROM drivers WHERE id = ? and active = true")
+	stmt, err := d.db.Prepare("SELECT id, cpf, name, nickname, phone, uf, city, street, number, cep FROM drivers WHERE id = ? and active = true")
 	if err != nil {
 		return nil, err
 	}
 	defer stmt.Close()
 
-	var model DriverModel
+	var driverInput factory.CreateInstanceDriverInputDTO
 	err = stmt.QueryRow(id).Scan(
-		&model.id,
-		&model.cpf,
-		&model.name,
-		&model.nickname,
-		&model.phone,
-		&model.uf,
-		&model.city,
-		&model.street,
-		&model.number,
-		&model.cep,
-		&model.active,
+		&driverInput.ID,
+		&driverInput.CPF,
+		&driverInput.Name,
+		&driverInput.Nickname,
+		&driverInput.Phone,
+		&driverInput.UF,
+		&driverInput.City,
+		&driverInput.Street,
+		&driverInput.Number,
+		&driverInput.CEP,
 	)
 	if err != nil {
 		return nil, err
 	}
 
-	driverInput := factory.CreateInstanceDriverInputDTO{
-		ID:       model.id,
-		CPF:      model.cpf,
-		Name:     model.name,
-		Nickname: model.nickname,
-		Phone:    model.phone,
-		UF:       model.uf,
-		City:     model.city,
-		Street:   model.street,
-		Number:   model.number,
-		CEP:      model.cep,
-	}
 	driver, err := factory.DriverFactory().CreateInstance(driverInput)
 	if err != nil {
 		return nil, err
@@ -143,7 +130,7 @@ func (d *DriverRepository) Delete(id string) error {
 }
 
 func (d *DriverRepository) FindAll() ([]entity.Driver, error) {
-	rows, err := d.db.Query("SELECT * FROM drivers WHERE active = true")
+	rows, err := d.db.Query("SELECT id, cpf, name, nickname, phone, uf, city, street, number, cep FROM drivers WHERE active = true")
 	if err != nil {
 		return nil, err
 	}
@@ -151,35 +138,21 @@ func (d *DriverRepository) FindAll() ([]entity.Driver, error) {
 
 	var drivers []entity.Driver
 	for rows.Next() {
-		var model DriverModel
+		var driverInput factory.CreateInstanceDriverInputDTO
 		err := rows.Scan(
-			&model.id,
-			&model.cpf,
-			&model.name,
-			&model.nickname,
-			&model.phone,
-			&model.uf,
-			&model.city,
-			&model.street,
-			&model.number,
-			&model.cep,
-			&model.active,
+			&driverInput.ID,
+			&driverInput.CPF,
+			&driverInput.Name,
+			&driverInput.Nickname,
+			&driverInput.Phone,
+			&driverInput.UF,
+			&driverInput.City,
+			&driverInput.Street,
+			&driverInput.Number,
+			&driverInput.CEP,
 		)
 		if err != nil {
 			return nil, err
-		}
-
-		driverInput := factory.CreateInstanceDriverInputDTO{
-			ID:       model.id,
-			CPF:      model.cpf,
-			Name:     model.name,
-			Nickname: model.nickname,
-			Phone:    model.phone,
-			UF:       model.uf,
-			City:     model.city,
-			Street:   model.street,
-			Number:   model.number,
-			CEP:      model.cep,
 		}
 
 		d, err := factory.DriverFactory().CreateInstance(driverInput)
@@ -193,42 +166,29 @@ func (d *DriverRepository) FindAll() ([]entity.Driver, error) {
 }
 
 func (d *DriverRepository) FindByCPF(cpf string) (*entity.Driver, error) {
-	stmt, err := d.db.Prepare("SELECT * FROM drivers WHERE cpf = ? and active = true")
+	stmt, err := d.db.Prepare("SELECT id, cpf, name, nickname, phone, uf, city, street, number, cep FROM drivers WHERE cpf = ? and active = true")
 	if err != nil {
 		return nil, err
 	}
 	defer stmt.Close()
 
-	var model DriverModel
+	var driverInput factory.CreateInstanceDriverInputDTO
 	err = stmt.QueryRow(cpf).Scan(
-		&model.id,
-		&model.cpf,
-		&model.name,
-		&model.nickname,
-		&model.phone,
-		&model.uf,
-		&model.city,
-		&model.street,
-		&model.number,
-		&model.cep,
-		&model.active,
+		&driverInput.ID,
+		&driverInput.CPF,
+		&driverInput.Name,
+		&driverInput.Nickname,
+		&driverInput.Phone,
+		&driverInput.UF,
+		&driverInput.City,
+		&driverInput.Street,
+		&driverInput.Number,
+		&driverInput.CEP,
 	)
 	if err != nil {
 		return nil, err
 	}
 
-	driverInput := factory.CreateInstanceDriverInputDTO{
-		ID:       model.id,
-		CPF:      model.cpf,
-		Name:     model.name,
-		Nickname: model.nickname,
-		Phone:    model.phone,
-		UF:       model.uf,
-		City:     model.city,
-		Street:   model.street,
-		Number:   model.number,
-		CEP:      model.cep,
-	}
 	driver, err := factory.DriverFactory().CreateInstance(driverInput)
 	if err != nil {
 		return nil, err
