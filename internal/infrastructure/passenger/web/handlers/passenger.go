@@ -33,10 +33,11 @@ func (h *passengerHandler) Register(w http.ResponseWriter, r *http.Request) {
 	}
 
 	usecaseInput := registerUsecase.PassengerInputDTO{
-		Name:      input.Name,
-		Nickname:  input.Nickname,
-		RouteCode: input.RouteCode,
-		MonitorID: input.MonitorID,
+		Name:       input.Name,
+		Nickname:   input.Nickname,
+		RouteCode:  input.RouteCode,
+		SchoolName: input.SchoolName,
+		MonitorID:  input.MonitorID,
 	}
 
 	err = registerUsecase.NewUseCase(h.repository).Register(usecaseInput)
@@ -60,6 +61,7 @@ func (dh *passengerHandler) Find(w http.ResponseWriter, r *http.Request) {
 		Goes:              passenger.Goes,
 		Comesback:         passenger.Comesback,
 		RegisterConfirmed: passenger.RegisterConfirmed,
+		SchoolName:        passenger.SchoolName,
 		MonitorID:         passenger.MonitorID,
 	}
 
@@ -112,6 +114,7 @@ func (h *passengerHandler) ListAll(w http.ResponseWriter, r *http.Request) {
 			Comesback:         passenger.Comesback,
 			MonitorID:         passenger.MonitorID,
 			RegisterConfirmed: passenger.RegisterConfirmed,
+			SchoolName:        passenger.SchoolName,
 		}
 		output = append(output, d)
 	}
@@ -134,6 +137,7 @@ func (h *passengerHandler) ListNotConfirmed(w http.ResponseWriter, r *http.Reque
 			Comesback:         passenger.Comesback,
 			MonitorID:         passenger.MonitorID,
 			RegisterConfirmed: passenger.RegisterConfirmed,
+			SchoolName:        passenger.SchoolName,
 		}
 		output = append(output, d)
 	}

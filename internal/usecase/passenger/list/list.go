@@ -32,6 +32,7 @@ func (u *listAllUseCase) ListAll() ([]PassengerOutputDTO, error) {
 			Goes:              passenger.Goes,
 			Comesback:         passenger.Comesback,
 			RegisterConfirmed: passenger.IsRegisterConfirmed(),
+			SchoolName:        passenger.SchoolName,
 		}
 		passengersOutput = append(passengersOutput, p)
 	}

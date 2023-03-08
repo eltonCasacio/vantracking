@@ -8,6 +8,7 @@ type PassengerInputDTO struct {
 	Goes              bool   `json:"goes"`
 	Comesback         bool   `json:"comesback"`
 	RegisterConfirmed bool   `json:"register_confirmed"`
+	SchoolName        string `json:"school_name"`
 	MonitorID         string `json:"monitor_id"`
 }
 
@@ -19,5 +20,6 @@ type PassengerOutDTO struct {
 	Goes              bool   `json:"goes"`
 	Comesback         bool   `json:"comesback"`
 	RegisterConfirmed bool   `json:"register_confirmed"`
+	SchoolName        string `json:"school_name"`
 	MonitorID         string `json:"monitor_id"`
 }

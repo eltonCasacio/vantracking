@@ -11,13 +11,14 @@ type Passenger struct {
 	Name              string
 	Nickname          string
 	RouteCode         string
-	MonitorID         identity.ID
 	Goes              bool
 	Comesback         bool
 	RegisterConfirmed bool
+	SchoolName        string
+	MonitorID         identity.ID
 }
 
-func NewPassenger(name, routeCode, nickname string, monitorID identity.ID) (*Passenger, error) {
+func NewPassenger(name, routeCode, nickname, schoolName string, monitorID identity.ID) (*Passenger, error) {
 	p := &Passenger{
 		ID:                identity.NewID(),
 		Name:              name,
@@ -27,6 +28,7 @@ func NewPassenger(name, routeCode, nickname string, monitorID identity.ID) (*Pas
 		Goes:              true,
 		Comesback:         true,
 		RegisterConfirmed: false,
+		SchoolName:        schoolName,
 	}
 
 	err := p.IsValid()

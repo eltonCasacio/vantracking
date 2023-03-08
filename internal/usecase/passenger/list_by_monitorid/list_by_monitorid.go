@@ -30,7 +30,7 @@ func (u *PassengersUseCase) ListByMonitorID(monitorID string) ([]PassengerOutDTO
 			Goes:              passenger.Goes,
 			Comesback:         passenger.Comesback,
 			RegisterConfirmed: passenger.IsRegisterConfirmed(),
-			MonitorID:         passenger.MonitorID.String(),
+			SchoolName:        passenger.SchoolName,
 		}
 		passengersOutput = append(passengersOutput, p)
 	}

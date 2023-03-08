@@ -51,5 +51,5 @@ Content-Type:  application/json
 
 
 ###  BUSCAR PASSAGEIROS API
-GET  http://localhost:8000/passenger/list-passenger/5d5ecc87-5405-4607-84ba-390e4119298f HTTP/1.1
+GET  http://localhost:8000/passenger/list-passenger/6c36caa4-1b36-410d-bffe-03c71b5b5539 HTTP/1.1
 Content-Type:  application/json

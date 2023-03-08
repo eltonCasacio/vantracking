@@ -30,6 +30,7 @@ func (u *newPassengersUseCase) ListNotConfirmed() ([]PassengerOutDTO, error) {
 			Goes:              passenger.Goes,
 			Comesback:         passenger.Comesback,
 			RegisterConfirmed: passenger.IsRegisterConfirmed(),
+			SchoolName:        passenger.SchoolName,
 			MonitorID:         passenger.MonitorID.String(),
 		}
 		passengersOutput = append(passengersOutput, p)

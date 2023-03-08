@@ -9,4 +9,5 @@ type PassengerOutputDTO struct {
 	Goes              bool   `json:"goes"`
 	Comesback         bool   `json:"comesback"`
 	RegisterConfirmed bool   `json:"register_confirmed"`
+	SchoolName        string `json:"school_name"`
 }

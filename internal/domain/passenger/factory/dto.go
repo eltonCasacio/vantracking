@@ -1,10 +1,11 @@
 package passenger
 
 type NewPassengerInputDTO struct {
-	Name      string
-	Nickname  string
-	RouteCode string
-	MonitorID string
+	Name       string
+	Nickname   string
+	RouteCode  string
+	SchoolName string
+	MonitorID  string
 }
 
 type PassengerInputDTO struct {
@@ -15,5 +16,6 @@ type PassengerInputDTO struct {
 	Goes              bool
 	Comesback         bool
 	RegisterConfirmed bool
+	SchoolName        string
 	MonitorID         string
 }

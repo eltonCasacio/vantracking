@@ -9,7 +9,7 @@ import (
 
 func TestNewPassenger(t *testing.T) {
 	id := identity.NewID()
-	p, err := NewPassenger("any_name", "any_routecode", "nickname", id)
+	p, err := NewPassenger("any_name", "any_routecode", "nickname", "any_school", id)
 	assert.Nil(t, err)
 	assert.Equal(t, p.MonitorID, id)
 	assert.Equal(t, p.Name, "any_name")
@@ -17,21 +17,21 @@ func TestNewPassenger(t *testing.T) {
 }
 
 func TestNewPassenge_InvalidName(t *testing.T) {
-	p, err := NewPassenger("", "any_routecode", "nickname", identity.NewID())
+	p, err := NewPassenger("", "any_routecode", "nickname", "any_school", identity.NewID())
 	assert.Nil(t, p)
 	assert.NotNil(t, err)
 	assert.EqualError(t, err, "invalid name")
 }
 
 func TestNewPassenge_InvalidRouteCode(t *testing.T) {
-	p, err := NewPassenger("any_name", "", "nickname", identity.NewID())
+	p, err := NewPassenger("any_name", "", "nickname", "any_school", identity.NewID())
 	assert.Nil(t, p)
 	assert.NotNil(t, err)
 	assert.EqualError(t, err, "invalid route code")
 }
 
 func TestSetNickname(t *testing.T) {
-	p, _ := NewPassenger("any_name", "any_routecode", "nickname", identity.NewID())
+	p, _ := NewPassenger("any_name", "any_routecode", "nickname", "any_school", identity.NewID())
 	assert.Equal(t, p.Nickname, "")
 
 	p.SetNickname("other_nickname")
@@ -39,14 +39,14 @@ func TestSetNickname(t *testing.T) {
 }
 
 func TestSetName(t *testing.T) {
-	p, _ := NewPassenger("any_name", "any_routecode", "nickname", identity.NewID())
+	p, _ := NewPassenger("any_name", "any_routecode", "nickname", "any_school", identity.NewID())
 
 	p.SetName("other_name")
 	assert.Equal(t, p.Name, "other_name")
 }
 
 func TestSetRouteCode(t *testing.T) {
-	p, _ := NewPassenger("any_name", "any_routecode", "nickname", identity.NewID())
+	p, _ := NewPassenger("any_name", "any_routecode", "nickname", "any_school", identity.NewID())
 	assert.Equal(t, p.RouteCode, "any_routecode")
 
 	p.SetRouteCode("other_routecode")
@@ -54,7 +54,7 @@ func TestSetRouteCode(t *testing.T) {
 }
 
 func TestSetInvalidRouteCode(t *testing.T) {
-	p, _ := NewPassenger("any_name", "any_routecode", "nickname", identity.NewID())
+	p, _ := NewPassenger("any_name", "any_routecode", "nickname", "any_school", identity.NewID())
 	assert.Equal(t, p.RouteCode, "any_routecode")
 
 	err := p.SetRouteCode("")
@@ -62,7 +62,7 @@ func TestSetInvalidRouteCode(t *testing.T) {
 }
 
 func TestSetInvalidName(t *testing.T) {
-	p, err := NewPassenger("any_name", "any_routecode", "nickname", identity.NewID())
+	p, err := NewPassenger("any_name", "any_routecode", "nickname", "any_school", identity.NewID())
 	assert.Nil(t, err)
 
 	err = p.SetName("")
@@ -70,7 +70,7 @@ func TestSetInvalidName(t *testing.T) {
 }
 
 func TestChangeGoNoGo(t *testing.T) {
-	p, err := NewPassenger("any_name", "any_routecode", "nickname", identity.NewID())
+	p, err := NewPassenger("any_name", "any_routecode", "nickname", "any_school", identity.NewID())
 	assert.Nil(t, err)
 	assert.Equal(t, p.Goes, true)
 	assert.Equal(t, p.Comesback, true)
@@ -85,7 +85,7 @@ func TestChangeGoNoGo(t *testing.T) {
 }
 
 func TestIsPassengerConfirmed(t *testing.T) {
-	p, err := NewPassenger("any_name", "any_routecode", "nickname", identity.NewID())
+	p, err := NewPassenger("any_name", "any_routecode", "nickname", "any_school", identity.NewID())
 	assert.Nil(t, err)
 	assert.Equal(t, p.IsRegisterConfirmed(), false)
 

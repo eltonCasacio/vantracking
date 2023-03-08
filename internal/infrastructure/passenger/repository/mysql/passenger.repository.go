@@ -42,7 +42,7 @@ func (r *passengerRepository) Create(passenger *e.Passenger) error {
 	}
 
 	//CRIA PASSAGEIRO
-	stmt, err = r.db.Prepare("INSERT INTO passengers (id, name, nickname, route_code, monitor_id) values(?,?,?,?,?)")
+	stmt, err = r.db.Prepare("INSERT INTO passengers (id, name, nickname, route_code, school_name, monitor_id) values(?,?,?,?,?, ?)")
 	if err != nil {
 		return err
 	}
@@ -53,6 +53,7 @@ func (r *passengerRepository) Create(passenger *e.Passenger) error {
 		passenger.Name,
 		passenger.Nickname,
 		passenger.RouteCode,
+		passenger.SchoolName,
 		passenger.MonitorID.String(),
 	)
 	if err != nil {
@@ -62,7 +63,7 @@ func (r *passengerRepository) Create(passenger *e.Passenger) error {
 }
 
 func (r *passengerRepository) Update(passenger *e.Passenger) error {
-	stmt, err := r.db.Prepare("UPDATE passengers SET name = ?, nickname = ?, route_code = ? WHERE id = ?")
+	stmt, err := r.db.Prepare("UPDATE passengers SET name = ?, nickname = ?, route_code = ?, school_name = ? WHERE id = ?")
 	if err != nil {
 		return err
 	}
@@ -72,6 +73,7 @@ func (r *passengerRepository) Update(passenger *e.Passenger) error {
 		passenger.Name,
 		passenger.Nickname,
 		passenger.RouteCode,
+		passenger.SchoolName,
 		passenger.ID.String(),
 	)
 	if err != nil {
@@ -81,7 +83,7 @@ func (r *passengerRepository) Update(passenger *e.Passenger) error {
 }
 
 func (r *passengerRepository) FindAll() ([]e.Passenger, error) {
-	rows, err := r.db.Query("SELECT id, name, nickname, route_code, goes, comesback, register_confirmed, monitor_id FROM passengers WHERE active = true")
+	rows, err := r.db.Query("SELECT id, name, nickname, route_code, goes, comesback, register_confirmed, school_name, monitor_id FROM passengers WHERE active = true")
 	if err != nil {
 		return nil, err
 	}
@@ -98,6 +100,7 @@ func (r *passengerRepository) FindAll() ([]e.Passenger, error) {
 			&inputPassenger.Goes,
 			&inputPassenger.Comesback,
 			&inputPassenger.RegisterConfirmed,
+			&inputPassenger.SchoolName,
 			&inputPassenger.MonitorID,
 		)
 		if err != nil {
@@ -115,7 +118,7 @@ func (r *passengerRepository) FindAll() ([]e.Passenger, error) {
 }
 
 func (r *passengerRepository) FindByID(id string) (*e.Passenger, error) {
-	stmt, err := r.db.Prepare("SELECT id, name, nickname, route_code, goes, comesback, register_confirmed, monitor_id FROM passengers WHERE id = ? and active = true")
+	stmt, err := r.db.Prepare("SELECT id, name, nickname, route_code, goes, comesback, register_confirmed, school_name, monitor_id FROM passengers WHERE id = ? and active = true")
 	if err != nil {
 		return nil, err
 	}
@@ -131,6 +134,7 @@ func (r *passengerRepository) FindByID(id string) (*e.Passenger, error) {
 		&inputPassenger.Goes,
 		&inputPassenger.Comesback,
 		&inputPassenger.RegisterConfirmed,
+		&inputPassenger.SchoolName,
 		&inputPassenger.MonitorID,
 	)
 	if err != nil {
@@ -145,7 +149,7 @@ func (r *passengerRepository) FindByID(id string) (*e.Passenger, error) {
 }
 
 func (r *passengerRepository) ListNotConfirmedPassengers() ([]e.Passenger, error) {
-	rows, err := r.db.Query("SELECT id, name, nickname, route_code, goes, comesback, register_confirmed, monitor_id FROM passengers WHERE register_confirmed = false  active = true")
+	rows, err := r.db.Query("SELECT id, name, nickname, route_code, goes, comesback, register_confirmed, school_name, monitor_id FROM passengers WHERE register_confirmed = false  active = true")
 	if err != nil {
 		return nil, err
 	}
@@ -161,6 +165,7 @@ func (r *passengerRepository) ListNotConfirmedPassengers() ([]e.Passenger, error
 			&inputPassenger.RouteCode,
 			&inputPassenger.Goes,
 			&inputPassenger.Comesback,
+			&inputPassenger.SchoolName,
 			&inputPassenger.MonitorID,
 		)
 		if err != nil {
@@ -209,7 +214,7 @@ func (r *passengerRepository) ConfirmPassengerRegister(id string, confirm bool) 
 }
 
 func (r *passengerRepository) ListByMonitorID(monitorID string) ([]e.Passenger, error) {
-	rows, err := r.db.Query("SELECT id, name, nickname, route_code, goes, comesback, monitor_id FROM passengers WHERE monitor_id = ? and  active = true", monitorID)
+	rows, err := r.db.Query("SELECT id, name, nickname, route_code, goes, comesback, school_name, monitor_id FROM passengers WHERE monitor_id = ? and  active = true", monitorID)
 	if err != nil {
 		return nil, err
 	}
@@ -225,6 +230,7 @@ func (r *passengerRepository) ListByMonitorID(monitorID string) ([]e.Passenger, 
 			&inputPassenger.RouteCode,
 			&inputPassenger.Goes,
 			&inputPassenger.Comesback,
+			&inputPassenger.SchoolName,
 			&inputPassenger.MonitorID,
 		)
 		if err != nil {

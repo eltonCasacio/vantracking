@@ -29,6 +29,7 @@ func (cd *findByIDUseCase) FindByID(id string) (PassengerOutDTO, error) {
 		Goes:              passenger.Goes,
 		Comesback:         passenger.Comesback,
 		RegisterConfirmed: passenger.IsRegisterConfirmed(),
+		SchoolName:        passenger.SchoolName,
 		MonitorID:         passenger.MonitorID.String(),
 	}
 	return output, nil

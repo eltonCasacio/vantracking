@@ -24,8 +24,9 @@ func (df *passengerFactory) NewPassenger(input NewPassengerInputDTO) (*e.Passeng
 	}
 	p, err := e.NewPassenger(
 		input.Name,
-		input.Nickname,
 		input.RouteCode,
+		input.Nickname,
+		input.SchoolName,
 		monitorID,
 	)
 	if err != nil {
@@ -50,10 +51,11 @@ func (df *passengerFactory) Instance(input PassengerInputDTO) (*e.Passenger, err
 		Name:              input.Name,
 		Nickname:          input.Nickname,
 		RouteCode:         input.RouteCode,
-		MonitorID:         monitorID,
 		Goes:              input.Goes,
 		Comesback:         input.Comesback,
 		RegisterConfirmed: input.RegisterConfirmed,
+		SchoolName:        input.SchoolName,
+		MonitorID:         monitorID,
 	}
 	if err := p.IsValid(); err != nil {
 		return nil, err

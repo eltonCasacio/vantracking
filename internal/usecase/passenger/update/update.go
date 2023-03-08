@@ -24,6 +24,7 @@ func (u *updateUseCase) Update(input PassengerInputDTO) error {
 		Goes:              input.Goes,
 		Comesback:         input.Comesback,
 		RegisterConfirmed: input.RegisterConfirmed,
+		SchoolName:        input.SchoolName,
 		MonitorID:         input.MonitorID,
 	}
 

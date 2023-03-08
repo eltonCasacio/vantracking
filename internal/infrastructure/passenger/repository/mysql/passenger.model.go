@@ -7,7 +7,8 @@ type PassengerModel struct {
 	RouteCode         string
 	Goes              bool
 	Comesback         bool
-	MonitorID         string
 	active            bool
 	RegisterConfirmed bool
+	SchoolName        string
+	MonitorID         string
 }
