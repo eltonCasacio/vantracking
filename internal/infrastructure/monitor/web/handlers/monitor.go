@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	repo "github.com/eltoncasacio/vantracking/internal/domain/monitor/repository"
+	authenticateusecase "github.com/eltoncasacio/vantracking/internal/usecase/monitor/authenticate"
 	dusecase "github.com/eltoncasacio/vantracking/internal/usecase/monitor/delete"
 	fusecase "github.com/eltoncasacio/vantracking/internal/usecase/monitor/findbyid"
 	getlocationusecase "github.com/eltoncasacio/vantracking/internal/usecase/monitor/getlocation"
@@ -12,14 +13,21 @@ import (
 	rusecase "github.com/eltoncasacio/vantracking/internal/usecase/monitor/register"
 	upusecase "github.com/eltoncasacio/vantracking/internal/usecase/monitor/update"
 	"github.com/go-chi/chi"
+	"github.com/go-chi/jwtauth"
 )
 
 type monitorHandler struct {
-	repository repo.MonitorRepositoryInterface
+	repository    repo.MonitorRepositoryInterface
+	JWT           *jwtauth.JWTAuth
+	JwtExpiriesIn int
 }
 
-func NewMonitorHandler(repo repo.MonitorRepositoryInterface) *monitorHandler {
-	return &monitorHandler{repository: repo}
+func NewMonitorHandler(repo repo.MonitorRepositoryInterface, jwt *jwtauth.JWTAuth, jwtExpiriesIn int) *monitorHandler {
+	return &monitorHandler{
+		repository:    repo,
+		JWT:           jwt,
+		JwtExpiriesIn: jwtExpiriesIn,
+	}
 }
 
 func (h *monitorHandler) Register(w http.ResponseWriter, r *http.Request) {
@@ -123,4 +131,17 @@ func (dh *monitorHandler) GetLocation(w http.ResponseWriter, r *http.Request) {
 	output := getlocationusecase.NewUseCase(dh.repository).Get(routeCode)
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(output)
+}
+
+func (dh *monitorHandler) Authenticate(w http.ResponseWriter, r *http.Request) {
+	cpf := chi.URLParam(r, "cpf")
+	if cpf == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	token, _ := authenticateusecase.NewUseCase(dh.repository, dh.JWT, dh.JwtExpiriesIn).Authenticate(cpf)
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(token)
 }

@@ -21,14 +21,14 @@ type Position struct {
 }
 
 func main() {
-	db, _ := Init()
+	db, config := Init()
 
 	chi := chi.NewRouter()
 	chi.Use(middleware.Logger)
 	chi.Use(middleware.Recoverer)
 
 	driverRoutes.NewDriverRoutes(db, chi).CreateRoutes()
-	monitorRoutes.NewMonitorRoutes(db, chi).CreateRoutes()
+	monitorRoutes.NewMonitorRoutes(db, chi, config).CreateRoutes()
 	passengerRoutes.NewPassengerRoutes(db, chi).CreateRoutes()
 
 	http.ListenAndServe(":8000", chi)

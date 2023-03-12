@@ -43,5 +43,6 @@ func (cd *RegisterUseCase) Register(input InputDTO) error {
 	if err != nil {
 		return err
 	}
+
 	return nil
 }

@@ -3,6 +3,7 @@ package routes
 import (
 	"database/sql"
 
+	"github.com/eltoncasacio/vantracking/configs"
 	repo "github.com/eltoncasacio/vantracking/internal/infrastructure/monitor/repository/mysql"
 	handlers "github.com/eltoncasacio/vantracking/internal/infrastructure/monitor/web/handlers"
 
@@ -10,20 +11,22 @@ import (
 )
 
 type monitorRoutes struct {
-	db  *sql.DB
-	chi *chi.Mux
+	db     *sql.DB
+	chi    *chi.Mux
+	config *configs.Config
 }
 
-func NewMonitorRoutes(db *sql.DB, c *chi.Mux) *monitorRoutes {
+func NewMonitorRoutes(db *sql.DB, c *chi.Mux, config *configs.Config) *monitorRoutes {
 	return &monitorRoutes{
-		db:  db,
-		chi: c,
+		db:     db,
+		chi:    c,
+		config: config,
 	}
 }
 
 func (dr *monitorRoutes) CreateRoutes() {
 	repository := repo.NewMonitorRepository(dr.db)
-	monitorHandler := handlers.NewMonitorHandler(repository)
+	monitorHandler := handlers.NewMonitorHandler(repository, dr.config.TokenAuth, dr.config.JwtExperesIn)
 	dr.chi.Route("/monitor", func(r chi.Router) {
 		r.Post("/", monitorHandler.Register)
 		r.Get("/", monitorHandler.ConsultAll)
@@ -31,5 +34,6 @@ func (dr *monitorRoutes) CreateRoutes() {
 		r.Put("/", monitorHandler.Update)
 		r.Delete("/{id}", monitorHandler.Delete)
 		r.Get("/location/{routecode}", monitorHandler.GetLocation)
+		r.Get("/authenticate/{cpf}", monitorHandler.Authenticate)
 	})
 }
