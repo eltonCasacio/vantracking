@@ -2,7 +2,6 @@ package repository
 
 import (
 	"database/sql"
-	"errors"
 
 	"github.com/eltoncasacio/vantracking/internal/domain/monitor/entity"
 	"github.com/eltoncasacio/vantracking/internal/domain/monitor/factory"
@@ -167,7 +166,7 @@ func (d *MonitorRepository) FindByCPF(cpf string) (*entity.Monitor, error) {
 		&inputMonitor.CEP,
 	)
 	if err != nil {
-		return nil, errors.New("not found")
+		return nil, err
 	}
 
 	driver, err := factory.MonitorFactory().Instance(inputMonitor)

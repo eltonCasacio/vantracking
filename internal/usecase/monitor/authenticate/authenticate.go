@@ -32,6 +32,12 @@ func (u *authenticateUseCase) Authenticate(cpf string) (OutputDTO, error) {
 		"exp": time.Now().Add(time.Second * time.Duration(u.JwtExpiriesIn)).Unix(),
 	})
 
-	accessToken := OutputDTO{AccessToken: token}
+	accessToken := OutputDTO{
+		AccessToken: token,
+		User: User{
+			ID:   monitor.ID.String(),
+			Name: monitor.Name,
+		},
+	}
 	return accessToken, nil
 }

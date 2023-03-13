@@ -1,5 +1,11 @@
 package monitor
 
+type User struct {
+	ID   string
+	Name string
+}
+
 type OutputDTO struct {
-	AccessToken string `json:"access_token"`
+	AccessToken string `json:"token"`
+	User        `json:"user"`
 }
