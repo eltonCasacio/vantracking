@@ -40,22 +40,25 @@ Content-Type:  application/json
 }
 
 ###
+
 DELETE    http://localhost:8000/driver/2d763fea-29fe-4ed0-a898-ebf73fce4343 HTTP/1.1
 Content-Type:  application/json
 
-###
-POST http://localhost:8000/driver/route HTTP/1.1
-
-{
-	"name": "sesi355",
-	"driver_id": "4330ea0b-7469-421e-8a4e-f51bb08ea03c"
-}
 
 ###
 POST http://localhost:8000/driver/location HTTP/1.1
 
 {
-	"route_code": "route_code",
-	"latitude": "-15.82824",
-	"longitude": "-47.92227"
+	"route_code": "93e5256c-a810-4bde-a5c1-d426cede667d",
+	"latitude": "-22.96329690239083",
+	"longitude": "-46.997982015276186"
+}
+
+
+### CRIAR ROTA
+POST http://localhost:8000/driver/route HTTP/1.1
+
+{
+	"name": "sesi386",
+	"driver_id": "a45f5caf-5a03-4614-9fbe-f99a6b857c08"
 }

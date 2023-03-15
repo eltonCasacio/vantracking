@@ -8,6 +8,7 @@ import (
 	authenticateusecase "github.com/eltoncasacio/vantracking/internal/usecase/monitor/authenticate"
 	dusecase "github.com/eltoncasacio/vantracking/internal/usecase/monitor/delete"
 	fusecase "github.com/eltoncasacio/vantracking/internal/usecase/monitor/findbyid"
+	driverUsecase "github.com/eltoncasacio/vantracking/internal/usecase/monitor/get_driver_by_routecode"
 	getlocationusecase "github.com/eltoncasacio/vantracking/internal/usecase/monitor/getlocation"
 	fausecase "github.com/eltoncasacio/vantracking/internal/usecase/monitor/list"
 	rusecase "github.com/eltoncasacio/vantracking/internal/usecase/monitor/register"
@@ -144,4 +145,20 @@ func (dh *monitorHandler) Authenticate(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(token)
+}
+
+func (dh *monitorHandler) GetDriverByRouteCode(w http.ResponseWriter, r *http.Request) {
+	routeCode := chi.URLParam(r, "route-code")
+	if routeCode == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	output, err := driverUsecase.NewUseCase(dh.repository).GetDriverByRouteCode(routeCode)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(output)
 }

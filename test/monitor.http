@@ -53,5 +53,9 @@ GET  http://localhost:8000/passenger/list-passenger/85f14b3c-9b4d-4bda-97c7-8468
 Content-Type:  application/json
 
 ###  AUTENTICATE
-GET  http://localhost:8000/monitor/authenticate/623.235.353-5 HTTP/1.1
+GET  http://localhost:8000/monitor/authenticate/623.235.353-53 HTTP/1.1
+Content-Type:  application/json
+
+###  PEGA MOTORISTA PELO CODIGO DA ROTA
+GET  http://localhost:8000/monitor/getdriver-by-route/93e5256c-a810-4bde-a5c1-d426cede667d HTTP/1.1
 Content-Type:  application/json

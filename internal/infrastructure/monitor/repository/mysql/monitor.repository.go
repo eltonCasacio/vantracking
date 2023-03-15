@@ -2,7 +2,10 @@ package repository
 
 import (
 	"database/sql"
+	"errors"
 
+	driver "github.com/eltoncasacio/vantracking/internal/domain/driver/entity"
+	driverFactory "github.com/eltoncasacio/vantracking/internal/domain/driver/factory"
 	"github.com/eltoncasacio/vantracking/internal/domain/monitor/entity"
 	"github.com/eltoncasacio/vantracking/internal/domain/monitor/factory"
 )
@@ -175,4 +178,46 @@ func (d *MonitorRepository) FindByCPF(cpf string) (*entity.Monitor, error) {
 	}
 
 	return driver, nil
+}
+
+func (d *MonitorRepository) GetDriverByRouteCode(routeCode string) (*driver.Driver, error) {
+	if routeCode == "" {
+		return nil, errors.New("driver id is required")
+	}
+
+	stmt, err := d.db.Prepare(`
+	SELECT d.id, d.cpf, d.name, d.nickname, d.phone, d.uf, d.city, d.street, d.number, d.cep 
+	FROM drivers as d 
+	INNER JOIN routes
+	ON code = ?
+	`)
+	if err != nil {
+		return nil, err
+	}
+	defer stmt.Close()
+
+	var driverInput driverFactory.CreateInstanceDriverInputDTO
+	err = stmt.QueryRow(routeCode).Scan(
+		&driverInput.ID,
+		&driverInput.CPF,
+		&driverInput.Name,
+		&driverInput.Nickname,
+		&driverInput.Phone,
+		&driverInput.UF,
+		&driverInput.City,
+		&driverInput.Street,
+		&driverInput.Number,
+		&driverInput.CEP,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	driver, err := driverFactory.DriverFactory().CreateInstance(driverInput)
+	if err != nil {
+		return nil, err
+	}
+
+	return driver, nil
+
 }

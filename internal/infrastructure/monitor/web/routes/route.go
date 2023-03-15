@@ -35,5 +35,6 @@ func (dr *monitorRoutes) CreateRoutes() {
 		r.Delete("/{id}", monitorHandler.Delete)
 		r.Get("/location/{routecode}", monitorHandler.GetLocation)
 		r.Get("/authenticate/{cpf}", monitorHandler.Authenticate)
+		r.Get("/getdriver-by-route/{route-code}", monitorHandler.GetDriverByRouteCode)
 	})
 }

@@ -20,7 +20,6 @@ func (cd *FindDriverByIDUseCase) FindByID(id string) (DriverOutputDTO, error) {
 
 	d, err := cd.driverRepository.FindByID(id)
 	if err != nil {
-		fmt.Println(err)
 		return DriverOutputDTO{}, err
 	}
 	addr := d.Address

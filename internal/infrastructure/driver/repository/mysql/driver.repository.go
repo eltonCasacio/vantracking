@@ -3,7 +3,6 @@ package repository
 import (
 	"database/sql"
 	"errors"
-	"fmt"
 
 	entity "github.com/eltoncasacio/vantracking/internal/domain/driver/entity"
 	factory "github.com/eltoncasacio/vantracking/internal/domain/driver/factory"
@@ -214,7 +213,6 @@ func (d *DriverRepository) CreateRoute(route *route.Route) error {
 	defer stmt.Close()
 	var name string
 	stmt.QueryRow(route.Name).Scan(&name)
-	fmt.Println(name)
 	if name == route.Name {
 		return errors.New("already exists the same name, choice another name")
 	}
