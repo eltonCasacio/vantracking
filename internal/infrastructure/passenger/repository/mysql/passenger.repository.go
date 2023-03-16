@@ -63,7 +63,7 @@ func (r *passengerRepository) Create(passenger *e.Passenger) error {
 }
 
 func (r *passengerRepository) Update(passenger *e.Passenger) error {
-	stmt, err := r.db.Prepare("UPDATE passengers SET name = ?, nickname = ?, route_code = ?, school_name = ? WHERE id = ?")
+	stmt, err := r.db.Prepare("UPDATE passengers SET name = ?, nickname = ?, route_code = ?, school_name = ?, goes=?, comesback=? WHERE id = ?")
 	if err != nil {
 		return err
 	}
@@ -74,6 +74,8 @@ func (r *passengerRepository) Update(passenger *e.Passenger) error {
 		passenger.Nickname,
 		passenger.RouteCode,
 		passenger.SchoolName,
+		passenger.Goes,
+		passenger.Comesback,
 		passenger.ID.String(),
 	)
 	if err != nil {

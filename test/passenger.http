@@ -5,9 +5,9 @@ Content-Type:  application/json
 {
     "name" : "Julia",
 	"nickname" : "juli",
-	"routeCode" : "93e5256c-a810-4bde-a5c1-d426cede667d",
-	"schoolName": "SESI",
-	"monitorID" : "e212991c-d1fb-4855-b8eb-c8c8df5a93f3"
+	"routeCode" : "aad39096-2bfc-4409-9fed-14bd5124cc60",
+	"schoolName": "SESI 286",
+	"monitorID" : "52eeb1eb-c1a4-4d63-8ac9-ea19695a8847"
 }
 
 ###  BUSCAR TODOS PASSAGEIROS
@@ -28,7 +28,8 @@ Content-Type:  application/json
 	"name" : "teste",
 	"nickname" : "other_nickname",
 	"routeCode" : "other_route_code",
-	"goes":true,
+	"schoolName": "SESI 286",
+	"goes":false,
 	"comesback": true,
 	"registerConfirmed": true,
 	"monitorID": "6a6b2b14-345e-4e09-9a9e-0e72871094ce"
@@ -36,7 +37,7 @@ Content-Type:  application/json
 
 ###
 
-DELETE    http://localhost:8000/passenger/19860f58-c0b2-4d9e-99fd-42673bd90766 HTTP/1.1
+DELETE    http://localhost:8000/passenger/88e288dc-8638-4a5d-a64e-031cecfca4ae HTTP/1.1
 Content-Type:  application/json
 
 ### CONFIRMAR REGISTRO DO PASSAGEIRO

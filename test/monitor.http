@@ -4,7 +4,7 @@ Content-Type:  application/json
 
 {
     "name":        	"monitor2",
-	"cpf":         	"2323232324",
+	"cpf":         	"11111111111",
 	"phone_number": "21212121121",
     "uf":			"MG",
 	"city":			"BH",
@@ -57,5 +57,5 @@ GET  http://localhost:8000/monitor/authenticate/623.235.353-53 HTTP/1.1
 Content-Type:  application/json
 
 ###  PEGA MOTORISTA PELO CODIGO DA ROTA
-GET  http://localhost:8000/monitor/getdriver-by-route/93e5256c-a810-4bde-a5c1-d426cede667d HTTP/1.1
+GET  http://localhost:8000/monitor/getdriver-by-route/66884465-84de-4f63-a143-6d6ed2e40c55 HTTP/1.1
 Content-Type:  application/json

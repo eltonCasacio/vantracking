@@ -3,13 +3,13 @@ POST http://localhost:8000/driver HTTP/1.1
 Content-Type:  application/json
 
 {
-    "cpf":"7777777777",
-	"name":"algum_motorista",
-	"nickname":"moto",
+    "cpf":"11111111111",
+	"name":"Lurdes",
+	"nickname":"tia lu",
 	"phone":"11 977345433",
-    "uf":"sp",
-	"city":"sumare",
-	"street":"rua parana",
+    "uf":"MG",
+	"city":"lagos",
+	"street":"tres corregos",
 	"number":"123",
 	"cep":"13233309"
 }
@@ -45,7 +45,7 @@ DELETE    http://localhost:8000/driver/2d763fea-29fe-4ed0-a898-ebf73fce4343 HTTP
 Content-Type:  application/json
 
 
-###
+### CHANGE LOCALIZACAO ATUAL
 POST http://localhost:8000/driver/location HTTP/1.1
 
 {
@@ -59,6 +59,6 @@ POST http://localhost:8000/driver/location HTTP/1.1
 POST http://localhost:8000/driver/route HTTP/1.1
 
 {
-	"name": "sesi386",
-	"driver_id": "a45f5caf-5a03-4614-9fbe-f99a6b857c08"
+	"name": "sesi 386",
+	"driver_id": "66b82f70-44b1-43df-814d-8efd148743cd"
 }
