@@ -27,14 +27,15 @@ func NewMonitorRoutes(db *sql.DB, c *chi.Mux, config *configs.Config) *monitorRo
 func (dr *monitorRoutes) CreateRoutes() {
 	repository := repo.NewMonitorRepository(dr.db)
 	monitorHandler := handlers.NewMonitorHandler(repository, dr.config.TokenAuth, dr.config.JwtExperesIn)
+
 	dr.chi.Route("/monitor", func(r chi.Router) {
 		r.Post("/", monitorHandler.Register)
+		r.Get("/authenticate/{cpf}", monitorHandler.Authenticate)
 		r.Get("/", monitorHandler.ConsultAll)
 		r.Get("/{id}", monitorHandler.Consult)
 		r.Put("/", monitorHandler.Update)
 		r.Delete("/{id}", monitorHandler.Delete)
 		r.Get("/location/{routecode}", monitorHandler.GetLocation)
-		r.Get("/authenticate/{cpf}", monitorHandler.Authenticate)
 		r.Get("/getdriver-by-route/{route-code}", monitorHandler.GetDriverByRouteCode)
 	})
 }
