@@ -2,21 +2,25 @@ package route
 
 import (
 	"errors"
+	"strings"
 
 	"github.com/eltoncasacio/vantracking/pkg/identity"
 )
 
 type Route struct {
-	Code     identity.ID
+	Code     string
 	Name     string
 	DriverID identity.ID
 	Started  bool
 }
 
 func NewRoute(driverID identity.ID, name string) (*Route, error) {
+	id := identity.NewID().String()
+	splitID := strings.Split(id, "-")
+	code := splitID[len(splitID)-1]
 	r := &Route{
 		DriverID: driverID,
-		Code:     identity.NewID(),
+		Code:     code,
 		Name:     name,
 		Started:  false,
 	}

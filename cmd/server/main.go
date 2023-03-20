@@ -31,7 +31,7 @@ func main() {
 	monitorRoutes.NewMonitorRoutes(db, chi, config).CreateRoutes()
 	passengerRoutes.NewPassengerRoutes(db, chi).CreateRoutes()
 
-	http.ListenAndServe(":8000", chi)
+	http.ListenAndServe(fmt.Sprintf(":%v", config.WebServerPort), chi)
 }
 
 func Init() (*sql.DB, *configs.Config) {

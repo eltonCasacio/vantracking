@@ -49,7 +49,7 @@ Content-Type:  application/json
 POST http://localhost:8000/driver/location HTTP/1.1
 
 {
-	"route_code": "93e5256c-a810-4bde-a5c1-d426cede667d",
+	"route_code": "40538901832d",
 	"latitude": "-22.96329690239083",
 	"longitude": "-46.997982015276186"
 }
@@ -60,5 +60,5 @@ POST http://localhost:8000/driver/route HTTP/1.1
 
 {
 	"name": "sesi 386",
-	"driver_id": "7aec9d5f-db72-4d49-bf72-880874afae37"
+	"driver_id": "3b64a7aa-80d4-4c20-9c63-8873012ab63c"
 }
