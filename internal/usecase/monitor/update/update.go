@@ -26,6 +26,7 @@ func (u *updateUseCase) Update(input InputDTO) error {
 		Street:      input.Street,
 		Number:      input.Number,
 		CEP:         input.CEP,
+		Complement:  input.Complement,
 	}
 
 	monitorInstance, err := f.MonitorFactory().Instance(Input)

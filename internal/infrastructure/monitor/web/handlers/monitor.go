@@ -63,6 +63,7 @@ func (h *monitorHandler) ConsultAll(w http.ResponseWriter, r *http.Request) {
 			Street:      monitor.Street,
 			Number:      monitor.Number,
 			CEP:         monitor.CEP,
+			Complement:  monitor.Complement,
 		}
 		output = append(output, d)
 	}
@@ -141,10 +142,10 @@ func (dh *monitorHandler) Authenticate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	token, _ := authenticateusecase.NewUseCase(dh.repository, dh.JWT, dh.JwtExpiriesIn).Authenticate(cpf)
+	user, _ := authenticateusecase.NewUseCase(dh.repository, dh.JWT, dh.JwtExpiriesIn).Authenticate(cpf)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(token)
+	json.NewEncoder(w).Encode(user)
 }
 
 func (dh *monitorHandler) GetDriverByRouteCode(w http.ResponseWriter, r *http.Request) {

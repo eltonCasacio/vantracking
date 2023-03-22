@@ -27,7 +27,7 @@ func main() {
 	chi.Use(middleware.Logger)
 	chi.Use(middleware.Recoverer)
 
-	driverRoutes.NewDriverRoutes(db, chi).CreateRoutes()
+	driverRoutes.NewDriverRoutes(db, chi, config).CreateRoutes()
 	monitorRoutes.NewMonitorRoutes(db, chi, config).CreateRoutes()
 	passengerRoutes.NewPassengerRoutes(db, chi).CreateRoutes()
 

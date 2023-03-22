@@ -10,4 +10,5 @@ type InputDTO struct {
 	Street      string `json:"street"`
 	Number      string `json:"number"`
 	CEP         string `json:"cep"`
+	Complement  string `json:"complement"`
 }

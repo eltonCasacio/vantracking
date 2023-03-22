@@ -17,16 +17,17 @@ func NewUseCase(driverRepository repo.DriverRepositoryInterface) *UpdateDriverUs
 
 func (u *UpdateDriverUseCase) Update(input DriverInputDTO) error {
 	driverInput := f.CreateInstanceDriverInputDTO{
-		ID:       input.ID,
-		CPF:      input.CPF,
-		Name:     input.Name,
-		Nickname: input.Nickname,
-		Phone:    input.Phone,
-		UF:       input.UF,
-		City:     input.City,
-		Street:   input.Street,
-		Number:   input.Number,
-		CEP:      input.CEP,
+		ID:         input.ID,
+		CPF:        input.CPF,
+		Name:       input.Name,
+		Nickname:   input.Nickname,
+		Phone:      input.Phone,
+		UF:         input.UF,
+		City:       input.City,
+		Street:     input.Street,
+		Number:     input.Number,
+		CEP:        input.CEP,
+		Complement: input.Complement,
 	}
 
 	driver, err := f.DriverFactory().CreateInstance(driverInput)

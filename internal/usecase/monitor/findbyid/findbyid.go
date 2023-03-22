@@ -35,6 +35,7 @@ func (cd *findByIDUseCase) FindByID(id string) (OutputDTO, error) {
 		Street:      addr.City,
 		Number:      addr.Number,
 		CEP:         fmt.Sprint(addr.CEP),
+		Complement:  addr.Complement,
 	}
 	return output, nil
 }

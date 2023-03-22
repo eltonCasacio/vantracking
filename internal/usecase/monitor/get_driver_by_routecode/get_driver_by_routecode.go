@@ -24,16 +24,17 @@ func (cd *getDriverByRouteCodeUseCase) GetDriverByRouteCode(routeCode string) (D
 
 	addr := found.Address
 	output := DriverOutputDTO{
-		ID:       found.ID.String(),
-		CPF:      found.CPF,
-		Name:     found.Name,
-		Nickname: found.Nickname,
-		Phone:    found.Phone,
-		UF:       addr.UF,
-		City:     addr.City,
-		Street:   addr.Street,
-		Number:   addr.Number,
-		CEP:      fmt.Sprint(addr.CEP),
+		ID:         found.ID.String(),
+		CPF:        found.CPF,
+		Name:       found.Name,
+		Nickname:   found.Nickname,
+		Phone:      found.Phone,
+		UF:         addr.UF,
+		City:       addr.City,
+		Street:     addr.Street,
+		Number:     addr.Number,
+		CEP:        fmt.Sprint(addr.CEP),
+		Complement: addr.Complement,
 	}
 	return output, nil
 }

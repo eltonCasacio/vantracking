@@ -3,20 +3,22 @@ package valueobjects
 import "errors"
 
 type Address struct {
-	UF     string
-	City   string
-	Street string
-	Number string
-	CEP    string
+	UF         string
+	City       string
+	Street     string
+	Number     string
+	CEP        string
+	Complement string
 }
 
-func NewAddress(uf, city, street, number, cep string) (*Address, error) {
+func NewAddress(uf, city, street, number, cep, complement string) (*Address, error) {
 	addr := &Address{
-		UF:     uf,
-		City:   city,
-		Street: street,
-		Number: number,
-		CEP:    cep,
+		UF:         uf,
+		City:       city,
+		Street:     street,
+		Number:     number,
+		CEP:        cep,
+		Complement: complement,
 	}
 	err := addr.IsValid()
 	if err != nil {

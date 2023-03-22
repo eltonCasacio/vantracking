@@ -19,14 +19,16 @@ func NewUseCase(repository repo.DriverRepositoryInterface) *RegisterDriverUseCas
 
 func (u *RegisterDriverUseCase) RegisterDriver(input DriverInputDTO) error {
 	driverInput := f.NewDriverInputDTO{
-		CPF:    input.CPF,
-		Name:   input.Name,
-		Phone:  input.Phone,
-		UF:     input.UF,
-		City:   input.City,
-		Street: input.Street,
-		Number: input.Number,
-		CEP:    input.CEP,
+		CPF:        input.CPF,
+		Name:       input.Name,
+		Phone:      input.Phone,
+		UF:         input.UF,
+		City:       input.City,
+		Street:     input.Street,
+		Number:     input.Number,
+		CEP:        input.CEP,
+		Nickname:   input.Nickname,
+		Complement: input.Complement,
 	}
 
 	driver, err := f.DriverFactory().New(driverInput)

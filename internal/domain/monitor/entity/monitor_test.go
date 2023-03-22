@@ -18,7 +18,7 @@ func TestSuite(t *testing.T) {
 }
 
 func (suite *MonitorestSuite) SetupTest() {
-	addr, _ := valueobjects.NewAddress("any_uf", "any_city", "any_street", "123", "123")
+	addr, _ := valueobjects.NewAddress("any_uf", "any_city", "any_street", "123", "123", "")
 	suite.Address = *addr
 }
 

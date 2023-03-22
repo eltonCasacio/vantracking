@@ -16,13 +16,14 @@ type Driver struct {
 	Address  vo.Address
 }
 
-func NewDriver(cpf, name, phone string, address vo.Address) (*Driver, error) {
+func NewDriver(cpf, name, phone, nickname string, address vo.Address) (*Driver, error) {
 	d := &Driver{
-		ID:      identity.NewID(),
-		CPF:     cpf,
-		Name:    name,
-		Phone:   phone,
-		Address: address,
+		ID:       identity.NewID(),
+		CPF:      cpf,
+		Name:     name,
+		Nickname: nickname,
+		Phone:    phone,
+		Address:  address,
 	}
 
 	err := d.IsValid()

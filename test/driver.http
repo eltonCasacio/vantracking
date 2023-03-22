@@ -1,11 +1,16 @@
 
+GET  http://localhost:8000/driver/authenticate/11111111112 HTTP/1.1
+Content-Type:  application/json
+
+###
 POST http://localhost:8000/driver HTTP/1.1
 Content-Type:  application/json
 
 {
-    "cpf":"11111111111",
 	"name":"Lurdes",
+    "cpf":"11111111112",
 	"nickname":"tia lu",
+	"complement": "complemento",
 	"phone":"11 977345433",
     "uf":"MG",
 	"city":"lagos",
@@ -41,15 +46,16 @@ Content-Type:  application/json
 
 ###
 
-DELETE    http://localhost:8000/driver/2d763fea-29fe-4ed0-a898-ebf73fce4343 HTTP/1.1
+DELETE    http://localhost:8000/driver/9acf03a6-d18a-4d73-a273-7d8f375fcbe7 HTTP/1.1
 Content-Type:  application/json
 
 
 ### CHANGE LOCALIZACAO ATUAL
 POST http://localhost:8000/driver/location HTTP/1.1
+Content-Type:  application/json
 
 {
-	"route_code": "40538901832d",
+	"route_code": "2d8b2e06e26c",
 	"latitude": "-22.96329690239083",
 	"longitude": "-46.997982015276186"
 }
@@ -57,8 +63,13 @@ POST http://localhost:8000/driver/location HTTP/1.1
 
 ### CRIAR ROTA
 POST http://localhost:8000/driver/route HTTP/1.1
+Content-Type:  application/json
 
 {
 	"name": "sesi 386",
-	"driver_id": "3b64a7aa-80d4-4c20-9c63-8873012ab63c"
+	"driver_id": "25036a44-6947-4f7c-bc27-a62e2712690d"
 }
+
+### PEGAR ROTAS
+GET  http://localhost:8000/driver/routes/25036a44-6947-4f7c-bc27-a62e2712690d HTTP/1.1
+Content-Type:  application/json

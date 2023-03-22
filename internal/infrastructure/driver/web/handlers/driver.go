@@ -7,14 +7,17 @@ import (
 	repo "github.com/eltoncasacio/vantracking/internal/domain/driver/repository"
 	usecases "github.com/eltoncasacio/vantracking/internal/usecase/driver"
 	"github.com/go-chi/chi"
+	"github.com/go-chi/jwtauth"
 )
 
 type DriverHandler struct {
-	usecases usecases.DriverUseCases
+	usecases      usecases.DriverUseCases
+	JWT           *jwtauth.JWTAuth
+	JwtExpiriesIn int
 }
 
-func NewDriverHandler(repo repo.DriverRepositoryInterface) *DriverHandler {
-	return &DriverHandler{usecases: *usecases.NewDriverUsecases(repo)}
+func NewDriverHandler(repo repo.DriverRepositoryInterface, jwt *jwtauth.JWTAuth, jwtExpiriesIn int) *DriverHandler {
+	return &DriverHandler{usecases: *usecases.NewDriverUsecases(repo, jwt, jwtExpiriesIn)}
 }
 
 func (dh *DriverHandler) Register(w http.ResponseWriter, r *http.Request) {
@@ -152,4 +155,42 @@ func (dh *DriverHandler) DeleteRoute(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.WriteHeader(http.StatusOK)
+}
+
+func (dh *DriverHandler) Authenticate(w http.ResponseWriter, r *http.Request) {
+	cpf := chi.URLParam(r, "cpf")
+	if cpf == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	usecase := dh.usecases.AuthenticateUsecase()
+
+	user, err := usecase.Authenticate(cpf)
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(user)
+}
+
+func (dh *DriverHandler) Routes(w http.ResponseWriter, r *http.Request) {
+	driverID := chi.URLParam(r, "driverid")
+	if driverID == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	usecase := dh.usecases.RoutesUsecase()
+
+	routes, err := usecase.Execute(driverID)
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(routes)
 }

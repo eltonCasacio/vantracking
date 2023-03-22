@@ -27,6 +27,7 @@ func (cd *RegisterUseCase) Register(input InputDTO) error {
 		Street:      input.Street,
 		Number:      input.Number,
 		CEP:         input.CEP,
+		Complement:  input.Complement,
 	}
 
 	monitorInstance, err := f.MonitorFactory().Create(Input)

@@ -24,16 +24,17 @@ func (cd *FindDriverByIDUseCase) FindByID(id string) (DriverOutputDTO, error) {
 	}
 	addr := d.Address
 	output := DriverOutputDTO{
-		ID:       d.ID.String(),
-		CPF:      d.CPF,
-		Name:     d.Name,
-		Nickname: d.Nickname,
-		Phone:    d.Phone,
-		UF:       addr.UF,
-		City:     addr.City,
-		Street:   addr.City,
-		Number:   addr.Number,
-		CEP:      fmt.Sprint(addr.CEP),
+		ID:         d.ID.String(),
+		CPF:        d.CPF,
+		Name:       d.Name,
+		Nickname:   d.Nickname,
+		Phone:      d.Phone,
+		UF:         addr.UF,
+		City:       addr.City,
+		Street:     addr.City,
+		Number:     addr.Number,
+		CEP:        fmt.Sprint(addr.CEP),
+		Complement: addr.Complement,
 	}
 	return output, nil
 }

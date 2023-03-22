@@ -10,5 +10,6 @@ type DriverRepositoryInterface interface {
 	repo.RepositoryInterface[e.Driver]
 	FindByCPF(cpf string) (*e.Driver, error)
 	CreateRoute(route *r.Route) error
+	Routes(driverID string) ([]r.Route, error)
 	DeleteRoute(id string) error
 }

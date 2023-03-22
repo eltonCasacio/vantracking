@@ -1,25 +1,28 @@
 package factory
 
 type NewDriverInputDTO struct {
-	CPF    string
-	Name   string
-	Phone  string
-	UF     string
-	City   string
-	Street string
-	Number string
-	CEP    string
+	CPF        string
+	Name       string
+	Nickname   string
+	Phone      string
+	UF         string
+	City       string
+	Street     string
+	Number     string
+	CEP        string
+	Complement string
 }
 
 type CreateInstanceDriverInputDTO struct {
-	ID       string
-	CPF      string
-	Name     string
-	Nickname string
-	Phone    string
-	UF       string
-	City     string
-	Street   string
-	Number   string
-	CEP      string
+	ID         string
+	CPF        string
+	Name       string
+	Nickname   string
+	Phone      string
+	UF         string
+	City       string
+	Street     string
+	Number     string
+	CEP        string
+	Complement string
 }

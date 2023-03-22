@@ -19,7 +19,7 @@ func NewMonitorRepository(db *sql.DB) *MonitorRepository {
 }
 
 func (m *MonitorRepository) Create(monitor *entity.Monitor) error {
-	stmt, err := m.db.Prepare("insert into monitors(id, cpf, name, phone_number, uf, city, street, number, cep , active) values(?,?,?,?,?,?,?,?,?,?)")
+	stmt, err := m.db.Prepare("insert into monitors(id, cpf, name, phone_number, uf, city, street, number, cep, complement, active) values(?, ?,?,?,?,?,?,?,?,?,?)")
 	if err != nil {
 		return err
 	}
@@ -37,6 +37,7 @@ func (m *MonitorRepository) Create(monitor *entity.Monitor) error {
 		address.Street,
 		address.Number,
 		address.CEP,
+		address.Complement,
 		true,
 	)
 	if err != nil {
@@ -46,7 +47,7 @@ func (m *MonitorRepository) Create(monitor *entity.Monitor) error {
 }
 
 func (m *MonitorRepository) Update(monitor *entity.Monitor) error {
-	stmt, err := m.db.Prepare("update monitors set cpf = ?, name = ?, phone_number = ?, uf = ?, city = ?, street = ?, number = ?, cep  = ? WHERE id = ?")
+	stmt, err := m.db.Prepare("update monitors set cpf = ?, name = ?, phone_number = ?, uf = ?, city = ?, street = ?, number = ?, cep  = ? complement = ? WHERE id = ?")
 	if err != nil {
 		return err
 	}
@@ -63,6 +64,7 @@ func (m *MonitorRepository) Update(monitor *entity.Monitor) error {
 		address.Street,
 		address.Number,
 		address.CEP,
+		address.Complement,
 		monitor.ID.String(),
 	)
 	if err != nil {
@@ -85,7 +87,7 @@ func (m *MonitorRepository) Delete(id string) error {
 }
 
 func (m *MonitorRepository) FindAll() ([]entity.Monitor, error) {
-	rows, err := m.db.Query("SELECT id, cpf, name, phone_number, uf, city, street, number, cep FROM monitors WHERE active = true")
+	rows, err := m.db.Query("SELECT id, cpf, name, phone_number, uf, city, street, number, cep, complement FROM monitors WHERE active = true")
 	if err != nil {
 		return nil, err
 	}
@@ -104,6 +106,7 @@ func (m *MonitorRepository) FindAll() ([]entity.Monitor, error) {
 			&inputMonitor.Street,
 			&inputMonitor.Number,
 			&inputMonitor.CEP,
+			&inputMonitor.Complement,
 		)
 		if err != nil {
 			return nil, err
@@ -119,7 +122,7 @@ func (m *MonitorRepository) FindAll() ([]entity.Monitor, error) {
 }
 
 func (m *MonitorRepository) FindByID(id string) (*entity.Monitor, error) {
-	stmt, err := m.db.Prepare("SELECT id, cpf, name, phone_number, uf, city, street, number, cep FROM monitors WHERE id = ? and active = true")
+	stmt, err := m.db.Prepare("SELECT id, cpf, name, phone_number, uf, city, street, number, cep, complement FROM monitors WHERE id = ? and active = true")
 	if err != nil {
 		return nil, err
 	}
@@ -137,6 +140,7 @@ func (m *MonitorRepository) FindByID(id string) (*entity.Monitor, error) {
 		&inputMonitor.Street,
 		&inputMonitor.Number,
 		&inputMonitor.CEP,
+		&inputMonitor.Complement,
 	)
 	if err != nil {
 		return nil, err
@@ -150,7 +154,7 @@ func (m *MonitorRepository) FindByID(id string) (*entity.Monitor, error) {
 }
 
 func (d *MonitorRepository) FindByCPF(cpf string) (*entity.Monitor, error) {
-	stmt, err := d.db.Prepare("SELECT id, cpf, name, phone_number, uf, city, street, number, cep FROM monitors WHERE cpf = ? and active = true")
+	stmt, err := d.db.Prepare("SELECT id, cpf, name, phone_number, uf, city, street, number, cep, complement FROM monitors WHERE cpf = ? and active = true")
 	if err != nil {
 		return nil, err
 	}
@@ -167,6 +171,7 @@ func (d *MonitorRepository) FindByCPF(cpf string) (*entity.Monitor, error) {
 		&inputMonitor.Street,
 		&inputMonitor.Number,
 		&inputMonitor.CEP,
+		&inputMonitor.Complement,
 	)
 	if err != nil {
 		return nil, err
@@ -186,7 +191,7 @@ func (d *MonitorRepository) GetDriverByRouteCode(routeCode string) (*driver.Driv
 	}
 
 	stmt, err := d.db.Prepare(`
-	SELECT d.id, d.cpf, d.name, d.nickname, d.phone, d.uf, d.city, d.street, d.number, d.cep 
+	SELECT d.id, d.cpf, d.name, d.nickname, d.phone, d.uf, d.city, d.street, d.number, d.cep, d.complement
 	FROM drivers as d 
 	INNER JOIN routes
 	ON code = ?
@@ -208,6 +213,7 @@ func (d *MonitorRepository) GetDriverByRouteCode(routeCode string) (*driver.Driv
 		&driverInput.Street,
 		&driverInput.Number,
 		&driverInput.CEP,
+		&driverInput.Complement,
 	)
 	if err != nil {
 		return nil, err

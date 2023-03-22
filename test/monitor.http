@@ -1,10 +1,8 @@
-###  AUTENTICATE
-GET  http://localhost:8000/monitor/auth/authenticate/11111111111 HTTP/1.1
+GET  http://localhost:8000/monitor/authenticate/11111111111 HTTP/1.1
 Content-Type:  application/json
 
 
 ###
-
 POST http://localhost:8000/monitor HTTP/1.1
 Content-Type:  application/json
 
@@ -16,7 +14,8 @@ Content-Type:  application/json
 	"city":			"BH",
 	"street":		"rua lagoinha",
 	"number":		"6565",
-	"cep":			"13233309"
+	"cep":			"13233309",
+	"complement": "complemento"
 }
 
 ###  BUSCAR TODOS MONITORES
@@ -47,12 +46,9 @@ Content-Type:  application/json
 
 ###
 
-DELETE    http://localhost:8000/monitor/06aafaeb-a5a1-4a49-b832-96eb54d54c60 HTTP/1.1
+DELETE    http://localhost:8000/monitor/8a63e4c2-41e2-475c-90c1-2734fd72d9c0 HTTP/1.1
 Content-Type:  application/json
 
-###
-GET  http://localhost:8000/monitor/location/route_code HTTP/1.1
-Content-Type:  application/json
 
 
 ###  BUSCAR PASSAGEIROS API
@@ -61,5 +57,10 @@ Content-Type:  application/json
 
 
 ###  PEGA MOTORISTA PELO CODIGO DA ROTA
-GET  http://localhost:8000/monitor/getdriver-by-route/8b58055b-9671-41a9-9fb0-3f61818a10e0 HTTP/1.1
+GET  http://localhost:8000/monitor/getdriver-by-route/2d8b2e06e26c HTTP/1.1
+Content-Type:  application/json
+
+
+### PEGAR LOCALIZACAO
+GET  http://localhost:8000/monitor/location/2d8b2e06e26c HTTP/1.1
 Content-Type:  application/json

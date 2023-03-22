@@ -18,50 +18,39 @@ func TestSuite(t *testing.T) {
 }
 
 func (suite *DriverTestSuite) SetupTest() {
-	addr, _ := valueobjects.NewAddress("any_uf", "any_city", "any_street", "123", "123")
+	addr, _ := valueobjects.NewAddress("any_uf", "any_city", "any_street", "123", "123", "")
 	suite.Address = *addr
 }
 
 func (s *DriverTestSuite) TestNewDriver_ErrorAddresEmpty() {
-	d, err := NewDriver("234534534", "any_name", "24534534", valueobjects.Address{})
+	d, err := NewDriver("234534534", "any_name", "", "24534534", valueobjects.Address{})
 	assert.NotNil(s.T(), err)
 	assert.Empty(s.T(), d)
 }
 
 func (s *DriverTestSuite) TestNewDriver_ErrorCPFInvalid() {
-	d, err := NewDriver("", "any_name", "24534534", s.Address)
+	d, err := NewDriver("", "any_name", "", "24534534", s.Address)
 	assert.NotNil(s.T(), err)
 	assert.Empty(s.T(), d)
 	assert.EqualError(s.T(), err, "cpf invalid")
 }
 
 func (s *DriverTestSuite) TestNewDriver_ErrorNameInvalid() {
-	d, err := NewDriver("any_cpf", "", "24534534", s.Address)
+	d, err := NewDriver("any_cpf", "", "", "24534534", s.Address)
 	assert.NotNil(s.T(), err)
 	assert.Empty(s.T(), d)
 	assert.EqualError(s.T(), err, "name invalid")
 }
 
 func (s *DriverTestSuite) TestNewDriver_ErrorPhoneInvalid() {
-	d, err := NewDriver("any_cpf", "any_name", "", s.Address)
+	d, err := NewDriver("any_cpf", "any_name", "", "", s.Address)
 	assert.NotNil(s.T(), err)
 	assert.Empty(s.T(), d)
 	assert.EqualError(s.T(), err, "phone invalid")
 }
 
-func (s *DriverTestSuite) TestNewDriver_WithoutNickname() {
-	d, err := NewDriver("any_cpf", "any_name", "234325", s.Address)
-	assert.Nil(s.T(), err)
-	assert.NotNil(s.T(), d)
-	assert.NotNil(s.T(), d.Address)
-	assert.Equal(s.T(), d.CPF, "any_cpf")
-	assert.Equal(s.T(), d.Name, "any_name")
-	assert.Equal(s.T(), d.Nickname, "")
-	assert.Equal(s.T(), d.Phone, "234325")
-}
-
 func (s *DriverTestSuite) TestNewDriver() {
-	d, err := NewDriver("any_cpf", "any_name", "234325", s.Address)
+	d, err := NewDriver("any_cpf", "any_name", "234325", "", s.Address)
 	assert.Nil(s.T(), err)
 	assert.NotNil(s.T(), d)
 	assert.NotNil(s.T(), d.Address)
@@ -72,7 +61,7 @@ func (s *DriverTestSuite) TestNewDriver() {
 }
 
 func (s *DriverTestSuite) TestChangeName() {
-	d, _ := NewDriver("any_cpf", "any_name", "234325", s.Address)
+	d, _ := NewDriver("any_cpf", "any_name", "234325", "", s.Address)
 	err := d.ChangeName("other_name")
 	assert.Nil(s.T(), err)
 	assert.Equal(s.T(), d.Name, "other_name")
@@ -83,14 +72,14 @@ func (s *DriverTestSuite) TestChangeName() {
 }
 
 func (s *DriverTestSuite) TestChangeNickName() {
-	d, _ := NewDriver("any_cpf", "any_name", "234325", s.Address)
+	d, _ := NewDriver("any_cpf", "any_name", "234325", "", s.Address)
 	assert.Equal(s.T(), d.Nickname, "")
 	d.ChangeNickname("new_nickname")
 	assert.Equal(s.T(), d.Nickname, "new_nickname")
 }
 
 func (s *DriverTestSuite) TestChangeCPF() {
-	d, _ := NewDriver("3232323232", "any_name", "234325", s.Address)
+	d, _ := NewDriver("3232323232", "any_name", "234325", "", s.Address)
 	assert.Equal(s.T(), d.CPF, "3232323232")
 	d.ChangeCPF("235234456")
 	assert.Equal(s.T(), d.CPF, "235234456")
@@ -101,7 +90,7 @@ func (s *DriverTestSuite) TestChangeCPF() {
 }
 
 func (s *DriverTestSuite) TestChangePhone() {
-	d, _ := NewDriver("3232323232", "any_name", "234325", s.Address)
+	d, _ := NewDriver("3232323232", "any_name", "234325", "", s.Address)
 	assert.Equal(s.T(), d.Phone, "234325")
 	d.ChangePhone("2222222")
 	assert.Equal(s.T(), d.Phone, "2222222")
@@ -112,10 +101,10 @@ func (s *DriverTestSuite) TestChangePhone() {
 }
 
 func (s *DriverTestSuite) TestChangeAddress() {
-	d, _ := NewDriver("3232323232", "any_name", "234325", s.Address)
+	d, _ := NewDriver("3232323232", "any_name", "234325", "", s.Address)
 	assert.Equal(s.T(), d.Address, s.Address)
 
-	newAddress, _ := valueobjects.NewAddress("any_uf", "any_city", "any_street", "777", "13277777")
+	newAddress, _ := valueobjects.NewAddress("any_uf", "any_city", "any_street", "777", "13277777", "")
 	d.ChangeAddress(*newAddress)
 	assert.NotEqual(s.T(), d.Address, s.Address)
 	assert.Equal(s.T(), d.Address, *newAddress)

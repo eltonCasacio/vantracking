@@ -9,6 +9,7 @@ type NewMonitorInputDTO struct {
 	Street      string
 	Number      string
 	CEP         string
+	Complement  string
 }
 
 type InstanceMonitorInputDTO struct {
@@ -21,4 +22,5 @@ type InstanceMonitorInputDTO struct {
 	Street      string
 	Number      string
 	CEP         string
+	Complement  string
 }

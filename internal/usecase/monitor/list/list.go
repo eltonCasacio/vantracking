@@ -37,6 +37,7 @@ func (cd *listUseCase) List() ([]OutputDTO, error) {
 			Street:      addr.City,
 			Number:      addr.Number,
 			CEP:         fmt.Sprint(addr.CEP),
+			Complement:  addr.Complement,
 		}
 		monitorsOutput = append(monitorsOutput, output)
 	}

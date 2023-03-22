@@ -21,7 +21,7 @@ func (d *DriverRepository) Create(driver *entity.Driver) error {
 	if err := driver.IsValid(); err != nil {
 		return err
 	}
-	query := `INSERT INTO drivers(id, cpf, name, nickname, phone, uf, city, street, number, cep) values(?,?,?,?,?,?,?,?,?,?)`
+	query := `INSERT INTO drivers(id, cpf, name, nickname, phone, uf, city, street, number, cep, complement) values(?, ?,?,?,?,?,?,?,?,?,?)`
 	stmt, err := d.db.Prepare(query)
 	if err != nil {
 		return err
@@ -41,6 +41,7 @@ func (d *DriverRepository) Create(driver *entity.Driver) error {
 		addr.Street,
 		addr.Number,
 		addr.CEP,
+		addr.Complement,
 	)
 	if err != nil {
 		return err
@@ -53,7 +54,7 @@ func (d *DriverRepository) FindByID(id string) (*entity.Driver, error) {
 		return nil, errors.New("id is required")
 	}
 
-	stmt, err := d.db.Prepare("SELECT id, cpf, name, nickname, phone, uf, city, street, number, cep FROM drivers WHERE id = ? and active = true")
+	stmt, err := d.db.Prepare("SELECT id, cpf, name, nickname, phone, uf, city, street, number, cep, complement FROM drivers WHERE id = ? and active = true")
 	if err != nil {
 		return nil, err
 	}
@@ -71,6 +72,7 @@ func (d *DriverRepository) FindByID(id string) (*entity.Driver, error) {
 		&driverInput.Street,
 		&driverInput.Number,
 		&driverInput.CEP,
+		&driverInput.Complement,
 	)
 	if err != nil {
 		return nil, err
@@ -88,7 +90,7 @@ func (d *DriverRepository) Update(driver *entity.Driver) error {
 	if err := driver.IsValid(); err != nil {
 		return errors.New("invalid driver")
 	}
-	query := "UPDATE drivers SET cpf = ?, name = ?, nickname = ?, phone = ?, uf = ?, city = ?, street = ?, number = ?, cep = ? WHERE id = ?"
+	query := "UPDATE drivers SET cpf = ?, name = ?, nickname = ?, phone = ?, uf = ?, city = ?, street = ?, number = ?, cep = ?, complement = ? WHERE id = ?"
 	stmt, err := d.db.Prepare(query)
 	if err != nil {
 		return err
@@ -107,6 +109,7 @@ func (d *DriverRepository) Update(driver *entity.Driver) error {
 		addr.Street,
 		addr.Number,
 		addr.CEP,
+		addr.Complement,
 		driver.ID,
 	)
 	if err != nil {
@@ -129,7 +132,7 @@ func (d *DriverRepository) Delete(id string) error {
 }
 
 func (d *DriverRepository) FindAll() ([]entity.Driver, error) {
-	rows, err := d.db.Query("SELECT id, cpf, name, nickname, phone, uf, city, street, number, cep FROM drivers WHERE active = true")
+	rows, err := d.db.Query("SELECT id, cpf, name, nickname, phone, uf, city, street, number, cep, complement FROM drivers WHERE active = true")
 	if err != nil {
 		return nil, err
 	}
@@ -149,6 +152,7 @@ func (d *DriverRepository) FindAll() ([]entity.Driver, error) {
 			&driverInput.Street,
 			&driverInput.Number,
 			&driverInput.CEP,
+			&driverInput.Complement,
 		)
 		if err != nil {
 			return nil, err
@@ -165,7 +169,7 @@ func (d *DriverRepository) FindAll() ([]entity.Driver, error) {
 }
 
 func (d *DriverRepository) FindByCPF(cpf string) (*entity.Driver, error) {
-	stmt, err := d.db.Prepare("SELECT id, cpf, name, nickname, phone, uf, city, street, number, cep FROM drivers WHERE cpf = ? and active = true")
+	stmt, err := d.db.Prepare("SELECT id, cpf, name, nickname, phone, uf, city, street, number, cep, complement FROM drivers WHERE cpf = ? and active = true")
 	if err != nil {
 		return nil, err
 	}
@@ -183,6 +187,7 @@ func (d *DriverRepository) FindByCPF(cpf string) (*entity.Driver, error) {
 		&driverInput.Street,
 		&driverInput.Number,
 		&driverInput.CEP,
+		&driverInput.Complement,
 	)
 	if err != nil {
 		return nil, err
@@ -243,4 +248,29 @@ func (d *DriverRepository) DeleteRoute(id string) error {
 		return err
 	}
 	return nil
+}
+
+func (d *DriverRepository) Routes(driverID string) ([]route.Route, error) {
+	rows, err := d.db.Query("SELECT name, code, driver_id, started FROM routes WHERE driver_id = ?", driverID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var routes []route.Route
+	for rows.Next() {
+		var input route.Route
+		err := rows.Scan(
+			&input.Name,
+			&input.Code,
+			&input.DriverID,
+			&input.Started,
+		)
+		if err != nil {
+			return nil, err
+		}
+
+		routes = append(routes, input)
+	}
+	return routes, nil
 }

@@ -2,24 +2,31 @@ package driver
 
 import (
 	repo "github.com/eltoncasacio/vantracking/internal/domain/driver/repository"
+	authenticate "github.com/eltoncasacio/vantracking/internal/usecase/driver/authenticate"
 	driver "github.com/eltoncasacio/vantracking/internal/usecase/driver/create_route"
 	delete "github.com/eltoncasacio/vantracking/internal/usecase/driver/delete"
 	delete_route "github.com/eltoncasacio/vantracking/internal/usecase/driver/delete_route"
 	fusecase "github.com/eltoncasacio/vantracking/internal/usecase/driver/findbyid"
 	findAll "github.com/eltoncasacio/vantracking/internal/usecase/driver/listall"
 	register "github.com/eltoncasacio/vantracking/internal/usecase/driver/register"
+	routes "github.com/eltoncasacio/vantracking/internal/usecase/driver/routes"
 	sendnotification "github.com/eltoncasacio/vantracking/internal/usecase/driver/sendnotification"
 	setLocationusecase "github.com/eltoncasacio/vantracking/internal/usecase/driver/setlocation"
 	update "github.com/eltoncasacio/vantracking/internal/usecase/driver/update"
+	"github.com/go-chi/jwtauth"
 )
 
 type DriverUseCases struct {
-	repository repo.DriverRepositoryInterface
+	repository    repo.DriverRepositoryInterface
+	JWT           *jwtauth.JWTAuth
+	JwtExpiriesIn int
 }
 
-func NewDriverUsecases(repository repo.DriverRepositoryInterface) *DriverUseCases {
+func NewDriverUsecases(repository repo.DriverRepositoryInterface, jwt *jwtauth.JWTAuth, jwtExpiriesIn int) *DriverUseCases {
 	return &DriverUseCases{
-		repository: repository,
+		repository:    repository,
+		JWT:           jwt,
+		JwtExpiriesIn: jwtExpiriesIn,
 	}
 }
 
@@ -57,4 +64,12 @@ func (u *DriverUseCases) UpdateDriverUsecase() (*update.UpdateDriverUseCase, upd
 
 func (u *DriverUseCases) SetDriverLocationUsecase() (*setLocationusecase.SetDriverLocationUseCase, setLocationusecase.SetLocationInputDTO) {
 	return setLocationusecase.NewUseCase(u.repository), setLocationusecase.SetLocationInputDTO{}
+}
+
+func (u *DriverUseCases) AuthenticateUsecase() *authenticate.AuthenticateUseCase {
+	return authenticate.NewAuthenticateUseCase(u.repository, u.JWT, u.JwtExpiriesIn)
+}
+
+func (u *DriverUseCases) RoutesUsecase() *routes.RoutesUseCase {
+	return routes.NewUseCase(u.repository)
 }
