@@ -3,11 +3,11 @@ POST http://localhost:8000/passenger HTTP/1.1
 Content-Type:  application/json
 
 {
-    "name" : "Julia",
-	"nickname" : "juli",
-	"routeCode" : "aad39096-2bfc-4409-9fed-14bd5124cc60",
+    "name" : "MARIA",
+	"nickname" : "MARI",
+	"routeCode" : "50e13dd71fd8",
 	"schoolName": "SESI 286",
-	"monitorID" : "52eeb1eb-c1a4-4d63-8ac9-ea19695a8847"
+	"monitorID" : "2788d160-9d82-410f-b24a-f10569b12bf4"
 }
 
 ###  BUSCAR TODOS PASSAGEIROS
@@ -15,7 +15,7 @@ GET  http://localhost:8000/passenger HTTP/1.1
 Content-Type:  application/json
 
 ### BUSCAR POR ID
-GET  http://localhost:8000/passenger/29da43e1-ed45-48a3-b73c-3c603d8447bc HTTP/1.1
+GET  http://localhost:8000/passenger/209b31f0-dce9-4405-ab59-c7844b7f91b5 HTTP/1.1
 Content-Type:  application/json
 
 
@@ -24,19 +24,18 @@ PUT   http://localhost:8000/passenger HTTP/1.1
 Content-Type:  application/json
 
 {
-	"id": "29da43e1-ed45-48a3-b73c-3c603d8447bc",
-	"name" : "teste",
-	"nickname" : "other_nickname",
-	"routeCode" : "other_route_code",
+	"id": "b53f61e1-72e5-46e6-b4d2-da9e8b7a3eb4",
+	"name" : "GUILHERME",
+	"nickname" : "GUI",
+	"routeCode" : "50e13dd71fd8",
 	"schoolName": "SESI 286",
-	"goes":false,
-	"comesback": true,
+	"goes":true,
+	"comesback": false,
 	"registerConfirmed": true,
 	"monitorID": "6a6b2b14-345e-4e09-9a9e-0e72871094ce"
 }
 
 ###
-
 DELETE    http://localhost:8000/passenger/88e288dc-8638-4a5d-a64e-031cecfca4ae HTTP/1.1
 Content-Type:  application/json
 
@@ -48,3 +47,8 @@ Content-Type:  application/json
 	"passengerID": 		"3204aa1c-08a9-454d-b6d9-25e4cd69de98",
     "registerConfirmed":	false
 }
+
+
+###
+POST  http://localhost:8000/passenger/finalize-route HTTP/1.1
+Content-Type:  application/json

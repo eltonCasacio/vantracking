@@ -7,9 +7,11 @@ import (
 	repo "github.com/eltoncasacio/vantracking/internal/domain/passenger/repository"
 	confirmRegisterUsecase "github.com/eltoncasacio/vantracking/internal/usecase/passenger/confirm_passenger_register"
 	deleteUsecase "github.com/eltoncasacio/vantracking/internal/usecase/passenger/delete"
+	finalizeRouteUsecase "github.com/eltoncasacio/vantracking/internal/usecase/passenger/finalize_route"
 	findUsecase "github.com/eltoncasacio/vantracking/internal/usecase/passenger/findbyid"
 	listUsecase "github.com/eltoncasacio/vantracking/internal/usecase/passenger/list"
 	listByMonitorID "github.com/eltoncasacio/vantracking/internal/usecase/passenger/list_by_monitorid"
+	list_by_routecode_usecase "github.com/eltoncasacio/vantracking/internal/usecase/passenger/list_by_routecode"
 	notConfirmedUsecase "github.com/eltoncasacio/vantracking/internal/usecase/passenger/list_not_confirmed"
 	registerUsecase "github.com/eltoncasacio/vantracking/internal/usecase/passenger/register"
 	updateUsecase "github.com/eltoncasacio/vantracking/internal/usecase/passenger/update"
@@ -124,7 +126,13 @@ func (h *passengerHandler) ListAll(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *passengerHandler) ListNotConfirmed(w http.ResponseWriter, r *http.Request) {
-	usecaseOutput, _ := notConfirmedUsecase.NewUseCase(h.repository).ListNotConfirmed()
+	routeCode := chi.URLParam(r, "routeCode")
+	if routeCode == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	usecaseOutput, _ := notConfirmedUsecase.NewUseCase(h.repository).ListNotConfirmed(routeCode)
 
 	output := []notConfirmedUsecase.PassengerOutDTO{}
 	for _, passenger := range usecaseOutput {
@@ -171,5 +179,43 @@ func (h *passengerHandler) ListByMonitorID(w http.ResponseWriter, r *http.Reques
 		return
 	}
 	json.NewEncoder(w).Encode(output)
+	w.WriteHeader(http.StatusOK)
+}
+
+func (h *passengerHandler) ListAllByRouteCode(w http.ResponseWriter, r *http.Request) {
+	routeCode := chi.URLParam(r, "routeCode")
+	if routeCode == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	usecaseOutput, _ := list_by_routecode_usecase.NewUseCase(h.repository).ListAllByRouteCode(routeCode)
+
+	output := []listUsecase.PassengerOutputDTO{}
+	for _, passenger := range usecaseOutput {
+		d := listUsecase.PassengerOutputDTO{
+			ID:                passenger.ID,
+			Name:              passenger.Name,
+			Nickname:          passenger.Nickname,
+			RouteCode:         passenger.RouteCode,
+			Goes:              passenger.Goes,
+			Comesback:         passenger.Comesback,
+			MonitorID:         passenger.MonitorID,
+			RegisterConfirmed: passenger.RegisterConfirmed,
+			SchoolName:        passenger.SchoolName,
+		}
+		output = append(output, d)
+	}
+
+	json.NewEncoder(w).Encode(output)
+	w.WriteHeader(http.StatusOK)
+}
+
+func (h *passengerHandler) FinalizeRoute(w http.ResponseWriter, r *http.Request) {
+	var input finalizeRouteUsecase.PassengerInputDTO
+	err := json.NewDecoder(r.Body).Decode(&input)
+	if err != nil {
+		w.Write([]byte(err.Error()))
+	}
+	finalizeRouteUsecase.NewUseCase(h.repository).FinalizeRoute(input)
 	w.WriteHeader(http.StatusOK)
 }

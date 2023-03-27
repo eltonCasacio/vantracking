@@ -7,7 +7,8 @@ import (
 
 type PassengerRepositoryInterface interface {
 	repo.RepositoryInterface[e.Passenger]
-	ListNotConfirmedPassengers() ([]e.Passenger, error)
+	ListByRouteCode(routeCode string) ([]e.Passenger, error)
+	ListNotConfirmedPassengers(routeCode string) ([]e.Passenger, error)
 	ConfirmPassengerRegister(id string, confirm bool) error
 	ListByMonitorID(monitorID string) ([]e.Passenger, error)
 }

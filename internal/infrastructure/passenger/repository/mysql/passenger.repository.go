@@ -150,8 +150,8 @@ func (r *passengerRepository) FindByID(id string) (*e.Passenger, error) {
 	return newPassenger, nil
 }
 
-func (r *passengerRepository) ListNotConfirmedPassengers() ([]e.Passenger, error) {
-	rows, err := r.db.Query("SELECT id, name, nickname, route_code, goes, comesback, register_confirmed, school_name, monitor_id FROM passengers WHERE register_confirmed = false  active = true")
+func (r *passengerRepository) ListNotConfirmedPassengers(routeCode string) ([]e.Passenger, error) {
+	rows, err := r.db.Query("SELECT id, name, nickname, route_code, goes, comesback, register_confirmed, school_name, monitor_id FROM passengers WHERE route_code = ? register_confirmed = false  active = true", routeCode)
 	if err != nil {
 		return nil, err
 	}
@@ -247,4 +247,39 @@ func (r *passengerRepository) ListByMonitorID(monitorID string) ([]e.Passenger, 
 	}
 
 	return passengers, nil
+}
+
+func (r *passengerRepository) ListByRouteCode(routeCode string) ([]e.Passenger, error) {
+	rows, err := r.db.Query("SELECT id, name, nickname, route_code, goes, comesback, register_confirmed, school_name, monitor_id FROM passengers WHERE route_code = ? and active = true", routeCode)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var Passengers []e.Passenger
+	for rows.Next() {
+		inputPassenger := f.PassengerInputDTO{}
+		err := rows.Scan(
+			&inputPassenger.ID,
+			&inputPassenger.Name,
+			&inputPassenger.Nickname,
+			&inputPassenger.RouteCode,
+			&inputPassenger.Goes,
+			&inputPassenger.Comesback,
+			&inputPassenger.RegisterConfirmed,
+			&inputPassenger.SchoolName,
+			&inputPassenger.MonitorID,
+		)
+		if err != nil {
+			return nil, err
+		}
+
+		newPassenger, err := f.PassengerFactory().Instance(inputPassenger)
+
+		if err != nil {
+			return nil, err
+		}
+		Passengers = append(Passengers, *newPassenger)
+	}
+	return Passengers, nil
 }

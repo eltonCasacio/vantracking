@@ -33,5 +33,7 @@ func (dr *passengerRoutes) CreateRoutes() {
 		r.Get("/not-confirmed", handler.ListNotConfirmed)
 		r.Put("/confirm-passenger", handler.ConfirmPassengerRegister)
 		r.Get("/list-passenger/{monitor_id}", handler.ListByMonitorID)
+		r.Get("/by-routecode/{routeCode}", handler.ListAllByRouteCode)
+		r.Post("/finalize-route", handler.FinalizeRoute)
 	})
 }

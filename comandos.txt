@@ -11,3 +11,6 @@ create table routes (code varchar(255) NOT NULL, name varchar(255) NOT NULL, dri
 ***** DOCKER COMPOSE *****
 docker-compose exec mysql bash
 mysql -uroot -p vantracking
+
+
+

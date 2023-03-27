@@ -1,0 +1,13 @@
+package passenger
+
+type PassengerOutputDTO struct {
+	ID                string `json:"id"`
+	Name              string `json:"name"`
+	Nickname          string `json:"nickname"`
+	RouteCode         string `json:"routeCode"`
+	MonitorID         string `json:"monitorID"`
+	Goes              bool   `json:"goes"`
+	Comesback         bool   `json:"comesback"`
+	RegisterConfirmed bool   `json:"registerConfirmed"`
+	SchoolName        string `json:"schoolName"`
+}
