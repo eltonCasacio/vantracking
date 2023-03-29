@@ -3,11 +3,11 @@ POST http://localhost:8000/passenger HTTP/1.1
 Content-Type:  application/json
 
 {
-    "name" : "MARIA",
-	"nickname" : "MARI",
-	"routeCode" : "50e13dd71fd8",
+    "name" : "pedro",
+	"nickname" : "pedrinho",
+	"routeCode" : "0397fe937858",
 	"schoolName": "SESI 286",
-	"monitorID" : "2788d160-9d82-410f-b24a-f10569b12bf4"
+	"monitorID" : "121cf55e-e97a-4de9-abd3-aad25448b695"
 }
 
 ###  BUSCAR TODOS PASSAGEIROS
@@ -36,6 +36,7 @@ Content-Type:  application/json
 }
 
 ###
+
 DELETE    http://localhost:8000/passenger/88e288dc-8638-4a5d-a64e-031cecfca4ae HTTP/1.1
 Content-Type:  application/json
 
@@ -51,4 +52,9 @@ Content-Type:  application/json
 
 ###
 POST  http://localhost:8000/passenger/finalize-route HTTP/1.1
+Content-Type:  application/json
+
+
+###
+GET  http://localhost:8000/passenger/not-confirmed/0397fe937858 HTTP/1.1
 Content-Type:  application/json

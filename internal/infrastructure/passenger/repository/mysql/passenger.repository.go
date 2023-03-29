@@ -151,12 +151,11 @@ func (r *passengerRepository) FindByID(id string) (*e.Passenger, error) {
 }
 
 func (r *passengerRepository) ListNotConfirmedPassengers(routeCode string) ([]e.Passenger, error) {
-	rows, err := r.db.Query("SELECT id, name, nickname, route_code, goes, comesback, register_confirmed, school_name, monitor_id FROM passengers WHERE route_code = ? register_confirmed = false  active = true", routeCode)
+	rows, err := r.db.Query("SELECT id, name, nickname, route_code, goes, comesback, register_confirmed, school_name, monitor_id FROM passengers WHERE route_code = ? and register_confirmed = false and  active = true", routeCode)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-
 	var passengers []e.Passenger
 	for rows.Next() {
 		inputPassenger := f.PassengerInputDTO{}
@@ -167,6 +166,7 @@ func (r *passengerRepository) ListNotConfirmedPassengers(routeCode string) ([]e.
 			&inputPassenger.RouteCode,
 			&inputPassenger.Goes,
 			&inputPassenger.Comesback,
+			&inputPassenger.RegisterConfirmed,
 			&inputPassenger.SchoolName,
 			&inputPassenger.MonitorID,
 		)
