@@ -15,11 +15,6 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-type Position struct {
-	Lat  float64 `json:"lat"`
-	Long float64 `json:"long"`
-}
-
 func main() {
 	db, config := Init()
 

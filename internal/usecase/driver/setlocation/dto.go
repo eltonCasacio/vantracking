@@ -1,7 +1,7 @@
 package driver
 
 type SetLocationInputDTO struct {
-	RouteCode string `json:"route_code"`
+	RouteCode string `json:"routeCode"`
 	Latitude  string `json:"latitude"`
 	Longitude string `json:"longitude"`
 }
