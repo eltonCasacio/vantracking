@@ -1,0 +1,49 @@
+
+GET  http://localhost:8000/partner HTTP/1.1
+Content-Type:  application/json
+
+
+###
+POST http://localhost:8000/partner HTTP/1.1
+Content-Type:  application/json
+
+{
+   "id":			"",
+	"name":      	"",
+	"description": 	"",
+	"price":	  	"10.0",
+	"phone_number": "76767676767",
+    "uf":			"MG",
+	"city":			"Belo Horizonte",
+	"street":		"Rua lagoinha",
+	"number":		"6565",
+	"cep":			"13233309"
+}
+
+
+###
+GET  http://localhost:8000/partner/209b31f0-dce9-4405-ab59-c7844b7f91b5 HTTP/1.1
+Content-Type:  application/json
+
+
+###
+PUT   http://localhost:8000/partner HTTP/1.1
+Content-Type:  application/json
+
+{
+	"id":			"",
+	"name":      	"",
+	"description": 	"",
+	"price":	  	"10.0",
+	"phone_number": "76767676767",
+    "uf":			"MG",
+	"city":			"Belo Horizonte",
+	"street":		"Rua lagoinha",
+	"number":		"6565",
+	"cep":			"13233309"
+}
+
+
+###
+DELETE    http://localhost:8000/partner/88e288dc-8638-4a5d-a64e-031cecfca4ae HTTP/1.1
+Content-Type:  application/json
