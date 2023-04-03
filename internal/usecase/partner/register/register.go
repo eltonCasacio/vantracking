@@ -17,7 +17,7 @@ func NewUseCase(repository repo.PartnerRepositoryInterface) *registerUseCase {
 
 func (u *registerUseCase) Register(input PartnerInput) error {
 	partner, err := f.NewPartnerFactory().NewInstance(f.PartnerInput{
-		ID:          input.ID,
+		ID:          "",
 		Name:        input.Name,
 		Description: input.Description,
 		Price:       input.Price,

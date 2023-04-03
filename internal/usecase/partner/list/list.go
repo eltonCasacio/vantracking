@@ -15,7 +15,6 @@ func NewUseCase(repository repo.PartnerRepositoryInterface) *listAllUseCase {
 }
 
 func (u *listAllUseCase) ListAll() ([]PartnerOutputDTO, error) {
-
 	partners, err := u.repository.FindAll()
 	if err != nil {
 		return []PartnerOutputDTO{}, err

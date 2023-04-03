@@ -21,7 +21,7 @@ func (df *partnerFactory) NewInstance(input PartnerInput) (*e.Partner, error) {
 
 	id, err := identity.ParseID(input.ID)
 	if err != nil {
-		return nil, err
+		id = identity.NewID()
 	}
 
 	return &e.Partner{

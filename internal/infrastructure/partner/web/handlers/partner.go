@@ -30,7 +30,6 @@ func (h *partnerHandler) Register(w http.ResponseWriter, r *http.Request) {
 	}
 
 	usecaseInput := registerUsecase.PartnerInput{
-		ID:          input.ID,
 		Name:        input.Name,
 		Description: input.Description,
 		Price:       input.Price,
