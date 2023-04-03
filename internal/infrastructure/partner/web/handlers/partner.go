@@ -8,6 +8,7 @@ import (
 	deleteUsecase "github.com/eltoncasacio/vantracking/internal/usecase/partner/delete"
 	findbyid "github.com/eltoncasacio/vantracking/internal/usecase/partner/findbyid"
 	listUsecase "github.com/eltoncasacio/vantracking/internal/usecase/partner/list"
+	listByCityUsecase "github.com/eltoncasacio/vantracking/internal/usecase/partner/list_by_city"
 	registerUsecase "github.com/eltoncasacio/vantracking/internal/usecase/partner/register"
 	updateUsecase "github.com/eltoncasacio/vantracking/internal/usecase/partner/update"
 	"github.com/go-chi/chi"
@@ -96,6 +97,37 @@ func (dh *partnerHandler) Delete(w http.ResponseWriter, r *http.Request) {
 
 func (h *partnerHandler) FindAll(w http.ResponseWriter, r *http.Request) {
 	usecaseOutput, _ := listUsecase.NewUseCase(h.repository).ListAll()
+
+	output := []listUsecase.PartnerOutputDTO{}
+	for _, partner := range usecaseOutput {
+		d := listUsecase.PartnerOutputDTO{
+			ID:          partner.ID,
+			Name:        partner.Name,
+			Description: partner.Description,
+			Price:       partner.Price,
+			PhoneNumber: partner.PhoneNumber,
+			UF:          partner.UF,
+			City:        partner.City,
+			Street:      partner.Street,
+			Number:      partner.Number,
+			CEP:         partner.CEP,
+			Complement:  partner.Complement,
+		}
+		output = append(output, d)
+	}
+
+	json.NewEncoder(w).Encode(output)
+	w.WriteHeader(http.StatusOK)
+}
+
+func (h *partnerHandler) FindByCity(w http.ResponseWriter, r *http.Request) {
+	city := chi.URLParam(r, "city")
+	if city == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	usecaseOutput, _ := listByCityUsecase.NewUseCase(h.repository).ListByCity(city)
 
 	output := []listUsecase.PartnerOutputDTO{}
 	for _, partner := range usecaseOutput {

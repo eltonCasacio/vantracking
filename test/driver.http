@@ -24,7 +24,7 @@ GET  http://localhost:8000/driver HTTP/1.1
 Content-Type:  application/json
 
 ### BUSCAR POR ID
-GET  http://localhost:8000/driver/a37c14e7-af25-49ce-bf7f-d19ea48c051e HTTP/1.1
+GET  http://localhost:8000/driver/b42a835e-c026-4be2-b02e-d6925597a760 HTTP/1.1
 Content-Type:  application/json
 
 ### ATUALIZAR DADOS DO MOTORISTA

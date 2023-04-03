@@ -1,0 +1,32 @@
+
+GET  http://localhost:8000/category HTTP/1.1
+Content-Type:  application/json
+
+
+###
+POST http://localhost:8000/category HTTP/1.1
+Content-Type:  application/json
+
+{
+    "name" : "erica",
+}
+
+
+###
+GET  http://localhost:8000/category/209b31f0-dce9-4405-ab59-c7844b7f91b5 HTTP/1.1
+Content-Type:  application/json
+
+
+### 
+PUT   http://localhost:8000/category HTTP/1.1
+Content-Type:  application/json
+
+{
+	"id": "b53f61e1-72e5-46e6-b4d2-da9e8b7a3eb4",
+	"name" : "GUILHERME",
+}
+
+###
+
+DELETE    http://localhost:8000/category/88e288dc-8638-4a5d-a64e-031cecfca4ae HTTP/1.1
+Content-Type:  application/json

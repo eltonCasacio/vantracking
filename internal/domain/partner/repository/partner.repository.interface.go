@@ -1,10 +1,11 @@
 package repository
 
 import (
-	entity "github.com/eltoncasacio/vantracking/internal/domain/partner/entity"
+	e "github.com/eltoncasacio/vantracking/internal/domain/partner/entity"
 	repo "github.com/eltoncasacio/vantracking/internal/domain/shared/repository"
 )
 
 type PartnerRepositoryInterface interface {
-	repo.RepositoryInterface[entity.Partner]
+	repo.RepositoryInterface[e.Partner]
+	ListByCity(city string) ([]e.Partner, error)
 }

@@ -12,4 +12,5 @@ type PartnerInput struct {
 	Number      string
 	CEP         string
 	Complement  string
+	CategoryID  string
 }

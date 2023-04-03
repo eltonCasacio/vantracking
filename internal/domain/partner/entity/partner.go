@@ -14,15 +14,17 @@ type Partner struct {
 	Price       float64
 	PhoneNumber string
 	Address     valueobjects.Address
+	CategoryID  identity.ID
 }
 
-func NewPartner(name, description, phoneNumber string, address valueobjects.Address) (*Partner, error) {
+func NewPartner(name, description, phoneNumber string, address valueobjects.Address, categoryID identity.ID) (*Partner, error) {
 	return &Partner{
 		ID:          identity.NewID(),
 		Name:        name,
 		Description: description,
 		PhoneNumber: phoneNumber,
 		Address:     address,
+		CategoryID:  categoryID,
 	}, nil
 }
 
@@ -39,6 +41,9 @@ func (p *Partner) IsValid() error {
 	}
 	if err := p.Address.IsValid(); err != nil {
 		return errors.New("address is required")
+	}
+	if p.CategoryID.String() == "" {
+		return errors.New("id category is required")
 	}
 	return errs
 }

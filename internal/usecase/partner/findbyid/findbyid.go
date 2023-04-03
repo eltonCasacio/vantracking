@@ -33,6 +33,7 @@ func (cd *findByIDUseCase) FindByID(id string) (PartnerOutDTO, error) {
 		Number:      partner.Address.Number,
 		CEP:         partner.Address.CEP,
 		Complement:  partner.Address.Complement,
+		CategoryID:  partner.CategoryID.String(),
 	}
 	return output, nil
 }

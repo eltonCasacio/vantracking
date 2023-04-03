@@ -12,4 +12,5 @@ type PartnerInputDTO struct {
 	Number      string  `json:"number"`
 	CEP         string  `json:"cep"`
 	Complement  string  `json:"complement"`
+	CategoryID  string  `json:"category_id"`
 }

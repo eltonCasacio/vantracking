@@ -4,18 +4,18 @@ import (
 	repo "github.com/eltoncasacio/vantracking/internal/domain/partner/repository"
 )
 
-type listAllUseCase struct {
+type listByCityUseCase struct {
 	repository repo.PartnerRepositoryInterface
 }
 
-func NewUseCase(repository repo.PartnerRepositoryInterface) *listAllUseCase {
-	return &listAllUseCase{
+func NewUseCase(repository repo.PartnerRepositoryInterface) *listByCityUseCase {
+	return &listByCityUseCase{
 		repository: repository,
 	}
 }
 
-func (u *listAllUseCase) ListAll() ([]PartnerOutputDTO, error) {
-	partners, err := u.repository.FindAll()
+func (u *listByCityUseCase) ListByCity(city string) ([]PartnerOutputDTO, error) {
+	partners, err := u.repository.ListByCity(city)
 	if err != nil {
 		return []PartnerOutputDTO{}, err
 	}
