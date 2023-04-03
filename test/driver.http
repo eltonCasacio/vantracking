@@ -66,10 +66,10 @@ POST http://localhost:8000/driver/route HTTP/1.1
 Content-Type:  application/json
 
 {
-	"name": "sesi 255",
-	"driver_id": "8037ef40-d55b-488c-8567-f5bf234d8168"
+	"name": "sesi 386",
+	"driver_id": "244ce07b-d3fb-4c24-a5ee-ef96169ca2f9"
 }
 
 ### PEGAR ROTAS
-GET  http://localhost:8000/driver/routes/701d9a87-1668-47f1-9c3a-8601802aee10 HTTP/1.1
+GET  http://localhost:8000/driver/routes/a5b82031-532f-4fe6-95b3-2b5b73bb7662 HTTP/1.1
 Content-Type:  application/json

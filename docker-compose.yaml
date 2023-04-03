@@ -1,9 +1,13 @@
 version: '3'
 
-volumes:
- dados:
-
 services:
+  # van:
+  #   build: .
+  #   ports:
+  #     - 8000:8000
+  #   volumes:
+  #     - .:/app
+
   mysql:
     image: mysql:5.7
     container_name: mysql
