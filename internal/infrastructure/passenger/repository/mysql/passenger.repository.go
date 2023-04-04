@@ -250,7 +250,7 @@ func (r *passengerRepository) ListByMonitorID(monitorID string) ([]e.Passenger, 
 }
 
 func (r *passengerRepository) ListByRouteCode(routeCode string) ([]e.Passenger, error) {
-	rows, err := r.db.Query("SELECT id, name, nickname, route_code, goes, comesback, register_confirmed, school_name, monitor_id FROM passengers WHERE route_code = ? and active = true", routeCode)
+	rows, err := r.db.Query("SELECT id, name, nickname, route_code, goes, comesback, register_confirmed, school_name, monitor_id FROM passengers WHERE route_code = ? and register_confirmed = true and active = true", routeCode)
 	if err != nil {
 		return nil, err
 	}

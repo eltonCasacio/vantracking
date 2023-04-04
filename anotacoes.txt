@@ -29,3 +29,7 @@ o motorista pode ganhar uma porcentagem a cada compra realizada no app por seus 
 exemplo:
     o Monitor compra uniforme pelo app, o motorista ganha uma porcentagem.
 ACHO que é uma forma de fazer com que os motorista se interessem pelo app e fazer com que seus clientes usem o app.
+
+
+
+NAO PERMITIR CHAMAR ROTA DE MAPA SE NAO FOR CONFIRMADO PELO MOTORISTA
