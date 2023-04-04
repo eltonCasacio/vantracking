@@ -119,13 +119,34 @@ func (d *DriverRepository) Update(driver *entity.Driver) error {
 }
 
 func (d *DriverRepository) Delete(id string) error {
-	stmt, err := d.db.Prepare("UPDATE drivers SET active = ? WHERE id = ?")
+	tx, err := d.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	stmt, err := tx.Prepare("DELETE FROM drivers WHERE id = ?")
 	if err != nil {
 		return err
 	}
 	defer stmt.Close()
-	_, err = stmt.Exec(false, id)
+
+	_, err = stmt.Exec(id)
 	if err != nil {
+		return err
+	}
+
+	stmt, err = tx.Prepare("DELETE FROM routes WHERE driver_id = ?")
+	if err != nil {
+		return err
+	}
+
+	_, err = stmt.Exec(id)
+	if err != nil {
+		return err
+	}
+
+	if err = tx.Commit(); err != nil {
 		return err
 	}
 	return nil

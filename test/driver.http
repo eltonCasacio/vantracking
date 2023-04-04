@@ -46,7 +46,7 @@ Content-Type:  application/json
 
 ###
 
-DELETE    http://localhost:8000/driver/6831132d-94fd-438f-bcb2-3cb83167c1d5 HTTP/1.1
+DELETE    http://localhost:8000/driver/2f25f7c2-cff6-4185-85d3-2b5e2766ef29 HTTP/1.1
 Content-Type:  application/json
 
 
@@ -67,9 +67,13 @@ Content-Type:  application/json
 
 {
 	"name": "sesi 386",
-	"driver_id": "39112495-4abf-41f4-a0b2-255e73d41e85"
+	"driver_id": "2f25f7c2-cff6-4185-85d3-2b5e2766ef29"
 }
 
 ### PEGAR ROTAS
-GET  http://localhost:8000/driver/routes/39112495-4abf-41f4-a0b2-255e73d41e85 HTTP/1.1
+GET  http://localhost:8000/driver/routes/2f25f7c2-cff6-4185-85d3-2b5e2766ef29 HTTP/1.1
+Content-Type:  application/json
+
+### EXCLUIR ROTAS
+DELETE  http://localhost:8000/driver/route/1f0a8c559350 HTTP/1.1
 Content-Type:  application/json
