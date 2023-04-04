@@ -14,8 +14,8 @@ func NewUseCase(repository repo.DriverRepositoryInterface) *DeleteRouteUseCase {
 	}
 }
 
-func (cd *DeleteRouteUseCase) DeleleRoute(id string) error {
-	err := cd.repository.DeleteRoute(id)
+func (cd *DeleteRouteUseCase) DeleleRoute(code string) error {
+	err := cd.repository.DeleteRoute(code)
 	if err != nil {
 		return err
 	}

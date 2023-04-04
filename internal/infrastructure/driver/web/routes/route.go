@@ -36,7 +36,7 @@ func (dr *driverRoutes) CreateRoutes() {
 		r.Delete("/{id}", handler.Delete)
 		r.Post("/location", handler.SetLocation)
 		r.Post("/route", handler.CreateRoute)
-		r.Delete("/route/{id}", handler.DeleteRoute)
+		r.Delete("/route/{code}", handler.DeleteRoute)
 		r.Get("/routes/{driverid}", handler.Routes)
 	})
 }

@@ -146,10 +146,10 @@ func (dh *DriverHandler) CreateRoute(w http.ResponseWriter, r *http.Request) {
 }
 
 func (dh *DriverHandler) DeleteRoute(w http.ResponseWriter, r *http.Request) {
-	id := chi.URLParam(r, "id")
+	code := chi.URLParam(r, "code")
 
 	usecase := dh.usecases.DeleteRouteUsecase()
-	err := usecase.DeleleRoute(id)
+	err := usecase.DeleleRoute(code)
 	if err != nil {
 		w.Write([]byte(err.Error()))
 		return

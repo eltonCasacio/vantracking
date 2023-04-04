@@ -237,13 +237,13 @@ func (d *DriverRepository) CreateRoute(route *route.Route) error {
 	return nil
 }
 
-func (d *DriverRepository) DeleteRoute(id string) error {
-	stmt, err := d.db.Prepare("DELETE FROM routes WHERE id = ?")
+func (d *DriverRepository) DeleteRoute(code string) error {
+	stmt, err := d.db.Prepare("DELETE FROM routes WHERE code = ?")
 	if err != nil {
 		return err
 	}
 	defer stmt.Close()
-	_, err = stmt.Exec(false, id)
+	_, err = stmt.Exec(code)
 	if err != nil {
 		return err
 	}
