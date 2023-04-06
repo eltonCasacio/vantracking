@@ -18,7 +18,7 @@ func TestSuite(t *testing.T) {
 }
 
 func (suite *DriverTestSuite) SetupTest() {
-	addr, _ := valueobjects.NewAddress("any_uf", "any_city", "any_street", "123", "123", "")
+	addr, _ := valueobjects.NewAddress("any_uf", "any_city", "any_street", "123", "123", "", "", "")
 	suite.Address = *addr
 }
 
@@ -104,7 +104,7 @@ func (s *DriverTestSuite) TestChangeAddress() {
 	d, _ := NewDriver("3232323232", "any_name", "234325", "", s.Address)
 	assert.Equal(s.T(), d.Address, s.Address)
 
-	newAddress, _ := valueobjects.NewAddress("any_uf", "any_city", "any_street", "777", "13277777", "")
+	newAddress, _ := valueobjects.NewAddress("any_uf", "any_city", "any_street", "777", "13277777", "", "", "")
 	d.ChangeAddress(*newAddress)
 	assert.NotEqual(s.T(), d.Address, s.Address)
 	assert.Equal(s.T(), d.Address, *newAddress)

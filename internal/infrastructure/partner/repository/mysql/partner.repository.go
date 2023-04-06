@@ -15,7 +15,7 @@ func NewPartnerRepository(db *sql.DB) *partnerRepository {
 }
 
 func (r *partnerRepository) Create(partner *e.Partner) error {
-	stmt, err := r.db.Prepare("INSERT INTO partners (id, name, description, price, phone_number, uf, city, street, number, cep, complement, category_id) values(?,?,?,?,?,?,?,?,?,?,?, ?)")
+	stmt, err := r.db.Prepare("INSERT INTO partners (id, name, description, price, phone_number, uf, city, street, number, cep, complement, latitude, longitude, category_id) values(?,?,?,?,?,?,?,?,?,?,?,?,?, ?)")
 	if err != nil {
 		return err
 	}
@@ -33,6 +33,8 @@ func (r *partnerRepository) Create(partner *e.Partner) error {
 		partner.Address.Number,
 		partner.Address.CEP,
 		partner.Address.Complement,
+		partner.Address.Latitude,
+		partner.Address.Longitude,
 		partner.CategoryID,
 	)
 	if err != nil {
@@ -42,7 +44,7 @@ func (r *partnerRepository) Create(partner *e.Partner) error {
 }
 
 func (r *partnerRepository) Update(partner *e.Partner) error {
-	stmt, err := r.db.Prepare("UPDATE partners SET name=?, description=?, price=?, phone_number=?,  uf=?, city=?, street=?, number=?, cep=?, complement=?, category_id=? WHERE id = ?")
+	stmt, err := r.db.Prepare("UPDATE partners SET name=?, description=?, price=?, phone_number=?,  uf=?, city=?, street=?, number=?, cep=?, complement=?,latitude=?, longitude=?, category_id=? WHERE id = ?")
 	if err != nil {
 		return err
 	}
@@ -59,6 +61,8 @@ func (r *partnerRepository) Update(partner *e.Partner) error {
 		partner.Address.Number,
 		partner.Address.CEP,
 		partner.Address.Complement,
+		partner.Address.Latitude,
+		partner.Address.Longitude,
 		partner.CategoryID,
 		partner.ID.String(),
 	)
@@ -69,7 +73,7 @@ func (r *partnerRepository) Update(partner *e.Partner) error {
 }
 
 func (r *partnerRepository) FindAll() ([]e.Partner, error) {
-	rows, err := r.db.Query("SELECT id, name, description, price, phone_number,  uf, city, street, number, cep, complement, category_id FROM partners")
+	rows, err := r.db.Query("SELECT id, name, description, price, phone_number,  uf, city, street, number, cep, complement, latitude, longitude, category_id FROM partners")
 	if err != nil {
 		return nil, err
 	}
@@ -90,6 +94,8 @@ func (r *partnerRepository) FindAll() ([]e.Partner, error) {
 			&inputPartner.Address.Number,
 			&inputPartner.Address.CEP,
 			&inputPartner.Address.Complement,
+			&inputPartner.Address.Latitude,
+			&inputPartner.Address.Longitude,
 			&inputPartner.CategoryID,
 		)
 		if err != nil {
@@ -101,7 +107,7 @@ func (r *partnerRepository) FindAll() ([]e.Partner, error) {
 }
 
 func (r *partnerRepository) FindByID(id string) (*e.Partner, error) {
-	stmt, err := r.db.Prepare("SELECT id, name, description, price, phone_number,  uf, city, street, number, cep, complement, category_id FROM partners WHERE id = ?")
+	stmt, err := r.db.Prepare("SELECT id, name, description, price, phone_number,  uf, city, street, number, cep, complement, latitude, longitude, category_id FROM partners WHERE id = ?")
 	if err != nil {
 		return nil, err
 	}
@@ -121,6 +127,8 @@ func (r *partnerRepository) FindByID(id string) (*e.Partner, error) {
 		&inputPartner.Address.Number,
 		&inputPartner.Address.CEP,
 		&inputPartner.Address.Complement,
+		&inputPartner.Address.Latitude,
+		&inputPartner.Address.Longitude,
 		&inputPartner.CategoryID,
 	)
 	if err != nil {
@@ -144,7 +152,7 @@ func (r *partnerRepository) Delete(id string) error {
 }
 
 func (r *partnerRepository) ListByCity(city string) ([]e.Partner, error) {
-	rows, err := r.db.Query("SELECT id, name, description, price, phone_number,  uf, city, street, number, cep, complement, category_id FROM partners WHERE city = ?", city)
+	rows, err := r.db.Query("SELECT id, name, description, price, phone_number,  uf, city, street, number, cep, complement, latitude, longitude, category_id FROM partners WHERE city = ?", city)
 	if err != nil {
 		return nil, err
 	}
@@ -165,6 +173,8 @@ func (r *partnerRepository) ListByCity(city string) ([]e.Partner, error) {
 			&inputPartner.Address.Number,
 			&inputPartner.Address.CEP,
 			&inputPartner.Address.Complement,
+			&inputPartner.Address.Latitude,
+			&inputPartner.Address.Longitude,
 			&inputPartner.CategoryID,
 		)
 		if err != nil {

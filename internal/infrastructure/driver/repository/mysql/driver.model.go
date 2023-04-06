@@ -13,4 +13,6 @@ type DriverModel struct {
 	cep        string
 	active     bool
 	complement string
+	Latitude   string
+	Longitude  string
 }

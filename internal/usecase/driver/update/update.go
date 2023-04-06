@@ -28,6 +28,8 @@ func (u *UpdateDriverUseCase) Update(input DriverInputDTO) error {
 		Number:     input.Number,
 		CEP:        input.CEP,
 		Complement: input.Complement,
+		Latitude:   input.Latitude,
+		Longitude:  input.Longitude,
 	}
 
 	driver, err := f.DriverFactory().CreateInstance(driverInput)

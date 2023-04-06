@@ -34,6 +34,8 @@ func (u *listByCityUseCase) ListByCity(city string) ([]PartnerOutputDTO, error) 
 			Number:      partner.Address.Number,
 			CEP:         partner.Address.CEP,
 			Complement:  partner.Address.Complement,
+			Latitude:    partner.Address.Latitude,
+			Longitude:   partner.Address.Longitude,
 			CategoryID:  partner.CategoryID.String(),
 		}
 		output = append(output, p)

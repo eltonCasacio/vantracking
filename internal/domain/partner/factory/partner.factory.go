@@ -14,7 +14,7 @@ func NewPartnerFactory() *partnerFactory {
 }
 
 func (df *partnerFactory) NewInstance(input PartnerInput) (*e.Partner, error) {
-	addrPartner, err := vo.NewAddress(input.UF, input.City, input.Street, input.Number, input.CEP, input.Complement)
+	addrPartner, err := vo.NewAddress(input.UF, input.City, input.Street, input.Number, input.CEP, input.Complement, input.Latitude, input.Longitude)
 	if err != nil {
 		return nil, err
 	}

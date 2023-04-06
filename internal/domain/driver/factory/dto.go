@@ -11,6 +11,8 @@ type NewDriverInputDTO struct {
 	Number     string
 	CEP        string
 	Complement string
+	Latitude   string
+	Longitude  string
 }
 
 type CreateInstanceDriverInputDTO struct {
@@ -25,4 +27,6 @@ type CreateInstanceDriverInputDTO struct {
 	Number     string
 	CEP        string
 	Complement string
+	Latitude   string
+	Longitude  string
 }

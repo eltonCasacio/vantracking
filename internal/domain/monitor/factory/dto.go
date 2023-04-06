@@ -10,6 +10,8 @@ type NewMonitorInputDTO struct {
 	Number      string
 	CEP         string
 	Complement  string
+	Latitude    string
+	Longitude   string
 }
 
 type InstanceMonitorInputDTO struct {
@@ -23,4 +25,6 @@ type InstanceMonitorInputDTO struct {
 	Number      string
 	CEP         string
 	Complement  string
+	Latitude    string
+	Longitude   string
 }

@@ -22,14 +22,13 @@ func NewDriverHandler(repo repo.DriverRepositoryInterface, jwt *jwtauth.JWTAuth,
 
 func (dh *DriverHandler) Register(w http.ResponseWriter, r *http.Request) {
 	usecase, input := dh.usecases.RegisterDriverUsecase()
-
 	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
-	err = usecase.RegisterDriver(input)
+	err = usecase.RegisterDriver(&input)
 	if err != nil {
 		w.Write([]byte(err.Error()))
 		w.WriteHeader(http.StatusInternalServerError)
@@ -55,6 +54,8 @@ func (dh *DriverHandler) ConsultAll(w http.ResponseWriter, r *http.Request) {
 		output.Street = driver.Street
 		output.Number = driver.Number
 		output.CEP = driver.CEP
+		output.Latitude = driver.Latitude
+		output.Longitude = driver.Longitude
 
 		outputs = append(outputs, output)
 	}
@@ -82,6 +83,8 @@ func (dh *DriverHandler) Consult(w http.ResponseWriter, r *http.Request) {
 	output.Street = driver.Street
 	output.Number = driver.Number
 	output.CEP = driver.CEP
+	output.Latitude = driver.Latitude
+	output.Longitude = driver.Longitude
 
 	json.NewEncoder(w).Encode(driver)
 	w.WriteHeader(http.StatusOK)

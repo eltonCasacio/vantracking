@@ -16,7 +16,9 @@ Content-Type:  application/json
 	"city":			"Belo Horizonte",
 	"street":		"Rua lagoinha",
 	"number":		"6565",
-	"cep":			"13233309"
+	"cep":			"13233309",
+	"latitude": 	"-22.96329690239083",
+	"longitude": 	"-46.997982015276186"
 }
 
 
@@ -39,7 +41,9 @@ Content-Type:  application/json
 	"city":			"Belo Horizonte",
 	"street":		"Rua lagoinha",
 	"number":		"6565",
-	"cep":			"13233309"
+	"cep":			"13233309",
+	"latitude": 	"-22.96329690239083",
+	"longitude": 	"-46.997982015276186"
 }
 
 

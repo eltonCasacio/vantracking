@@ -38,7 +38,7 @@ func (suite *DriverRepositoryTestSuite) SetupSuite() {
 	)
 	suite.Db = db
 
-	addr, err := vo.NewAddress("uf", "city", "street", "number", "123", "complemento")
+	addr, err := vo.NewAddress("uf", "city", "street", "number", "123", "complemento", "", "")
 	driver, err := entity.NewDriver("any_cpf", "any_name", "any_phone", "apelido", *addr)
 
 	repo := NewDriverRepository(suite.Db)
@@ -178,7 +178,7 @@ func (s *DriverRepositoryTestSuite) TestUpdate() {
 	s.Driver.ChangeNickname("other_nickname")
 	s.Driver.ChangePhone("other_phone")
 
-	addr, _ := vo.NewAddress("other_uf", "other_city", "other_street", "other_number", "other_cep", "complemento")
+	addr, _ := vo.NewAddress("other_uf", "other_city", "other_street", "other_number", "other_cep", "complemento", "", "")
 	s.Driver.ChangeAddress(*addr)
 
 	err := s.Repository.Update(s.Driver)
@@ -209,7 +209,7 @@ func (s *DriverRepositoryTestSuite) TestDelete_InvalidID() {
 }
 
 func (s *DriverRepositoryTestSuite) TestFindAll() {
-	addr, _ := vo.NewAddress("uf", "city", "street", "number", "123", "complemento")
+	addr, _ := vo.NewAddress("uf", "city", "street", "number", "123", "complemento", "", "")
 	driver1, _ := entity.NewDriver("any_cpf", "any_name", "any_phone", "apelido", *addr)
 	driver2, _ := entity.NewDriver("any_cpf", "any_name", "any_phone", "apelido", *addr)
 	driver3, _ := entity.NewDriver("any_cpf", "any_name", "any_phone", "apelido", *addr)

@@ -14,7 +14,7 @@ func MonitorFactory() *monitorFactory {
 }
 
 func (df *monitorFactory) Create(input NewMonitorInputDTO) (*entity.Monitor, error) {
-	addrDriver, err := vo.NewAddress(input.UF, input.City, input.Street, input.Number, input.CEP, input.Complement)
+	addrDriver, err := vo.NewAddress(input.UF, input.City, input.Street, input.Number, input.CEP, input.Complement, input.Latitude, input.Longitude)
 	if err != nil {
 		return nil, err
 	}
@@ -28,7 +28,7 @@ func (df *monitorFactory) Create(input NewMonitorInputDTO) (*entity.Monitor, err
 }
 
 func (df *monitorFactory) Instance(input InstanceMonitorInputDTO) (*entity.Monitor, error) {
-	addrDriver, err := vo.NewAddress(input.UF, input.City, input.Street, input.Number, input.CEP, input.Complement)
+	addrDriver, err := vo.NewAddress(input.UF, input.City, input.Street, input.Number, input.CEP, input.Complement, input.Latitude, input.Longitude)
 	if err != nil {
 		return nil, err
 	}

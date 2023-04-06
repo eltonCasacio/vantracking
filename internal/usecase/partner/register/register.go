@@ -28,6 +28,8 @@ func (u *registerUseCase) Register(input PartnerInput) error {
 		Number:      input.Number,
 		CEP:         input.CEP,
 		Complement:  input.Complement,
+		Latitude:    input.Latitude,
+		Longitude:   input.Longitude,
 		CategoryID:  input.CategoryID,
 	})
 	if err != nil {

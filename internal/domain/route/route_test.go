@@ -21,8 +21,8 @@ func TestSuite(t *testing.T) {
 }
 
 func (suite *RouteTestSuite) SetupTest() {
-	addr, _ := valueobjects.NewAddress("any_uf", "any_city", "any_street", "123", "123", "")
-	addrDestiny, _ := valueobjects.NewAddress("any_uf", "any_city", "any_street", "2", "77", "")
+	addr, _ := valueobjects.NewAddress("any_uf", "any_city", "any_street", "123", "123", "", "", "")
+	addrDestiny, _ := valueobjects.NewAddress("any_uf", "any_city", "any_street", "2", "77", "", "", "")
 	driver, _ := entity.NewDriver("any_cpf", "any_name", "234325", "", *addr)
 
 	suite.DriverAddress = *addr

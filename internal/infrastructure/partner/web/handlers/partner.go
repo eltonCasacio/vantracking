@@ -41,6 +41,8 @@ func (h *partnerHandler) Register(w http.ResponseWriter, r *http.Request) {
 		Number:      input.Number,
 		CEP:         input.CEP,
 		Complement:  input.Complement,
+		Latitude:    input.Latitude,
+		Longitude:   input.Longitude,
 	}
 
 	err = registerUsecase.NewUseCase(h.repository).Register(usecaseInput)
@@ -112,6 +114,8 @@ func (h *partnerHandler) FindAll(w http.ResponseWriter, r *http.Request) {
 			Number:      partner.Number,
 			CEP:         partner.CEP,
 			Complement:  partner.Complement,
+			Latitude:    partner.Latitude,
+			Longitude:   partner.Longitude,
 		}
 		output = append(output, d)
 	}
@@ -143,6 +147,8 @@ func (h *partnerHandler) FindByCity(w http.ResponseWriter, r *http.Request) {
 			Number:      partner.Number,
 			CEP:         partner.CEP,
 			Complement:  partner.Complement,
+			Latitude:    partner.Latitude,
+			Longitude:   partner.Longitude,
 		}
 		output = append(output, d)
 	}

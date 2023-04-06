@@ -16,7 +16,9 @@ Content-Type:  application/json
 	"city":"lagos",
 	"street":"tres corregos",
 	"number":"123",
-	"cep":"13233309"
+	"cep":"13233309",
+	"latitude": "-22.96329690239083",
+	"longitude": "-46.997982015276186"
 }
 
 ###  BUSCAR TODOS MOTORISTAS
@@ -24,7 +26,7 @@ GET  http://localhost:8000/driver HTTP/1.1
 Content-Type:  application/json
 
 ### BUSCAR POR ID
-GET  http://localhost:8000/driver/b42a835e-c026-4be2-b02e-d6925597a760 HTTP/1.1
+GET  http://localhost:8000/driver/2b782024-9927-40bb-b04a-379264863e39 HTTP/1.1
 Content-Type:  application/json
 
 ### ATUALIZAR DADOS DO MOTORISTA
@@ -32,7 +34,7 @@ PUT   http://localhost:8000/driver HTTP/1.1
 Content-Type:  application/json
 
 {
-	"id": "a37c14e7-af25-49ce-bf7f-d19ea48c051e",
+	"id": "2b782024-9927-40bb-b04a-379264863e39",
     "cpf":"23453235345",
 	"name":"Joao",
 	"nickname":"motô",
@@ -41,12 +43,14 @@ Content-Type:  application/json
 	"city":"Jundiai",
 	"street":"rua parana",
 	"number":"123",
-	"cep":"13233309"
+	"cep":"13233309",
+	"latitude": "22.96329690239083",
+	"longitude": "-46.997982015276186"
 }
 
 ###
 
-DELETE    http://localhost:8000/driver/2f25f7c2-cff6-4185-85d3-2b5e2766ef29 HTTP/1.1
+DELETE    http://localhost:8000/driver/2b782024-9927-40bb-b04a-379264863e39 HTTP/1.1
 Content-Type:  application/json
 
 
@@ -67,13 +71,13 @@ Content-Type:  application/json
 
 {
 	"name": "sesi 386",
-	"driver_id": "2f25f7c2-cff6-4185-85d3-2b5e2766ef29"
+	"driver_id": "506b6e9c-9931-4bfc-929d-7cfc727fdea0"
 }
 
 ### PEGAR ROTAS
-GET  http://localhost:8000/driver/routes/2f25f7c2-cff6-4185-85d3-2b5e2766ef29 HTTP/1.1
+GET  http://localhost:8000/driver/routes/506b6e9c-9931-4bfc-929d-7cfc727fdea0 HTTP/1.1
 Content-Type:  application/json
 
-### EXCLUIR ROTAS
+### EXCLUIR ROTA
 DELETE  http://localhost:8000/driver/route/1f0a8c559350 HTTP/1.1
 Content-Type:  application/json

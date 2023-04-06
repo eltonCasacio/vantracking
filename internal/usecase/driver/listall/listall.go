@@ -35,6 +35,8 @@ func (cd *FindAllDriverUseCase) ListAll() ([]DriverOutputDTO, error) {
 			Number:     addr.Number,
 			CEP:        addr.CEP,
 			Complement: addr.Complement,
+			Latitude:   addr.Latitude,
+			Longitude:  addr.Longitude,
 		}
 		drivers = append(drivers, output)
 	}

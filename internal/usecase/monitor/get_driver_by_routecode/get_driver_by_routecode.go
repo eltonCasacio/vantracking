@@ -35,6 +35,8 @@ func (cd *getDriverByRouteCodeUseCase) GetDriverByRouteCode(routeCode string) (D
 		Number:     addr.Number,
 		CEP:        fmt.Sprint(addr.CEP),
 		Complement: addr.Complement,
+		Latitude:   addr.Latitude,
+		Longitude:  addr.Longitude,
 	}
 	return output, nil
 }

@@ -13,7 +13,7 @@ func DriverFactory() *driverFactory {
 }
 
 func (df *driverFactory) New(input NewDriverInputDTO) (*e.Driver, error) {
-	addrDriver, err := vo.NewAddress(input.UF, input.City, input.Street, input.Number, input.CEP, input.Complement)
+	addrDriver, err := vo.NewAddress(input.UF, input.City, input.Street, input.Number, input.CEP, input.Complement, input.Latitude, input.Longitude)
 	if err != nil {
 		return nil, err
 	}
@@ -27,7 +27,7 @@ func (df *driverFactory) New(input NewDriverInputDTO) (*e.Driver, error) {
 }
 
 func (df *driverFactory) CreateInstance(input CreateInstanceDriverInputDTO) (*e.Driver, error) {
-	addrDriver, err := vo.NewAddress(input.UF, input.City, input.Street, input.Number, input.CEP, input.Complement)
+	addrDriver, err := vo.NewAddress(input.UF, input.City, input.Street, input.Number, input.CEP, input.Complement, input.Latitude, input.Longitude)
 	if err != nil {
 		return nil, err
 	}

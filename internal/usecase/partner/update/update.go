@@ -29,6 +29,8 @@ func (u *updateUseCase) Update(input PartnerInputDTO) error {
 		CEP:         input.CEP,
 		Complement:  input.Complement,
 		CategoryID:  input.CategoryID,
+		Latitude:    input.Latitude,
+		Longitude:   input.Longitude,
 	})
 	if err != nil {
 		return err

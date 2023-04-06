@@ -9,9 +9,11 @@ type Address struct {
 	Number     string
 	CEP        string
 	Complement string
+	Latitude   string
+	Longitude  string
 }
 
-func NewAddress(uf, city, street, number, cep, complement string) (*Address, error) {
+func NewAddress(uf, city, street, number, cep, complement, lat, long string) (*Address, error) {
 	addr := &Address{
 		UF:         uf,
 		City:       city,
@@ -19,6 +21,8 @@ func NewAddress(uf, city, street, number, cep, complement string) (*Address, err
 		Number:     number,
 		CEP:        cep,
 		Complement: complement,
+		Latitude:   lat,
+		Longitude:  long,
 	}
 	err := addr.IsValid()
 	if err != nil {
@@ -40,6 +44,11 @@ func (a *Address) IsValid() error {
 	if a.CEP == "" {
 		return errors.New("invalid cep")
 	}
-
+	if a.Latitude == "" {
+		return errors.New("invalid latitude")
+	}
+	if a.Longitude == "" {
+		return errors.New("invalid longitude")
+	}
 	return nil
 }

@@ -8,15 +8,17 @@ POST http://localhost:8000/monitor HTTP/1.1
 Content-Type:  application/json
 
 {
-    "name":        	"monitor2",
-	"cpf":         	"11111111111",
+    "name":        	"monitor1",
+	"cpf":         	"11111111112",
 	"phone_number": "21212121121",
     "uf":			"MG",
 	"city":			"BH",
 	"street":		"rua lagoinha",
 	"number":		"6565",
 	"cep":			"13233309",
-	"complement": "complemento"
+	"complement": "complemento",
+	"latitude": "-22.96329690239083",
+	"longitude": "-46.997982015276186"
 }
 
 ###  BUSCAR TODOS MONITORES
@@ -26,7 +28,7 @@ Authorization: Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzkxMTI4
 
 
 ### BUSCAR POR ID
-GET  http://localhost:8000/monitor/85f14b3c-9b4d-4bda-97c7-84688e472a6f HTTP/1.1
+GET  http://localhost:8000/monitor/683d0bae-4767-456c-be48-439531ffae9f HTTP/1.1
 Content-Type:  application/json
 
 ### ATUALIZAR DADOS DO MONITORES
@@ -34,7 +36,7 @@ PUT   http://localhost:8000/monitor HTTP/1.1
 Content-Type:  application/json
 
 {
-	"id": 			"31ad6529-0970-44da-8329-fa54c38c4f50",
+	"id": 			"683d0bae-4767-456c-be48-439531ffae9f",
     "name":        	"O cara que vai ficar vendo as rotas",
 	"cpf":         	"22222222222",
 	"phone_number": "76767676767",
@@ -42,7 +44,9 @@ Content-Type:  application/json
 	"city":			"Belo Horizonte",
 	"street":		"Rua lagoinha",
 	"number":		"6565",
-	"cep":			"13233309"
+	"cep":			"13233309",
+	"latitude": 	"22.96329690239083",
+	"longitude": 	"-46.997982015276186"
 }
 
 ###

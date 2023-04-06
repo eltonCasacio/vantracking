@@ -10,4 +10,6 @@ type InputDTO struct {
 	Number      string `json:"number"`
 	CEP         string `json:"cep"`
 	Complement  string `json:"complement"`
+	Latitude    string `json:"latitude"`
+	Longitude   string `json:"longitude"`
 }

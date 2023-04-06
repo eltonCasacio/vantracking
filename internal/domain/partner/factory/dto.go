@@ -13,4 +13,6 @@ type PartnerInput struct {
 	CEP         string
 	Complement  string
 	CategoryID  string
+	Latitude    string
+	Longitude   string
 }

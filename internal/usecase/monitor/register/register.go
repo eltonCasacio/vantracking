@@ -28,6 +28,8 @@ func (cd *RegisterUseCase) Register(input InputDTO) error {
 		Number:      input.Number,
 		CEP:         input.CEP,
 		Complement:  input.Complement,
+		Latitude:    input.Latitude,
+		Longitude:   input.Longitude,
 	}
 
 	monitorInstance, err := f.MonitorFactory().Create(Input)

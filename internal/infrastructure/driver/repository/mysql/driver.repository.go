@@ -21,7 +21,7 @@ func (d *DriverRepository) Create(driver *entity.Driver) error {
 	if err := driver.IsValid(); err != nil {
 		return err
 	}
-	query := `INSERT INTO drivers(id, cpf, name, nickname, phone, uf, city, street, number, cep, complement) values(?, ?,?,?,?,?,?,?,?,?,?)`
+	query := `INSERT INTO drivers(id, cpf, name, nickname, phone, uf, city, street, number, cep, complement, latitude, longitude) values(?,?,?,?,?,?,?,?,?,?,?, ?, ?)`
 	stmt, err := d.db.Prepare(query)
 	if err != nil {
 		return err
@@ -42,6 +42,8 @@ func (d *DriverRepository) Create(driver *entity.Driver) error {
 		addr.Number,
 		addr.CEP,
 		addr.Complement,
+		addr.Latitude,
+		addr.Longitude,
 	)
 	if err != nil {
 		return err
@@ -54,7 +56,7 @@ func (d *DriverRepository) FindByID(id string) (*entity.Driver, error) {
 		return nil, errors.New("id is required")
 	}
 
-	stmt, err := d.db.Prepare("SELECT id, cpf, name, nickname, phone, uf, city, street, number, cep, complement FROM drivers WHERE id = ? and active = true")
+	stmt, err := d.db.Prepare("SELECT id, cpf, name, nickname, phone, uf, city, street, number, cep, complement, latitude, longitude FROM drivers WHERE id = ? and active = true")
 	if err != nil {
 		return nil, err
 	}
@@ -73,6 +75,8 @@ func (d *DriverRepository) FindByID(id string) (*entity.Driver, error) {
 		&driverInput.Number,
 		&driverInput.CEP,
 		&driverInput.Complement,
+		&driverInput.Latitude,
+		&driverInput.Longitude,
 	)
 	if err != nil {
 		return nil, err
@@ -90,7 +94,7 @@ func (d *DriverRepository) Update(driver *entity.Driver) error {
 	if err := driver.IsValid(); err != nil {
 		return errors.New("invalid driver")
 	}
-	query := "UPDATE drivers SET cpf = ?, name = ?, nickname = ?, phone = ?, uf = ?, city = ?, street = ?, number = ?, cep = ?, complement = ? WHERE id = ?"
+	query := "UPDATE drivers SET cpf = ?, name = ?, nickname = ?, phone = ?, uf = ?, city = ?, street = ?, number = ?, cep = ?, complement = ? , latitude=?, longitude=? WHERE id = ?"
 	stmt, err := d.db.Prepare(query)
 	if err != nil {
 		return err
@@ -110,6 +114,8 @@ func (d *DriverRepository) Update(driver *entity.Driver) error {
 		addr.Number,
 		addr.CEP,
 		addr.Complement,
+		addr.Latitude,
+		addr.Longitude,
 		driver.ID,
 	)
 	if err != nil {
@@ -153,7 +159,7 @@ func (d *DriverRepository) Delete(id string) error {
 }
 
 func (d *DriverRepository) FindAll() ([]entity.Driver, error) {
-	rows, err := d.db.Query("SELECT id, cpf, name, nickname, phone, uf, city, street, number, cep, complement FROM drivers WHERE active = true")
+	rows, err := d.db.Query("SELECT id, cpf, name, nickname, phone, uf, city, street, number, cep, complement, latitude, longitude FROM drivers WHERE active = true")
 	if err != nil {
 		return nil, err
 	}
@@ -174,6 +180,8 @@ func (d *DriverRepository) FindAll() ([]entity.Driver, error) {
 			&driverInput.Number,
 			&driverInput.CEP,
 			&driverInput.Complement,
+			&driverInput.Latitude,
+			&driverInput.Longitude,
 		)
 		if err != nil {
 			return nil, err
@@ -190,7 +198,7 @@ func (d *DriverRepository) FindAll() ([]entity.Driver, error) {
 }
 
 func (d *DriverRepository) FindByCPF(cpf string) (*entity.Driver, error) {
-	stmt, err := d.db.Prepare("SELECT id, cpf, name, nickname, phone, uf, city, street, number, cep, complement FROM drivers WHERE cpf = ? and active = true")
+	stmt, err := d.db.Prepare("SELECT id, cpf, name, nickname, phone, uf, city, street, number, cep, complement, latitude, longitude FROM drivers WHERE cpf = ? and active = true")
 	if err != nil {
 		return nil, err
 	}
@@ -209,6 +217,8 @@ func (d *DriverRepository) FindByCPF(cpf string) (*entity.Driver, error) {
 		&driverInput.Number,
 		&driverInput.CEP,
 		&driverInput.Complement,
+		&driverInput.Latitude,
+		&driverInput.Longitude,
 	)
 	if err != nil {
 		return nil, err

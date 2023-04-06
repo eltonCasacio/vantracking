@@ -3,11 +3,11 @@ POST http://localhost:8000/passenger HTTP/1.1
 Content-Type:  application/json
 
 {
-    "name" : "erica",
-	"nickname" : "ca",
-	"routeCode" : "1f0a8c559350",
+    "name" : "rodolfo",
+	"nickname" : "ro",
+	"routeCode" : "c356e41eb202",
 	"schoolName": "SESI 286 - noite",
-	"monitorID" : "99671b66-e007-4a60-bd9a-ab62fb3f0c76"
+	"monitorID" : "683d0bae-4767-456c-be48-439531ffae9f"
 }
 
 ###  BUSCAR TODOS PASSAGEIROS
@@ -24,20 +24,20 @@ PUT   http://localhost:8000/passenger HTTP/1.1
 Content-Type:  application/json
 
 {
-	"id": "b53f61e1-72e5-46e6-b4d2-da9e8b7a3eb4",
+	"id": "07a95aa0-552f-474e-9190-6045e66a6bc7",
 	"name" : "GUILHERME",
 	"nickname" : "GUI",
-	"routeCode" : "50e13dd71fd8",
-	"schoolName": "SESI 286",
-	"goes":true,
+	"routeCode" : "3847a582889e",
+	"schoolName": "SESI 777",
+	"goes":false,
 	"comesback": false,
 	"registerConfirmed": true,
-	"monitorID": "6a6b2b14-345e-4e09-9a9e-0e72871094ce"
+	"monitorID": "d1b68cef-478c-43bb-a1e2-c1155305775f"
 }
 
 ###
 
-DELETE    http://localhost:8000/passenger/88e288dc-8638-4a5d-a64e-031cecfca4ae HTTP/1.1
+DELETE    http://localhost:8000/passenger/d7319148-5b13-49c1-a8c5-aa50856d503f HTTP/1.1
 Content-Type:  application/json
 
 ### CONFIRMAR REGISTRO DO PASSAGEIRO

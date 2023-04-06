@@ -64,6 +64,8 @@ func (h *monitorHandler) ConsultAll(w http.ResponseWriter, r *http.Request) {
 			Number:      monitor.Number,
 			CEP:         monitor.CEP,
 			Complement:  monitor.Complement,
+			Latitude:    monitor.Latitude,
+			Longitude:   monitor.Longitude,
 		}
 		output = append(output, d)
 	}
@@ -74,21 +76,23 @@ func (h *monitorHandler) ConsultAll(w http.ResponseWriter, r *http.Request) {
 
 func (dh *monitorHandler) Consult(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
-	output, _ := fusecase.NewUseCase(dh.repository).FindByID(id)
+	driver, _ := fusecase.NewUseCase(dh.repository).FindByID(id)
 
-	driver := fusecase.OutputDTO{
-		ID:          output.ID,
-		CPF:         output.CPF,
-		Name:        output.Name,
-		PhoneNumber: output.PhoneNumber,
-		UF:          output.UF,
-		City:        output.City,
-		Street:      output.Street,
-		Number:      output.Number,
-		CEP:         output.CEP,
+	output := fusecase.OutputDTO{
+		ID:          driver.ID,
+		CPF:         driver.CPF,
+		Name:        driver.Name,
+		PhoneNumber: driver.PhoneNumber,
+		UF:          driver.UF,
+		City:        driver.City,
+		Street:      driver.Street,
+		Number:      driver.Number,
+		CEP:         driver.CEP,
+		Latitude:    driver.Latitude,
+		Longitude:   driver.Longitude,
 	}
 
-	json.NewEncoder(w).Encode(driver)
+	json.NewEncoder(w).Encode(output)
 	w.WriteHeader(http.StatusOK)
 }
 
