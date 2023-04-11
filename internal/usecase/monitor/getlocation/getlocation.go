@@ -1,7 +1,6 @@
 package driver
 
 import (
-	"fmt"
 	"os"
 
 	repo "github.com/eltoncasacio/vantracking/internal/domain/monitor/repository"
@@ -18,10 +17,8 @@ func NewUseCase(driverRepository repo.MonitorRepositoryInterface) *getDriverLoca
 }
 
 func (u *getDriverLocationUseCase) Get(routeCode string) GetLocationOutputDTO {
-	fmt.Println("TENDENDO NADA", routeCode)
 	lat := os.Getenv("latitude_" + routeCode)
 	long := os.Getenv("longitude_" + routeCode)
-	fmt.Println("LATITUDE:::::", lat)
 
 	return GetLocationOutputDTO{
 		Latitude:  lat,
