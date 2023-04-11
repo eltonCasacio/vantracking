@@ -216,7 +216,7 @@ func (r *passengerRepository) ConfirmPassengerRegister(id string, confirm bool) 
 }
 
 func (r *passengerRepository) ListByMonitorID(monitorID string) ([]e.Passenger, error) {
-	rows, err := r.db.Query("SELECT id, name, nickname, route_code, goes, comesback, school_name, monitor_id FROM passengers WHERE monitor_id = ? and  active = true", monitorID)
+	rows, err := r.db.Query("SELECT id, name, nickname, route_code, goes, comesback, school_name,register_confirmed, monitor_id FROM passengers WHERE monitor_id = ? and  active = true", monitorID)
 	if err != nil {
 		return nil, err
 	}
@@ -233,6 +233,7 @@ func (r *passengerRepository) ListByMonitorID(monitorID string) ([]e.Passenger, 
 			&inputPassenger.Goes,
 			&inputPassenger.Comesback,
 			&inputPassenger.SchoolName,
+			&inputPassenger.RegisterConfirmed,
 			&inputPassenger.MonitorID,
 		)
 		if err != nil {

@@ -1,6 +1,7 @@
 package driver
 
 import (
+	"fmt"
 	"os"
 
 	repo "github.com/eltoncasacio/vantracking/internal/domain/driver/repository"
@@ -17,6 +18,7 @@ func NewUseCase(driverRepository repo.DriverRepositoryInterface) *SetDriverLocat
 }
 
 func (u *SetDriverLocationUseCase) Set(input SetLocationInputDTO) error {
+	fmt.Println("?????", input.RouteCode)
 	if err := os.Setenv("latitude_"+input.RouteCode, input.Latitude); err != nil {
 		return err
 	}

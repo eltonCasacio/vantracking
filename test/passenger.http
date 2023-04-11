@@ -5,13 +5,13 @@ Content-Type:  application/json
 {
     "name" : "rodolfo",
 	"nickname" : "ro",
-	"routeCode" : "c356e41eb202",
+	"routeCode" : "d9cfdfa09685",
 	"schoolName": "SESI 286 - noite",
-	"monitorID" : "683d0bae-4767-456c-be48-439531ffae9f"
+	"monitorID" : "7cdde03c-5cc1-486b-96f3-d699b72063d4"
 }
 
 ###  BUSCAR TODOS PASSAGEIROS
-GET  http://localhost:8000/passenger HTTP/1.1
+GET  http://localhost:8000/passenger/ HTTP/1.1
 Content-Type:  application/json
 
 ### BUSCAR POR ID
@@ -45,8 +45,8 @@ PUT   http://localhost:8000/passenger/confirm-passenger HTTP/1.1
 Content-Type:  application/json
 
 {
-	"passengerID": 		"3204aa1c-08a9-454d-b6d9-25e4cd69de98",
-    "registerConfirmed":	false
+	"passengerID": 		"fac31202-c68b-4005-ba94-80b123ee920c",
+    "registerConfirmed":	true
 }
 
 
@@ -57,4 +57,8 @@ Content-Type:  application/json
 
 ###
 GET  http://localhost:8000/passenger/not-confirmed/0397fe937858 HTTP/1.1
+Content-Type:  application/json
+
+###
+GET  http://localhost:8000/passenger/list-passenger/52b4238b-8d54-4eb3-840b-7c05cf6e2eac HTTP/1.1
 Content-Type:  application/json
