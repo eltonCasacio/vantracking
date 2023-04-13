@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/eltoncasacio/vantracking/configs"
+	deviceRoutes "github.com/eltoncasacio/vantracking/internal/infrastructure/device/web/routes"
 	driverRoutes "github.com/eltoncasacio/vantracking/internal/infrastructure/driver/web/routes"
 	monitorRoutes "github.com/eltoncasacio/vantracking/internal/infrastructure/monitor/web/routes"
 	partnerRoutes "github.com/eltoncasacio/vantracking/internal/infrastructure/partner/web/routes"
@@ -27,6 +28,7 @@ func main() {
 	monitorRoutes.NewMonitorRoutes(db, chi, config).CreateRoutes()
 	passengerRoutes.NewPassengerRoutes(db, chi).CreateRoutes()
 	partnerRoutes.NewPartnerRoutes(db, chi).CreateRoutes()
+	deviceRoutes.NewDeviceRoutes(db, chi).CreateRoutes()
 
 	http.ListenAndServe(fmt.Sprintf(":%v", config.WebServerPort), chi)
 }
