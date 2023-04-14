@@ -16,6 +16,10 @@ type Config struct {
 	JWTSecret     string `mapstructure:"JWT_SECRET"`
 	JwtExperesIn  int    `mapstructure:"JWT_EXPIRESIN"`
 	TokenAuth     *jwtauth.JWTAuth
+
+	FIREBASE_AUTH_KEY  string `mapstructure:"FIREBASE_AUTH_KEY"`
+	NOTIFICATION_TITLE string `mapstructure:"NOTIFICATION_TITLE"`
+	NOTIFICATION_BODY  string `mapstructure:"NOTIFICATION_BODY"`
 }
 
 func LoadConfig(path string) (*Config, error) {

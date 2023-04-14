@@ -9,6 +9,7 @@ import (
 
 type DeviceRepositoryInterface interface {
 	repository.RepositoryInterface[Device]
+	FindByMonitorID(monitorID string) (*Device, error)
 }
 
 type Device struct {

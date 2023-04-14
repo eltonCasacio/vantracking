@@ -5,7 +5,8 @@ import (
 	"net/http"
 
 	vo "github.com/eltoncasacio/vantracking/internal/domain/shared/valueobjects"
-	usecaseRegister "github.com/eltoncasacio/vantracking/internal/usecase/device/register"
+	registerUsecase "github.com/eltoncasacio/vantracking/internal/usecase/device/register"
+	sendNotificationUsecase "github.com/eltoncasacio/vantracking/internal/usecase/device/send_notification"
 )
 
 type DeviceHandler struct {
@@ -19,14 +20,14 @@ func NewDeviceHandler(repo vo.DeviceRepositoryInterface) *DeviceHandler {
 }
 
 func (dh *DeviceHandler) Register(w http.ResponseWriter, r *http.Request) {
-	input := usecaseRegister.DriverInputDTO{}
+	input := registerUsecase.DeviceInputDTO{}
 	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
-	usecase := usecaseRegister.NewUseCase(dh.repository)
+	usecase := registerUsecase.NewUseCase(dh.repository)
 	err = usecase.Register(&input)
 	if err != nil {
 		w.Write([]byte(err.Error()))
@@ -36,7 +37,7 @@ func (dh *DeviceHandler) Register(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
-func (dh *DeviceHandler) ConsultAll(w http.ResponseWriter, r *http.Request) {
+func (dh *DeviceHandler) GetAll(w http.ResponseWriter, r *http.Request) {
 	// usecase, output := dh.usecases.FindAllDriverUsecase()
 	// usecaseOutput, _ := usecase.ListAll()
 
@@ -63,7 +64,7 @@ func (dh *DeviceHandler) ConsultAll(w http.ResponseWriter, r *http.Request) {
 	// w.WriteHeader(http.StatusOK)
 }
 
-func (dh *DeviceHandler) Consult(w http.ResponseWriter, r *http.Request) {
+func (dh *DeviceHandler) Get(w http.ResponseWriter, r *http.Request) {
 	// id := chi.URLParam(r, "id")
 	// usecase, output := dh.usecases.FindDriverByIDUsecase()
 	// driver, err := usecase.FindByID(id)
@@ -115,34 +116,20 @@ func (dh *DeviceHandler) Delete(w http.ResponseWriter, r *http.Request) {
 	// w.WriteHeader(http.StatusOK)
 }
 
-func (dh *DeviceHandler) SetLocation(w http.ResponseWriter, r *http.Request) {
-	// usecase, input := dh.usecases.SetDriverLocationUsecase()
-	// json.NewDecoder(r.Body).Decode(&input)
+func (dh *DeviceHandler) SendPushNotification(w http.ResponseWriter, r *http.Request) {
+	input := sendNotificationUsecase.DeviceInput{}
+	err := json.NewDecoder(r.Body).Decode(&input)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	usecase := sendNotificationUsecase.NewUseCase(dh.repository)
+	output, err := usecase.SendNotification(&input)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 
-	// err := usecase.Set(input)
-	// if err != nil {
-	// 	w.Write([]byte(err.Error()))
-	// 	return
-	// }
-	// w.WriteHeader(http.StatusOK)
-}
-
-func (dh *DeviceHandler) CreateRoute(w http.ResponseWriter, r *http.Request) {
-	// usecase, inputDTO := dh.usecases.CreateRouteUsecase()
-
-	// input := inputDTO
-	// err := json.NewDecoder(r.Body).Decode(&input)
-	// if err != nil {
-	// 	w.WriteHeader(http.StatusBadRequest)
-	// 	return
-	// }
-
-	// err = usecase.RegisterDriver(input)
-
-	// if err != nil {
-	// 	w.Write([]byte(err.Error()))
-	// 	w.WriteHeader(http.StatusInternalServerError)
-	// 	return
-	// }
-	// w.WriteHeader(http.StatusOK)
+	w.Write([]byte(output))
+	w.WriteHeader(http.StatusOK)
 }

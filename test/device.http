@@ -6,3 +6,11 @@ Content-Type:  application/json
     "token" : "123456qwert",
 	"monitorID" : "39023dea-9184-49d4-9814-cb69266a64b7"
 }
+
+###
+POST   http://localhost:8000/device/send-notification HTTP/1.1
+Content-Type:  application/json
+
+{
+    "monitorID" : "39023dea-9184-49"
+}

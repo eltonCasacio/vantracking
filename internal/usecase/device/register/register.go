@@ -15,19 +15,18 @@ func NewUseCase(repository vo.DeviceRepositoryInterface) *RegisterDeviceUseCase 
 	}
 }
 
-func (u *RegisterDeviceUseCase) Register(input *DriverInputDTO) error {
-
+func (u *RegisterDeviceUseCase) Register(input *DeviceInputDTO) error {
 	monitorID, err := identity.ParseID(input.MonitorID)
 	if err != nil {
 		return err
 	}
 
-	driverInput, err := vo.NewDevice(input.Token, monitorID)
+	deviceInput, err := vo.NewDevice(input.Token, monitorID)
 	if err != nil {
 		return err
 	}
 
-	err = u.repository.Create(driverInput)
+	err = u.repository.Create(deviceInput)
 	if err != nil {
 		return err
 	}

@@ -1,6 +1,6 @@
 package device
 
-type DriverInputDTO struct {
+type DeviceInputDTO struct {
 	Token     string `json:"token"`
 	MonitorID string `json:"monitorID"`
 }

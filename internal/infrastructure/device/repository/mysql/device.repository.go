@@ -181,3 +181,42 @@ func (d *DeviceRepository) FindAll() ([]entity.Device, error) {
 	// }
 	return nil, nil
 }
+
+func (d *DeviceRepository) FindByMonitorID(monitorID string) (*entity.Device, error) {
+	// if id == "" {
+	// 	return nil, errors.New("id is required")
+	// }
+
+	// stmt, err := d.db.Prepare("SELECT id, cpf, name, nickname, phone, uf, city, street, number, cep, complement, latitude, longitude FROM drivers WHERE id = ? and active = true")
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// defer stmt.Close()
+
+	// var driverInput factory.CreateInstanceDriverInputDTO
+	// err = stmt.QueryRow(id).Scan(
+	// 	&driverInput.ID,
+	// 	&driverInput.CPF,
+	// 	&driverInput.Name,
+	// 	&driverInput.Nickname,
+	// 	&driverInput.Phone,
+	// 	&driverInput.UF,
+	// 	&driverInput.City,
+	// 	&driverInput.Street,
+	// 	&driverInput.Number,
+	// 	&driverInput.CEP,
+	// 	&driverInput.Complement,
+	// 	&driverInput.Latitude,
+	// 	&driverInput.Longitude,
+	// )
+	// if err != nil {
+	// 	return nil, err
+	// }
+
+	// driver, err := factory.DriverFactory().CreateInstance(driverInput)
+	// if err != nil {
+	// 	return nil, err
+	// }
+
+	return nil, nil
+}
