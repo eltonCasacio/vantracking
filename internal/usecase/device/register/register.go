@@ -26,6 +26,23 @@ func (u *RegisterDeviceUseCase) Register(input *DeviceInputDTO) error {
 		return err
 	}
 
+	found, err := u.repository.FindByMonitorID(input.MonitorID)
+	if err != nil {
+		return err
+	}
+
+	if found.Token == input.Token {
+		return nil
+	}
+
+	if found.Token != input.Token {
+		err = u.repository.Update(deviceInput)
+		if err != nil {
+			return err
+		}
+		return nil
+	}
+
 	err = u.repository.Create(deviceInput)
 	if err != nil {
 		return err

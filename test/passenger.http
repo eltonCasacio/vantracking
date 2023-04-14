@@ -5,9 +5,9 @@ Content-Type:  application/json
 {
     "name" : "rodolfo",
 	"nickname" : "ro",
-	"routeCode" : "d9cfdfa09685",
-	"schoolName": "SESI 286 - noite",
-	"monitorID" : "7cdde03c-5cc1-486b-96f3-d699b72063d4"
+	"routeCode" : "30e1dd633207",
+	"schoolName": "SESI teste",
+	"monitorID" : "d7ff0861-76c8-4c97-900d-c37dc14c3f7b"
 }
 
 ###  BUSCAR TODOS PASSAGEIROS

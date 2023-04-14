@@ -11,7 +11,7 @@ create table passengers (id varchar(255) NOT NULL, name varchar(255) NOT NULL, n
 create table routes (code varchar(255) NOT NULL, name varchar(255) NOT NULL, driver_id varchar(255) NOT NULL, started BOOLEAN DEFAULT false);
 create table categories (id varchar(255) NOT NULL, name varchar(255) NOT NULL, PRIMARY KEY (id));
 
-create table devices (token varchar(255) NOT NULL, monitor_id varchar(255) NOT NULL, PRIMARY KEY (token));
+create table devices (monitor_id varchar(255) NOT NULL, token varchar(255) NOT NULL, PRIMARY KEY (monitor_id));
 
 ***** DOCKER COMPOSE *****
 docker-compose exec mysql bash

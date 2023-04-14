@@ -3,7 +3,7 @@ POST http://localhost:8000/device HTTP/1.1
 Content-Type:  application/json
 
 {
-    "token" : "123456qwert",
+    "token" : "fjB8q3dXThul_qb6uH_gS8:APA91bFcep8Z0PJW16zcyYnG9lAlUo9PYpsiiptSdABozcsDmm1lwYkLFgxNdbOjTb7JpNlrjrjqFl6EbXdN6u5CJ_8u8rnt9QCqbynNmbTmJYqgqSwkfOgBEakF6uxb0Pls6NW7fC_O",
 	"monitorID" : "39023dea-9184-49d4-9814-cb69266a64b7"
 }
 
@@ -12,5 +12,9 @@ POST   http://localhost:8000/device/send-notification HTTP/1.1
 Content-Type:  application/json
 
 {
-    "monitorID" : "39023dea-9184-49"
+    "monitorID" : "d7ff0861-76c8-4c97-900d-c37dc14c3f7b"
 }
+
+###
+GET    http://localhost:8000/device/d7ff0861-76c8-4c97-900d-c37dc14c3f7b HTTP/1.1
+Content-Type:  application/json

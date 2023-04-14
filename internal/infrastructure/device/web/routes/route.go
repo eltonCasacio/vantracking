@@ -27,7 +27,7 @@ func (dr *deviceRoutes) CreateRoutes() {
 	dr.chi.Route("/device", func(r chi.Router) {
 		r.Post("/", handler.Register)
 		r.Post("/send-notification", handler.SendPushNotification)
-		//r.Get("/authenticate/{cpf}", handler.Authenticate)
+		r.Get("/{monitorID}", handler.GetByMonitorID)
 		// r.Get("/", handler.ConsultAll)
 		// r.Get("/{id}", handler.Consult)
 		// r.Put("/", handler.Update)

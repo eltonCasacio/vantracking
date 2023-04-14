@@ -46,17 +46,25 @@ func (u *SendNotificationUseCase) SendNotification(input *DeviceInput) (string, 
 		return "", err
 	}
 
-	// TODO: pegar token do monitor na tabela devices atraves do id do monitor
+	deviceFound, err := u.repository.FindByMonitorID(input.MonitorID)
+	if err != nil {
+		return "", err
+	}
+
+	if deviceFound.Token == "" {
+		return "", nil
+	}
+
 	response, err := fcmClient.Send(context.Background(), &messaging.Message{
 		Notification: &messaging.Notification{
 			Title: config.NOTIFICATION_TITLE,
 			Body:  config.NOTIFICATION_BODY,
 		},
-		Token: "fjB8q3dXThul_qb6uH_gS8:APA91bFcep8Z0PJW16zcyYnG9lAlUo9PYpsiiptSdABozcsDmm1lwYkLFgxNdbOjTb7JpNlrjrjqFl6EbXdN6u5CJ_8u8rnt9QCqbynNmbTmJYqgqSwkfOgBEakF6uxb0Pls6NW7fC_O",
+		Token: deviceFound.Token,
 	})
 	if err != nil {
 		return "", err
 	}
-
 	return response, nil
+
 }

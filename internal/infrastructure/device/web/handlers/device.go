@@ -5,8 +5,10 @@ import (
 	"net/http"
 
 	vo "github.com/eltoncasacio/vantracking/internal/domain/shared/valueobjects"
+	find_by_monitoridUsecase "github.com/eltoncasacio/vantracking/internal/usecase/device/find_by_monitorid"
 	registerUsecase "github.com/eltoncasacio/vantracking/internal/usecase/device/register"
 	sendNotificationUsecase "github.com/eltoncasacio/vantracking/internal/usecase/device/send_notification"
+	"github.com/go-chi/chi"
 )
 
 type DeviceHandler struct {
@@ -131,5 +133,18 @@ func (dh *DeviceHandler) SendPushNotification(w http.ResponseWriter, r *http.Req
 	}
 
 	w.Write([]byte(output))
+	w.WriteHeader(http.StatusOK)
+}
+
+func (dh *DeviceHandler) GetByMonitorID(w http.ResponseWriter, r *http.Request) {
+	monitorID := chi.URLParam(r, "monitorID")
+	usecase := find_by_monitoridUsecase.NewUseCase(dh.repository)
+	device, err := usecase.Find(monitorID)
+	if err != nil {
+		w.Write([]byte(err.Error()))
+		return
+	}
+
+	json.NewEncoder(w).Encode(device)
 	w.WriteHeader(http.StatusOK)
 }
