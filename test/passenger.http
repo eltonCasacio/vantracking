@@ -24,13 +24,13 @@ PUT   http://localhost:8000/passenger HTTP/1.1
 Content-Type:  application/json
 
 {
-	"id": "07a95aa0-552f-474e-9190-6045e66a6bc7",
+	"id": "893ea0fc-fdf2-4080-b566-6c3ad4efd54d",
 	"name" : "GUILHERME",
 	"nickname" : "GUI",
-	"routeCode" : "3847a582889e",
+	"routeCode" : "cc724afccf12",
 	"schoolName": "SESI 777",
-	"goes":false,
-	"comesback": false,
+	"goes":true,
+	"comesback": true,
 	"registerConfirmed": true,
 	"monitorID": "d1b68cef-478c-43bb-a1e2-c1155305775f"
 }
