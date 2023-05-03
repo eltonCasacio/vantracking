@@ -39,6 +39,37 @@ func (dh *DeviceHandler) Register(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
+func (dh *DeviceHandler) SendPushNotification(w http.ResponseWriter, r *http.Request) {
+	input := sendNotificationUsecase.DeviceInput{}
+	err := json.NewDecoder(r.Body).Decode(&input)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	usecase := sendNotificationUsecase.NewUseCase(dh.repository)
+	output, err := usecase.SendNotification(&input)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	w.Write([]byte(output))
+	w.WriteHeader(http.StatusOK)
+}
+
+func (dh *DeviceHandler) GetByMonitorID(w http.ResponseWriter, r *http.Request) {
+	monitorID := chi.URLParam(r, "monitorID")
+	usecase := find_by_monitoridUsecase.NewUseCase(dh.repository)
+	device, err := usecase.Find(monitorID)
+	if err != nil {
+		w.Write([]byte(err.Error()))
+		return
+	}
+
+	json.NewEncoder(w).Encode(device)
+	w.WriteHeader(http.StatusOK)
+}
+
 func (dh *DeviceHandler) GetAll(w http.ResponseWriter, r *http.Request) {
 	// usecase, output := dh.usecases.FindAllDriverUsecase()
 	// usecaseOutput, _ := usecase.ListAll()
@@ -116,35 +147,4 @@ func (dh *DeviceHandler) Delete(w http.ResponseWriter, r *http.Request) {
 	// 	return
 	// }
 	// w.WriteHeader(http.StatusOK)
-}
-
-func (dh *DeviceHandler) SendPushNotification(w http.ResponseWriter, r *http.Request) {
-	input := sendNotificationUsecase.DeviceInput{}
-	err := json.NewDecoder(r.Body).Decode(&input)
-	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
-	usecase := sendNotificationUsecase.NewUseCase(dh.repository)
-	output, err := usecase.SendNotification(&input)
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-
-	w.Write([]byte(output))
-	w.WriteHeader(http.StatusOK)
-}
-
-func (dh *DeviceHandler) GetByMonitorID(w http.ResponseWriter, r *http.Request) {
-	monitorID := chi.URLParam(r, "monitorID")
-	usecase := find_by_monitoridUsecase.NewUseCase(dh.repository)
-	device, err := usecase.Find(monitorID)
-	if err != nil {
-		w.Write([]byte(err.Error()))
-		return
-	}
-
-	json.NewEncoder(w).Encode(device)
-	w.WriteHeader(http.StatusOK)
 }

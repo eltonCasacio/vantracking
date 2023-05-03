@@ -9,7 +9,7 @@ Content-Type:  application/json
 
 {
     "name":        	"monitor1",
-	"cpf":         	"11111111112",
+	"cpf":         	"11111111111",
 	"phone_number": "21212121121",
     "uf":			"MG",
 	"city":			"BH",

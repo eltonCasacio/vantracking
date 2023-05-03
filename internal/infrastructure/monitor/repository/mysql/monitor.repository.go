@@ -95,6 +95,12 @@ func (m *MonitorRepository) Update(monitor *entity.Monitor) error {
 }
 
 func (m *MonitorRepository) Delete(id string) error {
+	tx, err := m.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
 	stmt, err := m.db.Prepare("delete from monitors where id = ?")
 	if err != nil {
 		return err
@@ -102,6 +108,20 @@ func (m *MonitorRepository) Delete(id string) error {
 	defer stmt.Close()
 	_, err = stmt.Exec(id)
 	if err != nil {
+		return err
+	}
+
+	stmt, err = tx.Prepare("DELETE FROM passengers WHERE monitor_id = ?")
+	if err != nil {
+		return err
+	}
+
+	_, err = stmt.Exec(id)
+	if err != nil {
+		return err
+	}
+
+	if err = tx.Commit(); err != nil {
 		return err
 	}
 	return nil
@@ -254,5 +274,4 @@ func (d *MonitorRepository) GetDriverByRouteCode(routeCode string) (*driver.Driv
 	}
 
 	return driver, nil
-
 }

@@ -19,7 +19,6 @@ import (
 
 func main() {
 	db, config := Init()
-
 	chi := chi.NewRouter()
 	chi.Use(middleware.Logger)
 	chi.Use(middleware.Recoverer)

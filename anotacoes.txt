@@ -1,3 +1,10 @@
+##################### ANOTACOES DAS CONFIGURACOES DO PROJETO #####################
+para funcionar o push notification é necessario um arquivo, horus-7f463-firebase-adminsdk-typwy-efb73535e7.json
+
+
+
+
+
 Motorista é obrigado a informar pelo menos 1 rota ao se cadastrar? 
     não, mas sem rota nao tem como ter monitor.
 

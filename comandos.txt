@@ -17,3 +17,11 @@ create table devices (monitor_id varchar(255) NOT NULL, token varchar(255) NOT N
 docker-compose exec mysql bash
 mysql -uroot -p vantracking
 
+
+
+***** MIGRATIONS ******
+INSTALL (https://github.com/golang-migrate/migrate/tree/master/cmd/migrate)
+required brew instaled
+
+COMMANDS
+    make migrate

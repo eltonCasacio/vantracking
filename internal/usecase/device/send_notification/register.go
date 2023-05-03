@@ -29,9 +29,9 @@ func (u *SendNotificationUseCase) SendNotification(input *DeviceInput) (string, 
 		log.Fatalln("USECASE::SEND NOTIFICATION::Error loading config ", err)
 		return "", err
 	}
-	data, err := os.ReadFile(config.FIREBASE_AUTH_KEY)
+	data, err := os.ReadFile(config.FIREBASE_AUTH_KEY_PATH)
 	if err != nil {
-		log.Fatalln("USECASE::SEND NOTIFICATION:: READ FIREBASE_AUTH_KEY:: ", err)
+		log.Fatalln("USECASE::SEND NOTIFICATION:: READ FIREBASE_AUTH_KEY_PATH:: ", err)
 		return "", err
 	}
 
