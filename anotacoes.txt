@@ -1,5 +1,6 @@
 ##################### ANOTACOES DAS CONFIGURACOES DO PROJETO #####################
-para funcionar o push notification é necessario um arquivo, horus-7f463-firebase-adminsdk-typwy-efb73535e7.json
+para funcionar o push notification é necessario um arquivo, "horus-b9211-fc6305643c38.json""
+https://console.cloud.google.com/iam-admin/serviceaccounts/details/110918445645679389849/keys?authuser=0&hl=pt&project=horus-b9211
 
 
 

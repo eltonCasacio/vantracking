@@ -7,4 +7,10 @@ migrate:
 migratedown: 
 	migrate -path=sql/migrations -database "mysql://root:root@tcp(localhost:3306)/vantracking" -verbose down
 
-.PHONY: migrate migrate createmigration
+dockerup:
+	docker-compose up -d
+
+dockerdown:
+	docker-compose down
+
+.PHONY: migrate migrate createmigration dockerup dockerdown
