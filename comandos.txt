@@ -5,13 +5,14 @@ go tool cover -html=coverage.out
 ***** QUERIES *****
 create table drivers (id varchar(255) NOT NULL, cpf varchar(255) NOT NULL, name varchar(255) NOT NULL, nickname varchar(255), phone varchar(255), uf varchar(5), city varchar(80), street varchar(100), number varchar(50), cep varchar(10), complement varchar(100),latitude varchar(40), longitude varchar(40), active BOOLEAN DEFAULT true, PRIMARY KEY (id));
 create table monitors (id varchar(255) NOT NULL, cpf varchar(255) NOT NULL, name varchar(255) NOT NULL, phone_number varchar(255), uf varchar(5), city varchar(80), street varchar(100), number varchar(50), cep varchar(10), complement varchar(100),latitude varchar(40), longitude varchar(40), active BOOLEAN DEFAULT true, PRIMARY KEY (id));
-create table partners (id varchar(255) NOT NULL, name varchar(255) NOT NULL, description varchar(255) NOT NULL, price varchar(20), phone_number varchar(255), uf varchar(5), city varchar(80), street varchar(100), number varchar(50), cep varchar(10), complement varchar(100),latitude varchar(40), longitude varchar(40), PRIMARY KEY (id));
-
 create table passengers (id varchar(255) NOT NULL, name varchar(255) NOT NULL, nickname varchar(255) NOT NULL, route_code varchar(255), goes BOOLEAN DEFAULT true, comesback BOOLEAN DEFAULT true, register_confirmed BOOLEAN DEFAULT false, school_name varchar(100), monitor_id varchar(50), active BOOLEAN DEFAULT true, PRIMARY KEY (id));
 create table routes (code varchar(255) NOT NULL, name varchar(255) NOT NULL, driver_id varchar(255) NOT NULL, started BOOLEAN DEFAULT false);
+create table devices (monitor_id varchar(255) NOT NULL, token varchar(255) NOT NULL, PRIMARY KEY (monitor_id));
+
+create table partners (id varchar(255) NOT NULL, name varchar(255) NOT NULL, description varchar(255) NOT NULL, price varchar(20), phone_number varchar(255), uf varchar(5), city varchar(80), street varchar(100), number varchar(50), cep varchar(10), complement varchar(100),latitude varchar(40), longitude varchar(40), PRIMARY KEY (id));
 create table categories (id varchar(255) NOT NULL, name varchar(255) NOT NULL, PRIMARY KEY (id));
 
-create table devices (monitor_id varchar(255) NOT NULL, token varchar(255) NOT NULL, PRIMARY KEY (monitor_id));
+
 
 ***** DOCKER COMPOSE *****
 docker-compose exec mysql bash

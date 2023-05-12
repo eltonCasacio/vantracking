@@ -13,6 +13,7 @@ import (
 	passengerRoutes "github.com/eltoncasacio/vantracking/internal/infrastructure/passenger/web/routes"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
+	"github.com/go-chi/cors"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -22,6 +23,17 @@ func main() {
 	chi := chi.NewRouter()
 	chi.Use(middleware.Logger)
 	chi.Use(middleware.Recoverer)
+
+	chi.Use(cors.Handler(cors.Options{
+		// AllowedOrigins:   []string{"https://foo.com"}, // Use this to allow specific origin hosts
+		AllowedOrigins: []string{"https://*", "http://*"},
+		// AllowOriginFunc:  func(r *http.Request, origin string) bool { return true },
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
+		ExposedHeaders:   []string{"Link"},
+		AllowCredentials: false,
+		MaxAge:           300, // Maximum value not ignored by any of major browsers
+	}))
 
 	driverRoutes.NewDriverRoutes(db, chi, config).CreateRoutes()
 	monitorRoutes.NewMonitorRoutes(db, chi, config).CreateRoutes()

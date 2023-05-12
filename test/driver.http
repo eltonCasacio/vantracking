@@ -1,9 +1,9 @@
 
-GET  http://localhost:8000/driver/authenticate/11111111112 HTTP/1.1
+GET  http://52.20.46.60:8000/driver HTTP/1.1
 Content-Type:  application/json
 
 ###
-POST http://localhost:8000/driver HTTP/1.1
+POST http://52.20.46.60:8000/driver HTTP/1.1
 Content-Type:  application/json
 
 {
@@ -22,7 +22,7 @@ Content-Type:  application/json
 }
 
 ###  BUSCAR TODOS MOTORISTAS
-GET  http://localhost:8000/driver HTTP/1.1
+GET  http://52.20.46.60:8000/driver HTTP/1.1
 Content-Type:  application/json
 
 ### BUSCAR POR ID
