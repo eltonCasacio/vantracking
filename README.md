@@ -26,3 +26,22 @@ Há dois atores nesse projeto, Motorista e Monitor.
 - AWS to deploy API
 - Firebase for push notification
 - Google maps api
+
+
+# Para Desenvolvedores
+Para executar esse projeto será necessário criar um arquivo .env e setar seus valores. Há um arquivo de exemplo chamado .env_prod dentro da pasta cmd/server.
+
+E também as dependencias devem ser instaladas.
+
+### So, let`s go
+1. clone esse repositorio em sua maquina
+2. execute `docker-compose up`
+3. execute `make migrate` para criar o banco de dados e tabelas
+4. entre na pasta cmd/server e execute `go run main.go`
+   
+se todas as dependencias estiverem instaladas corretamente a api estará pronta para servir os clientes.
+
+Podemos testar a api atraves dos arquivos que se encontram dentro da pasta test, lá encontramos arquivos com extensão .http <br/>
+com esses arquivos conseguimos testar os endpoints. Ou se preferir pode ser usado o postman por exemplo.
+
+Pode ser que tenha que alterar o host nas urls.
