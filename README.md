@@ -3,6 +3,10 @@
 ![Badge](https://img.shields.io/static/v1?label=push%20notification&message=%20&color=gray&style=for-the-badge&logo=firebase)
 ![Badge](https://img.shields.io/static/v1?label=aws&message=%20&color=yellow&style=for-the-badge&logo=aws)
 
+## Outros repositorios que fazem parte desse
+- https://github.com/eltonCasacio/vanmonitor
+- https://github.com/eltonCasacio/vandriver
+
 ## Sobre o projeto de monitoramento
 Este sistema foi desenvolvido para o monitoramento de vans escolares.
 Há dois atores nesse projeto, Motorista e Monitor.
