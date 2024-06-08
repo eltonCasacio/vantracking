@@ -4,7 +4,7 @@ import (
 	"database/sql"
 
 	"github.com/eltoncasacio/vantracking/configs"
-	repo "github.com/eltoncasacio/vantracking/internal/infrastructure/driver/repository/mysql"
+	repo "github.com/eltoncasacio/vantracking/internal/infrastructure/driver/repository/postgres"
 	handlers "github.com/eltoncasacio/vantracking/internal/infrastructure/driver/web/handlers"
 
 	"github.com/go-chi/chi"

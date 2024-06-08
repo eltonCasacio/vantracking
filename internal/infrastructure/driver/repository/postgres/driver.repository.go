@@ -3,6 +3,7 @@ package repository
 import (
 	"database/sql"
 	"errors"
+	"fmt"
 
 	entity "github.com/eltoncasacio/vantracking/internal/domain/driver/entity"
 	factory "github.com/eltoncasacio/vantracking/internal/domain/driver/factory"
@@ -21,12 +22,16 @@ func (d *DriverRepository) Create(driver *entity.Driver) error {
 	if err := driver.IsValid(); err != nil {
 		return err
 	}
-	query := `INSERT INTO drivers(id, cpf, name, nickname, phone, uf, city, street, number, cep, complement, latitude, longitude) values(?,?,?,?,?,?,?,?,?,?,?, ?, ?)`
+	fmt.Println("Create:::DRIVER IS VALID", driver)
+	query := `INSERT INTO public.drivers (id, cpf, "name", nickname, phone, uf, city, street, "number", cep, complement, latitude, longitude) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13);`
 	stmt, err := d.db.Prepare(query)
 	if err != nil {
+		fmt.Println("ERRO AO PREPARAR QUERY", err.Error())
 		return err
 	}
 	defer stmt.Close()
+
+	fmt.Println("driver:::", driver)
 
 	addr := driver.Address
 
@@ -56,7 +61,7 @@ func (d *DriverRepository) FindByID(id string) (*entity.Driver, error) {
 		return nil, errors.New("id is required")
 	}
 
-	stmt, err := d.db.Prepare("SELECT id, cpf, name, nickname, phone, uf, city, street, number, cep, complement, latitude, longitude FROM drivers WHERE id = ? and active = true")
+	stmt, err := d.db.Prepare("SELECT id, cpf, name, nickname, phone, uf, city, street, number, cep, complement, latitude, longitude FROM drivers WHERE id = $1 and active = true")
 	if err != nil {
 		return nil, err
 	}
@@ -94,7 +99,20 @@ func (d *DriverRepository) Update(driver *entity.Driver) error {
 	if err := driver.IsValid(); err != nil {
 		return errors.New("invalid driver")
 	}
-	query := "UPDATE drivers SET cpf = ?, name = ?, nickname = ?, phone = ?, uf = ?, city = ?, street = ?, number = ?, cep = ?, complement = ? , latitude=?, longitude=? WHERE id = ?"
+	query := `UPDATE drivers 
+			  SET 	cpf = $1, 
+			  		name = $2, 
+					nickname = $3, 
+					phone = $4, 
+					uf = $5, 
+					city = $6, 
+					street = $7, 
+					number = $8, 
+					cep = $9, 
+					complement = $10, 
+					latitude= $11, 
+					longitude= $12
+			  WHERE id = $13`
 	stmt, err := d.db.Prepare(query)
 	if err != nil {
 		return err
@@ -131,7 +149,7 @@ func (d *DriverRepository) Delete(id string) error {
 	}
 	defer tx.Rollback()
 
-	stmt, err := tx.Prepare("DELETE FROM drivers WHERE id = ?")
+	stmt, err := tx.Prepare("DELETE FROM drivers WHERE id = $1")
 	if err != nil {
 		return err
 	}
@@ -142,7 +160,7 @@ func (d *DriverRepository) Delete(id string) error {
 		return err
 	}
 
-	stmt, err = tx.Prepare("DELETE FROM routes WHERE driver_id = ?")
+	stmt, err = tx.Prepare("DELETE FROM routes WHERE driver_id = $1")
 	if err != nil {
 		return err
 	}
@@ -194,6 +212,7 @@ func (d *DriverRepository) FindAll() ([]entity.Driver, error) {
 
 		drivers = append(drivers, *d)
 	}
+
 	return drivers, nil
 }
 

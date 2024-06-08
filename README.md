@@ -13,7 +13,6 @@ Há dois atores nesse projeto, Motorista e Monitor.
 
 ***O Motorista:***
 - cria rotas
-- create routes
 - aprova passageiros
 - envia a localização em tempo real para a API
 - faz push notification para o monitor quando esta chegando ao ponto de embarque do passageiro
@@ -27,13 +26,13 @@ Há dois atores nesse projeto, Motorista e Monitor.
 - recebe notificação quando motorista está chegando
 
 ***Some used services in this project***
-- AWS to deploy API
-- Firebase for push notification
+- AWS para deploy da API
+- Firebase para push notification
 - Google maps api
 
 
 # Para Desenvolvedores
-Para executar esse projeto será necessário criar um arquivo .env e setar seus valores. Há um arquivo de exemplo chamado .env_prod dentro da pasta cmd/server.
+Para executar esse projeto será necessário criar um arquivo .env dentro do diretório cmd/server e setar seus valores. Há um arquivo de exemplo chamado .env_prod dentro da pasta cmd/server.
 
 E também as dependencias devem ser instaladas.
 

@@ -1,0 +1,27 @@
+### CRIAR ROTA
+POST http://localhost:8000/driver/route HTTP/1.1
+Content-Type:  application/json
+
+{
+	"name": "sesi 386",
+	"driver_id": "aba6941f-1c1d-4243-b0e5-a3d735cad7ff"
+}
+
+### PEGAR ROTAS
+GET  http://localhost:8000/driver/routes/aba6941f-1c1d-4243-b0e5-a3d735cad7ff HTTP/1.1
+Content-Type:  application/json
+
+### EXCLUIR ROTA
+DELETE  http://localhost:8000/driver/route/1f0a8c559350 HTTP/1.1
+Content-Type:  application/json
+
+
+### CHANGE LOCALIZACAO ATUAL
+POST http://localhost:8000/driver/location HTTP/1.1
+Content-Type:  application/json
+
+{
+	"route_code": "aef88e44426a",
+	"latitude": "-22.96329690239083",
+	"longitude": "-46.997982015276186"
+}

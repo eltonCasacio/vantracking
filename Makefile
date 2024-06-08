@@ -2,10 +2,10 @@ createmigration:
 	migrate create -ext=sql -dir=sql/migrations -seq init
 
 migrate:
-	migrate -path=sql/migrations -database "mysql://root:root@tcp(localhost:3306)/vantracking" -verbose up
+	migrate -path=sql/migrations -database "postgres://postgres:root@localhost:5432/vantracking?sslmode=disable" -verbose up
 
-migratedown: 
-	migrate -path=sql/migrations -database "mysql://root:root@tcp(localhost:3306)/vantracking" -verbose down
+migratedown:
+	migrate -path=sql/migrations -database "postgres://postgres:root@localhost:5432/vantracking?sslmode=disable" -verbose down
 
 dockerup:
 	docker-compose up -d

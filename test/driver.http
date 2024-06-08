@@ -1,9 +1,6 @@
 
-GET  http://52.20.46.60:8000/driver HTTP/1.1
-Content-Type:  application/json
-
-###
-POST http://52.20.46.60:8000/driver HTTP/1.1
+### 
+POST http://localhost:8000/driver HTTP/1.1
 Content-Type:  application/json
 
 {
@@ -22,19 +19,19 @@ Content-Type:  application/json
 }
 
 ###  BUSCAR TODOS MOTORISTAS
-GET  http://52.20.46.60:8000/driver HTTP/1.1
+GET  http://localhost:8000/driver HTTP/1.1
 Content-Type:  application/json
 
 ### BUSCAR POR ID
-GET  http://localhost:8000/driver/2b782024-9927-40bb-b04a-379264863e39 HTTP/1.1
+GET  http://localhost:8000/driver/3a352101-2fe0-45e0-b2cf-95987ce8ea25 HTTP/1.1
 Content-Type:  application/json
 
-### ATUALIZAR DADOS DO MOTORISTA
+### ATUALIZAR DADOS DO MOTORISTA 
 PUT   http://localhost:8000/driver HTTP/1.1
 Content-Type:  application/json
 
 {
-	"id": "2b782024-9927-40bb-b04a-379264863e39",
+	"id": "3a352101-2fe0-45e0-b2cf-95987ce8ea25",
     "cpf":"23453235345",
 	"name":"Joao",
 	"nickname":"motô",
@@ -50,7 +47,8 @@ Content-Type:  application/json
 
 ###
 
-DELETE    http://localhost:8000/driver/21a01719-fefe-4613-9e1d-ff7c2f9a9542 HTTP/1.1
+###
+DELETE    http://localhost:8000/driver/3a352101-2fe0-45e0-b2cf-95987ce8ea25 HTTP/1.1
 Content-Type:  application/json
 
 

@@ -15,7 +15,9 @@ import (
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/cors"
 
-	_ "github.com/go-sql-driver/mysql"
+	// _ "github.com/go-sql-driver/mysql"
+
+	_ "github.com/lib/pq"
 )
 
 func main() {
@@ -50,13 +52,17 @@ func Init() (*sql.DB, *configs.Config) {
 		panic(err)
 	}
 
-	db, err := sql.Open(config.DBDriver, fmt.Sprintf("%s:%s@tcp(%s:%s)/%s",
-		config.DBUser,
-		config.DBPassword,
-		config.DBHost,
-		config.DBPort,
-		config.DBName,
-	))
+	// db, err := sql.Open(config.DBDriver, fmt.Sprintf("%s:%s@tcp(%s:%s)/%s",
+	// 	config.DBUser,
+	// 	config.DBPassword,
+	// 	config.DBHost,
+	// 	config.DBPort,
+	// 	config.DBName,
+	// ))
+
+	connStr := "postgres://postgres:root@localhost:5432/vantracking?sslmode=disable"
+	db, err := sql.Open("postgres", connStr)
+
 	if err != nil {
 		panic(err)
 	}

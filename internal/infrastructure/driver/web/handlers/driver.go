@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	repo "github.com/eltoncasacio/vantracking/internal/domain/driver/repository"
@@ -24,6 +25,7 @@ func (dh *DriverHandler) Register(w http.ResponseWriter, r *http.Request) {
 	usecase, input := dh.usecases.RegisterDriverUsecase()
 	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
+		fmt.Println("ERRO AO CADASTRAR MOTORISTA", err.Error())
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -39,7 +41,11 @@ func (dh *DriverHandler) Register(w http.ResponseWriter, r *http.Request) {
 
 func (dh *DriverHandler) ConsultAll(w http.ResponseWriter, r *http.Request) {
 	usecase, output := dh.usecases.FindAllDriverUsecase()
-	usecaseOutput, _ := usecase.ListAll()
+	usecaseOutput, err := usecase.ListAll()
+	if err != nil {
+		fmt.Println("ERRO AO LISTAR MOTORISTAS", err.Error())
+		w.WriteHeader(http.StatusInternalServerError)
+	}
 
 	var outputs []interface{}
 

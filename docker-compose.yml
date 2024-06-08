@@ -1,0 +1,32 @@
+# services:
+#   mysql:
+#     image: mysql:5.7
+#     container_name: mysql
+#     restart: always
+#     tty: true
+#     platform: linux/amd64
+#     environment:
+#       MYSQL_ROOT_PASSWORD: root
+#       MYSQL_DATABASE: vantracking
+#       MYSQL_PASSWORD: root
+#     ports:
+#       - 3306:3306
+
+
+version: "3.8"
+services:
+  dcs-postgres:
+    image: postgres:15.3-alpine
+    container_name: pg
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: root
+      POSTGRES_USER: postgres
+      POSTGRES_DB: vantracking
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:
